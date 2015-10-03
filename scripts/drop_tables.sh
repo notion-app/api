@@ -1,0 +1,3 @@
+
+psql $DATABASE_URL -c "DROP TABLE IF EXISTS schools"
+psql $DATABASE_URL -c "DROP TABLE IF EXISTS users"
