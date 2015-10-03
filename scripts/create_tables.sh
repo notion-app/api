@@ -7,6 +7,7 @@ psql $DATABASE_URL -c "CREATE TABLE schools (
   PRIMARY KEY (id)
 )"
 
+# We manually insert Purdue here as a debug school so that way it has the same ID every time
 psql $DATABASE_URL -c "INSERT INTO schools VALUES (
   'hROIgEBrcM',
   'Purdue University',

@@ -131,6 +131,12 @@
 			"revision": "01256db42e5106196a3473ec1620727a383500e8",
 			"branch": "master",
 			"path": "/websocket"
+		},
+		{
+			"importpath": "gopkg.in/gorp.v1",
+			"repository": "https://gopkg.in/gorp.v1",
+			"revision": "c87af80f3cc5036b55b83d77171e156791085e2e",
+			"branch": "master"
 		}
 	]
 }

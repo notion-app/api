@@ -3,9 +3,13 @@ package db
 import (
 	"database/sql"
 	"os"
-	_ "github.com/lib/pq"
+
 	"notion/config"
 	"notion/log"
+	"notion/model"
+
+	_ "github.com/lib/pq"
+	"gopkg.in/gorp.v1"
 )
 
 var (
@@ -15,8 +19,7 @@ var (
 // Init creates a connection to the database
 func Init() {
 	log.Info("Establishing a connection to the database")
-	var err error
-	db, err = sql.Open("postgres", config.PostgresURL())
+	db, err := sql.Open("postgres", config.PostgresURL())
 	if log.Error(err) {
 		os.Exit(1)
 	}
@@ -24,12 +27,11 @@ func Init() {
 	if log.Error(err) {
 		os.Exit(1)
 	}
-	CreateTables(true)
-}
-
-// CreateTables does exactly that; creates the tables we need in the database.
-// You can optionally specify to drop the old tables; this is primarily used for
-// configuration purposes,
-func CreateTables(dropOld bool) {
-
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
+	dbmap.AddTableWithName(model.School{}, "schools").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.User{}, "users").SetKeys(false, "Id")
+	err = dbmap.CreateTablesIfNotExists()
+	if log.Error(err) {
+		os.Exit(1)
+	}
 }
