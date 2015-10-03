@@ -2,18 +2,16 @@ package db
 
 import (
 	"database/sql"
-	"os"
-
+	_ "github.com/lib/pq"
+	"gopkg.in/gorp.v1"
 	"notion/config"
 	"notion/log"
 	"notion/model"
-
-	_ "github.com/lib/pq"
-	"gopkg.in/gorp.v1"
+	"os"
 )
 
 var (
-	db *sql.DB
+	dbmap *gorp.DbMap
 )
 
 // Init creates a connection to the database
@@ -27,7 +25,7 @@ func Init() {
 	if log.Error(err) {
 		os.Exit(1)
 	}
-	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
+	dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
 	dbmap.AddTableWithName(model.School{}, "schools").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.User{}, "users").SetKeys(false, "Id")
 	err = dbmap.CreateTablesIfNotExists()
