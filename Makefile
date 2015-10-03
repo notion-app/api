@@ -1,11 +1,12 @@
 
 build:
-	go build
+	gb build
 
 run:
-	go run main.go
-
-deps:
-	go get -u github.com/labstack/echo
-	go get -u github.com/labstack/echo/middleware
-	go get -u github.com/Sirupsen/logrus
+	bin/main
+# 
+# drop_tables:
+# 	psql $DATABASE_URL -c "DROP TABLE schools"
+# 	psql $DATABASE_URL -c "DROP TABLE users"
+#
+# create_tables:
