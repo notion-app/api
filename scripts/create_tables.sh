@@ -31,7 +31,7 @@ psql $DATABASE_URL -c "CREATE TABLE sections (
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE users (
-  id text NOT NULL,
+  id text PRIMARY KEY,
   name text NOT NULL,
   role text NOT NULL,
   verified boolean,
@@ -40,7 +40,26 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   fb_user_id text,
   fb_auth_token text,
   fb_expires_in text,
-  fb_profile_pic text,
+  fb_profile_pic text
+)"
 
-  PRIMARY KEY (id)
+psql $DATABASE_URL -c "CREATE TABLE notebooks (
+  id text PRIMARY KEY,
+  section_id text,
+  name text,
+  owner text REFERENCES users (id),
+  privacy text
+)"
+
+psql $DATABASE_URL -c "CREATE TABLE topics (
+  id text PRIMARY KEY,
+  notebook_id text REFERENCES notebooks (id)
+)"
+
+psql $DATABASE_URL -c "CREATE TABLE notes (
+  id text PRIMARY KEY,
+  topic_id text REFERENCES topics (id) NOT NULL,
+  name text NOT NULL,
+  owner text REFERENCES users (id) NOT NULL,
+  content text NOT NULL
 )"
