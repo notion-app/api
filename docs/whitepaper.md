@@ -1,13 +1,16 @@
 # Overall System Design
 
-### Version `2015.10.03b-alpha`
+### Version `2015.10.03e-alpha`
 
 This is a whitepaper which details the system and user UI flow design of Notion, with a focus on the backend. This document formalizes and version controls the discussion held on the night of 30-September. It is currently open for feedback, with the first non-alpha version slated for finalization early next week.
 
 # Version Log
 
+* `2015.10.03e-alpha`: Added school look-up process.
+* `2015.10.03d-alpha`: Added notebook look-up process.
+* `2015.10.03c-alpha`: Expanded user creation process.
 * `2015.10.03b-alpha`: Expanded information about what can be sent over websockets.
-* `2015.10.03a-alpha`: Initial publish. Signed off: mhoc
+* `2015.10.03a-alpha`: Initial publish. Signed off: mhoc.
 
 # Concepts
 
@@ -35,11 +38,27 @@ In some courses it might make sense to combine sections. For example, if there a
 
 Considering this, for the time being combining sections will not be implemented in any capacity. Users wishing to replicate this functionality will simply have to 'subscribe' to both sections' notebooks.
 
+# Looking Up Schools
+
+A list of schools is maintained by the server at all times. If a user's school is not available on the list, the user can request to add it. These additions will be added to a human-moderated queue for the time being.
+
+# Looking Up Notebooks
+
+When finding notebooks to subscribe to, users should be presented with a dialog where they can enter search terms. These terms might include the CRN of the section, the name of the course, the number of the course, or the professor of the section. All searching will be handled through a REST API endpoint on the server, where the user's default school will also be taken into consideration when ordering results.
+
+Users will have access to all notebooks in all schools (except those which require instructors to approve students, if ever implemented).
+
+If a course does not exist, the user can opt to create one by providing a school name, course name, and course id.
+
+If a section (and thus notebook) does not exist but a course does, the user can opt to create it by providing the associated course, current semester, professor, and optionally a CRN.
+
 # User Creation
 
 Account creation and login is both done through the `login` endpoint. This endpoint requires the inclusion of an authMethod parameter, which currently can only be 'facebook'.
 
 In the case of facebook, when this endpoint is hit the API first validates the access_token with the facebook graph API, which returns the user's name and user id. The API also makes a call to convert the access_token to a long-lived token. The API then checks postgres for a user with the given facebook user id. If they exist, a `202 ACCEPTED` is returned to the client with the user's notion ID and a notion auth token. If they don't exist, they are created and a `201 CREATED` is returned with the same information.
+
+After a user account is created, clients should request the default school for a user. This should provide a list of schools from the `GET /schools` endpoints. Users will have access to all notebooks in all schools, but the default will be preferred when doing look-ahead searching.
 
 # User Authentication
 
