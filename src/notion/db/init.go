@@ -28,8 +28,4 @@ func Init() {
 	dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
 	dbmap.AddTableWithName(model.School{}, "schools").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.User{}, "users").SetKeys(false, "Id")
-	err = dbmap.CreateTablesIfNotExists()
-	if log.Error(err) {
-		os.Exit(1)
-	}
 }
