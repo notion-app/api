@@ -1,11 +1,12 @@
 # Overall System Design
 
-### Version `2015.10.03a-alpha`
+### Version `2015.10.03b-alpha`
 
 This is a whitepaper which details the system and user UI flow design of Notion, with a focus on the backend. This document formalizes and version controls the discussion held on the night of 30-September. It is currently open for feedback, with the first non-alpha version slated for finalization early next week.
 
 # Version Log
 
+* `2015.10.03b-alpha`: Expanded information about what can be sent over websockets.
 * `2015.10.03a-alpha`: Initial publish. Signed off: mhoc
 
 # Concepts
@@ -62,7 +63,7 @@ _Development Note: The term 'websocket' is used consistently here, but this coul
 
 Real-time functions of this system are better accessed through the websocket API. Websockets are bound on a per-notebook basis; when a user opens a notebook, the client should request a websocket connection for that notebook through a REST API call. If the notebook is 'private' and the user is not authenticated to see it, this call will fail.
 
-There are two main things which are sent over websocket connections, both only when a note is 'open' in the client.
+Several different things can be sent over a websocket. At all times, clients may receive information about new topics and new notes being added to a notebook by other users. When a note is open, clients can expect to receive information about note recommendations from other notes in the same topic. In the future, clients may also receive changesets on the note they are editing if collaborative editors are present.
 
 # Creating a Topic
 
