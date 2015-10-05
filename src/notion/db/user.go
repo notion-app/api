@@ -9,9 +9,9 @@ import (
 
 // Gets a user by their notion-assigned Id
 // Returns whether the user exists, the user model, and an error
-func GetUserById(id string) (bool, model.User, error) {
+func GetUserById(id string) (bool, model.DbUser, error) {
   log.Info("Getting user " + id)
-  var user model.User
+  var user model.DbUser
   err := dbmap.SelectOne(&user, "select * from users where id=?", id)
   if err != nil {
     switch err {

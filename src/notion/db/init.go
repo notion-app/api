@@ -26,6 +26,11 @@ func Init() {
 		os.Exit(1)
 	}
 	dbmap = &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
-	dbmap.AddTableWithName(model.School{}, "schools").SetKeys(false, "Id")
-	dbmap.AddTableWithName(model.User{}, "users").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbSchool{}, "schools").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbCourse{}, "courses").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbCourseSection{}, "sections").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbUser{}, "users").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbNotebook{}, "notebooks").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbTopic{}, "topics").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbNote{}, "notes").SetKeys(false, "Id")
 }
