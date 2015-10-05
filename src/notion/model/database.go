@@ -1,20 +1,20 @@
 package model
 
 type DbSchool struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   Name string `db:"name" json:"name"`
   Location string `db:"location" json:"location"`
 }
 
 type DbCourse struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   SchoolId string `db:"school_id" json:"school_id"`
   Name string `db:"name" json:"name"`
   Number string `db:"number" json:"number"`
 }
 
 type DbCourseSection struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   CourseId string `db:"course_id" json:"course_id"`
   Crn string `db:"crn" json:"crn"`
   Professor string `db:"professor" json:"professor"`
@@ -25,7 +25,7 @@ type DbCourseSection struct {
 }
 
 type DbUser struct {
-  Id string `db:"id,primarykey" json:"id"`
+  Id string `db:"id" json:"id"`
   Name string `db:"name" json:"name"`
   Role string `db:"role" json:"role"`
   Verified bool `db:"verified" json:"verified"`
@@ -37,7 +37,7 @@ type DbUser struct {
 }
 
 type DbNotebook struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   SectionId string `db:"section_id" json:"section_id"`
   Name string `db:"name" json:"name"`
   Owner string `db:"owner" json:"owner"`
@@ -45,12 +45,12 @@ type DbNotebook struct {
 }
 
 type DbTopic struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   NotebookId string `db:"notebook_id" json:"notebook_id"`
 }
 
 type DbNote struct {
-  Id string `db:"id,primary" json:"id"`
+  Id string `db:"id" json:"id"`
   TopicId string `db:"topic_id" json:"topic_id"`
   Name string `db:"name" json:"name"`
   Owner string `db:"owner" json:"owner"`

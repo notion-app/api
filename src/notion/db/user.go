@@ -12,12 +12,13 @@ import (
 func GetUserById(id string) (bool, model.DbUser, error) {
   log.Info("Getting user " + id)
   var user model.DbUser
-  err := dbmap.SelectOne(&user, "select * from users where id=?", id)
+  err := dbmap.SelectOne(&user, "select * from users where id=$1", id)
   if err != nil {
     switch err {
     case sql.ErrNoRows:
       return false, user, nil
     default:
+      log.Error(err)
       return false, user, err
     }
   }

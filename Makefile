@@ -2,7 +2,7 @@
 build:
 	gb build
 
-run:
+run: build
 	bin/main
 
 test:
