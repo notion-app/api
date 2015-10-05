@@ -3,7 +3,7 @@ build:
 	gb build
 
 run: build
-	bin/main
+	bin/app
 
 test:
 	gb test
