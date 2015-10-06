@@ -38,7 +38,6 @@ psql $DATABASE_URL -c "CREATE TABLE users (
 
   fb_user_id text,
   fb_auth_token text,
-  fb_expires_in text,
   fb_profile_pic text
 )"
 
