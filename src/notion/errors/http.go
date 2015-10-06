@@ -6,37 +6,20 @@ import (
   "net/http"
 )
 
-func BadRequest(c *echo.Context, msg string) error {
-  c.JSON(http.StatusBadRequest, map[string]interface{}{
-    "status": http.StatusBadRequest,
-    "message": msg,
-  })
-  return nil
+func BadRequest(msg string) error {
+  return echo.NewHTTPError(http.StatusBadRequest, msg)
 }
 
 // Alerts the client that an access token for a given service is expired.
 // 'Service' should usually be one of 'facebook' or 'notion'.
-func Unauthorized(c *echo.Context, service string) error {
-  c.JSON(http.StatusUnauthorized, map[string]interface{}{
-    "status": http.StatusUnauthorized,
-    "service": service,
-    "message": "The access token you have provided does not have permission to view the resource you've requested, or has expired.",
-  })
-  return nil
+func Unauthorized(service string) error {
+  return echo.NewHTTPError(http.StatusUnauthorized, "The access token you have provided does not have permission to view the resource you've requested, or has expired.")
 }
 
-func NotFound(c *echo.Context) error {
-  c.JSON(http.StatusNotFound, map[string]interface{}{
-    "status": http.StatusNotFound,
-    "message": "Requested resource could not be found",
-  })
-  return nil
+func NotFound() error {
+  return echo.NewHTTPError(http.StatusNotFound, "Requested resource could not be found")
 }
 
-func ISE(c *echo.Context) error {
-  c.JSON(http.StatusInternalServerError, map[string]interface{}{
-    "status": http.StatusInternalServerError,
-    "message": "Internal Server Error",
-  })
-  return nil
+func ISE() error {
+  return echo.NewHTTPError(http.StatusInternalServerError, "Internal server error")
 }

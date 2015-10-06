@@ -12,10 +12,10 @@ func GetUser(c *echo.Context) error {
   userId := c.Param("user_id")
   in, user, err := db.GetUserById(userId)
   if err != nil {
-    return errors.ISE(c)
+    return errors.ISE()
   }
   if !in {
-    return errors.NotFound(c)
+    return errors.NotFound()
   }
   return c.JSON(http.StatusOK, user)
 }
