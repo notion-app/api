@@ -25,9 +25,9 @@ func Login(c *echo.Context) error {
   if log.Error(err) {
     return err
   }
-  err = logic.DoUserCreateOrLogin(request)
+  code, resp, err := logic.DoUserCreateOrLogin(request)
   if log.Error(err) {
     return err
   }
-  return nil
+  return c.JSON(code, resp)
 }

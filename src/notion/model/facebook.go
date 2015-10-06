@@ -8,6 +8,8 @@ type FbCurrentUser struct {
 }
 
 type FbProfilePic struct {
-  IsSet bool `json:"is_silhouette"`
-  Url string `json:"url"`
+  Data struct {
+    IsSet bool `json:"is_silhouette"`
+    Url string `json:"url"`
+  } `json:"data"`
 }

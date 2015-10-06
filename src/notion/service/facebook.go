@@ -13,7 +13,7 @@ import (
 type Facebook struct {}
 
 func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{}) (bool, interface{}, error) {
-  resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v?access_token=%v", urlEndpoint, authToken))
+  resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v?redirect=false&access_token=%v", urlEndpoint, authToken))
   if log.Error(err) {
     return false, st, err
   }
@@ -21,6 +21,7 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
     return false, st, nil
   }
   bytes, err := ioutil.ReadAll(resp.Body)
+  fmt.Printf("%v\n", string(bytes))
   if log.Error(err) {
     return false, st, err
   }
@@ -38,7 +39,7 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
 func (f Facebook) GetCurrentUser(authToken string) (bool, model.FbCurrentUser, error) {
   var data model.FbCurrentUser
   in, st, err := f.genericGet(authToken, "me", &data)
-  return in, st.(model.FbCurrentUser), err
+  return in, *st.(*model.FbCurrentUser), err
 }
 
 // Calls a facebook api endpoint to make a short-lived token long-lived
@@ -50,5 +51,5 @@ func (f Facebook) ExtendToken(authToken string) (bool, error) {
 func (f Facebook) GetProfilePic(authToken string) (bool, model.FbProfilePic, error) {
   var data model.FbProfilePic
   in, st, err := f.genericGet(authToken, "me/picture", &data)
-  return in, st.(model.FbProfilePic), err
+  return in, *st.(*model.FbProfilePic), err
 }
