@@ -59,5 +59,6 @@ psql $DATABASE_URL -c "CREATE TABLE notes (
   topic_id text REFERENCES topics (id) NOT NULL,
   name text NOT NULL,
   owner text REFERENCES users (id) NOT NULL,
+  endorsements integer DEFAULT 0,
   content text NOT NULL
 )"
