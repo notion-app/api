@@ -18,7 +18,9 @@ Response (201) (User Created)
 ```
 {
   "user_id": "..."
+  "name": "..."
   "token": "..."
+  "profile_pic": "..."
 }
 ```
 
