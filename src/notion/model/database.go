@@ -6,6 +6,13 @@ type DbSchool struct {
   Location string `db:"location" json:"location"`
 }
 
+type DbSchoolRequest struct {
+  Id string `db:"id" json:"id"`
+  RequesterUserId string `db:"requester_user_id" json:"requester_user_id"`
+  Name string `db:"name" json:"name"`
+  Location string `db:"location" json:"location"`
+}
+
 type DbCourse struct {
   Id string `db:"id" json:"id"`
   SchoolId string `db:"school_id" json:"school_id"`

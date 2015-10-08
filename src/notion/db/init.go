@@ -30,6 +30,7 @@ func Init() {
 	dbmap.AddTableWithName(model.DbCourse{}, "courses").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbCourseSection{}, "sections").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbUser{}, "users").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbSchoolRequest{}, "school_requests").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbNotebook{}, "notebooks").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbTopic{}, "topics").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbNote{}, "notes").SetKeys(false, "Id")
