@@ -24,8 +24,10 @@ func middleware() {
 }
 
 func v1Routes() {
-	e.Get("/status", Status)
-	e.Get("/v1/status", Status)
-	e.Get("/v1/user/:user_id", GetUser)
-	e.Post("/v1/login", Login)
+	v1Group := e.Group("/v1")
+	v1Group.Get("/status", Status)
+	v1Group.Post("/login", Login)
+	v1Group.Get("/school", GetSchools)
+	// e.Get("/v1/user/:user_id", GetUser)
+
 }

@@ -2,6 +2,6 @@
 
 See additional documentation in `docs/`
 
-# Schemas
+# API
 
-[See the SQL create table script](https://gitlab.com/notionapp/api/blob/master/scripts/create_tables.sh)
+[API Documentation is hosted on Apiary](http://docs.notion1.apiary.io/#reference/login/login/login-or-create-user)

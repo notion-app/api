@@ -6,3 +6,7 @@ type LoginResponse struct {
   Token string `json:"token"`
   ProfilePic string `json:"profile_pic"`
 }
+
+type AllSchoolsResponse struct {
+  Schools []DbSchool `json:"schools"`
+}
