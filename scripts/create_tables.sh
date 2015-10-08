@@ -41,6 +41,13 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   fb_profile_pic text
 )"
 
+psql $DATABASE_URL -c "CREATE TABLE school_requests (
+  id text PRIMARY KEY,
+  requester_user_id text REFERENCES users (id) NOT NULL,
+  name text NOT NULL,
+  location text NOT NULL
+)"
+
 psql $DATABASE_URL -c "CREATE TABLE notebooks (
   id text PRIMARY KEY,
   section_id text,
