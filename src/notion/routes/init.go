@@ -28,6 +28,7 @@ func v1Routes() {
 	v1Group.Get("/status", Status)
 	v1Group.Post("/login", Login)
 	v1Group.Get("/school", GetSchools)
+	v1Group.Post("/school/request", PostSchoolRequest)
 	// e.Get("/v1/user/:user_id", GetUser)
 
 }

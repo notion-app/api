@@ -18,3 +18,7 @@ func GetSchools(c *echo.Context) error {
     Schools: schools,
   })
 }
+
+func PostSchoolRequest(c *echo.Context) error {
+  return nil
+}
