@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/lib/pq"
 	"gopkg.in/gorp.v1"
 	"notion/config"
@@ -34,4 +35,19 @@ func Init() {
 	dbmap.AddTableWithName(model.DbNotebook{}, "notebooks").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbTopic{}, "topics").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbNote{}, "notes").SetKeys(false, "Id")
+}
+
+func GenericGetOne(table string, field string, value string, model interface{}) (bool, interface{}, error) {
+	log.Info(fmt.Sprintf("Doing single get on table %v where %v=%v", table, field, value))
+	err := dbmap.SelectOne(model, fmt.Sprintf("select * from %v where %v=$1", table, field), value)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return false, model, nil
+		default:
+			log.Error(err)
+			return false, model, err
+		}
+	}
+	return true, model, nil
 }
