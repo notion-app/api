@@ -7,3 +7,6 @@ run: build
 
 test:
 	gb test
+
+hklogs:
+	heroku logs -p web.1 --tail
