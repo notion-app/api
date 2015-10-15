@@ -10,6 +10,9 @@ func AccessControl() echo.MiddlewareFunc {
     return func(c *echo.Context) error {
 
       if origin := c.Request().Header.Get("Origin"); origin != "" {
+        c.Response().Header().Set("Access-Control-Allow-Origin", origin)
+      } else {
+        // Lol dat security do
         c.Response().Header().Set("Access-Control-Allow-Origin", "*")
       }
       c.Response().Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
