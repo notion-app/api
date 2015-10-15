@@ -61,3 +61,9 @@ type DbNote struct {
   Owner string `db:"owner" json:"owner"`
   Content string `db:"content" json:"content"`
 }
+
+type DbSubscription struct {
+  Id string `db:"id" json:"id"`
+  UserId string `db:"user_id" json:"user_id"`
+  NotebookId string `db:"notebook_id" json:"notebook_id"`
+}

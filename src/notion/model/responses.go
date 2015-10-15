@@ -10,3 +10,7 @@ type LoginResponse struct {
 type AllSchoolsResponse struct {
   Schools []DbSchool `json:"schools"`
 }
+
+type UserSubscriptionsResponse struct {
+  Subscriptions []DbSubscription `json:"subscriptions"`
+}
