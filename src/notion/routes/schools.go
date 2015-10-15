@@ -9,7 +9,9 @@ import (
   "notion/db"
   "notion/errors"
   "notion/log"
+  "notion/logic"
   "notion/model"
+  "notion/util"
   "notion/validate"
 )
 
@@ -36,6 +38,20 @@ func PostSchoolRequest(c *echo.Context) error {
   err = validate.SchoolRequest(request)
   if log.Error(err) {
     return err
+  }
+  user, err := logic.AuthenticateNotionUser(c.Param("token"))
+  if log.Error(err) {
+    return err
+  }
+  schoolRequest := model.DbSchoolRequest{
+    Id: util.NewId(),
+    RequesterUserId: user.Id,
+    Name: request.Name,
+    Location: request.Location,
+  }
+  err = db.CreateSchoolRequest(schoolRequest)
+  if err != nil {
+    return errors.ISE()
   }
   return nil
 }
