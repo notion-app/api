@@ -2,6 +2,7 @@ package log
 
 import (
 	"github.com/Sirupsen/logrus"
+	"fmt"
 )
 
 var (
@@ -14,8 +15,12 @@ func Init() {
 }
 
 // Info logs a string with no accompanying metadata
-func Info(s string) {
-	logger.Info(s)
+func Info(s string, args ...interface{}) {
+	if len(args) == 0 {
+		logger.Info(s)
+	} else {
+		logger.Info(fmt.Sprintf(s, args))
+	}
 }
 
 // InfoFields logs a string and a set of fields

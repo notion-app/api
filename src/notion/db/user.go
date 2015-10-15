@@ -11,19 +11,19 @@ import (
 func GetUserById(id string) (bool, model.DbUser, error) {
   var user model.DbUser
   in, useri, err := GenericGetOne("users", "id", id, &user)
-  return in, useri.(model.DbUser), err
+  return in, *useri.(*model.DbUser), err
 }
 
 func GetUserByFacebookId(facebookId string) (bool, model.DbUser, error) {
   var user model.DbUser
   in, useri, err := GenericGetOne("users", "fb_user_id", facebookId, &user)
-  return in, useri.(model.DbUser), err
+  return in, *useri.(*model.DbUser), err
 }
 
 func GetUserByToken(token string) (bool, model.DbUser, error) {
   var user model.DbUser
   in, useri, err := GenericGetOne("users", "fb_auth_token", token, &user)
-  return in, useri.(model.DbUser), err
+  return in, *useri.(*model.DbUser), err
 }
 
 func CreateUser(u model.DbUser) error {
