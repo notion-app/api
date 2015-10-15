@@ -21,7 +21,6 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
     return false, st, nil
   }
   bytes, err := ioutil.ReadAll(resp.Body)
-  fmt.Printf("%v\n", string(bytes))
   if log.Error(err) {
     return false, st, err
   }
