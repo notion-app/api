@@ -15,7 +15,7 @@ var (
 func InitEnvs() {
 	env = os.Getenv("ENV")
 	if env != "dev" && env != "prod" {
-		fmt.Printf("$DEV not set to either 'dev' or 'prod'")
+		fmt.Printf("$ENV not set to either 'dev' or 'prod'")
 		os.Exit(1)
 	}
 	port = os.Getenv("PORT")

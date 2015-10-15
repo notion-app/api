@@ -19,7 +19,7 @@ func Info(s string, args ...interface{}) {
 	if len(args) == 0 {
 		logger.Info(s)
 	} else {
-		logger.Info(fmt.Sprintf(s, args))
+		logger.Info(fmt.Sprintf(s, args...))
 	}
 }
 

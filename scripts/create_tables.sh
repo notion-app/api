@@ -62,3 +62,9 @@ psql $DATABASE_URL -c "CREATE TABLE notes (
   endorsements integer DEFAULT 0,
   content text NOT NULL
 )"
+
+psql $DATABASE_URL -c "CREATE TABLE subscriptions (
+  id text PRIMARY KEY,
+  user_id text REFERENCES users (id) NOT NULL,
+  notebook_id text REFERENCES notebooks (id) NOT NULL
+)"

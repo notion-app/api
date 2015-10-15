@@ -17,6 +17,7 @@ func Init() {
 	log.Info("Initializing routes")
 	middleware()
 	v1Routes()
+	log.Info("Serving API on port %v", config.WebPort())
 	e.Run(config.WebPort())
 }
 
