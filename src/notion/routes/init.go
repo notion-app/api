@@ -5,6 +5,7 @@ import (
 	mw "github.com/labstack/echo/middleware"
 	"notion/config"
 	"notion/log"
+	mmw "notion/middleware"
 )
 
 var (
@@ -21,6 +22,7 @@ func Init() {
 
 func middleware() {
 	e.Use(mw.Recover())
+	e.Use(mmw.AccessControl())
 }
 
 func v1Routes() {
