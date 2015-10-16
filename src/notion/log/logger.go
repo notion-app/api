@@ -1,8 +1,8 @@
 package log
 
 import (
-	"github.com/Sirupsen/logrus"
 	"fmt"
+	"github.com/Sirupsen/logrus"
 )
 
 var (
