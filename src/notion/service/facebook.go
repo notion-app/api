@@ -12,7 +12,8 @@ import (
 type Facebook struct{}
 
 func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{}) (bool, interface{}, error) {
-	resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v?redirect=false&access_token=%v", urlEndpoint, authToken))
+	params := fmt.Sprintf("?redirect=false&access_token=%v%s",authToken,"")
+	resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v%s", urlEndpoint, params))
 	if log.Error(err) {
 		return false, st, err
 	}
@@ -37,7 +38,6 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
 func (f Facebook) GetCurrentUser(authToken string) (bool, model.FbCurrentUser, error) {
 	var data model.FbCurrentUser
 	in, st, err := f.genericGet(authToken, "me", &data)
-	log.Info("st=%v", *st.(*model.FbCurrentUser))
 	return in, *st.(*model.FbCurrentUser), err
 }
 
