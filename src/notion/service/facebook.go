@@ -48,6 +48,7 @@ func (f Facebook) ExtendToken(authToken string) (bool, error) {
 
 func (f Facebook) GetProfilePic(authToken string) (bool, model.FbProfilePic, error) {
 	var data model.FbProfilePic
-	in, st, err := f.genericGet(authToken, "me/picture", &data)
+	in, st, err := f.genericGet(authToken, "me/picture?type=large", &data)
+	log.Info("pic=%v",st);
 	return in, *st.(*model.FbProfilePic), err
 }
