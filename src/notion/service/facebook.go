@@ -37,6 +37,7 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
 func (f Facebook) GetCurrentUser(authToken string) (bool, model.FbCurrentUser, error) {
 	var data model.FbCurrentUser
 	in, st, err := f.genericGet(authToken, "me", &data)
+	log.Info("st=%v", *st.(*model.FbCurrentUser))
 	return in, *st.(*model.FbCurrentUser), err
 }
 
@@ -48,7 +49,6 @@ func (f Facebook) ExtendToken(authToken string) (bool, error) {
 
 func (f Facebook) GetProfilePic(authToken string) (bool, model.FbProfilePic, error) {
 	var data model.FbProfilePic
-	in, st, err := f.genericGet(authToken, "me/picture?type=large", &data)
-	log.Info("pic=%v",st);
+	in, st, err := f.genericGet(authToken, "me/picture", &data)
 	return in, *st.(*model.FbProfilePic), err
 }
