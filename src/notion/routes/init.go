@@ -38,11 +38,11 @@ func v1Routes() {
 	v1Group.Get("/school", GetSchools)
 
 	// Authenticated endpoints
-	authV1Group := v1Group.Group("/")
+	authV1Group := v1Group.Group("")
 	authV1Group.Use(mmw.TokenCheck())
 	// schools.go
-	v1Group.Post("/school/request", PostSchoolRequest)
+	authV1Group.Post("/school/request", PostSchoolRequest)
 	// users.go
-	v1Group.Get("/user/:user_id", GetUser)
-	v1Group.Get("/user/:user_id/subscriptions", GetUsersSubscriptions)
+	authV1Group.Get("/user/:user_id", GetUser)
+	authV1Group.Get("/user/:user_id/subscriptions", GetUsersSubscriptions)
 }

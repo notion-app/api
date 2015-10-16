@@ -8,7 +8,6 @@ import (
 	"notion/db"
 	"notion/errors"
 	"notion/log"
-	"notion/logic"
 	"notion/model"
 	"notion/util"
 	"notion/validate"
@@ -38,13 +37,9 @@ func PostSchoolRequest(c *echo.Context) error {
 	if log.Error(err) {
 		return err
 	}
-	user, err := logic.AuthenticateNotionUser(c.Param("token"))
-	if log.Error(err) {
-		return err
-	}
 	schoolRequest := model.DbSchoolRequest{
 		Id:              util.NewId(),
-		RequesterUserId: user.Id,
+		RequesterUserId: c.Get("TOKEN_USER_ID").(string),
 		Name:            request.Name,
 		Location:        request.Location,
 	}

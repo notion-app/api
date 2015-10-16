@@ -22,6 +22,11 @@ func TokenCheck() echo.MiddlewareFunc {
       }
 
       c.Set("TOKEN_USER_ID", user.Id)
+
+			if err := h(c); err != nil {
+				c.Error(err)
+			}
+			
       return nil
 
     }
