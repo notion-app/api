@@ -28,11 +28,21 @@ func middleware() {
 
 func v1Routes() {
 	v1Group := e.Group("/v1")
-	v1Group.Get("/status", Status)
-	v1Group.Post("/login", Login)
-	v1Group.Get("/school", GetSchools)
-	v1Group.Post("/school/request", PostSchoolRequest)
-	v1Group.Get("/subscriptions", GetSubscriptions)
-	// e.Get("/v1/user/:user_id", GetUser)
 
+	// Unauthenticated endpoints
+	// status.go
+	v1Group.Get("/status", Status)
+	// login.go
+	v1Group.Post("/login", Login)
+	// schools.go
+	v1Group.Get("/school", GetSchools)
+
+	// Authenticated endpoints
+	authV1Group := v1Group.Group("/")
+	authV1Group.Use(mmw.TokenCheck())
+	// schools.go
+	v1Group.Post("/school/request", PostSchoolRequest)
+	// users.go
+	v1Group.Get("/user/:user_id", GetUser)
+	v1Group.Get("/user/:user_id/subscriptions", GetUsersSubscriptions)
 }
