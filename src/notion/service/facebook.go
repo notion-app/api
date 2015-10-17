@@ -54,6 +54,7 @@ func (f Facebook) GetProfilePic(authToken string) (model.FbProfilePic, error) {
 	var data model.FbProfilePic
 	params := url.Values{}
 	params.Set("type", "large")
+	params.Set("redirect", "false")
 	err := f.genericGet("me/picture", &data, authToken, params)
 	return data, err
 }
