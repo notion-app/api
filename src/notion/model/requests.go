@@ -11,6 +11,7 @@ type SchoolRequestRequest struct {
 	Location string `json:"location"`
 }
 
-type AddSubscriptionRequest struct {
+// This is the body for both creating and removing subscriptions
+type SubscriptionRequest struct {
 	NotebookId string `json:"notebook_id"`
 }

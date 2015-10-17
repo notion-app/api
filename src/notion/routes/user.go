@@ -41,7 +41,7 @@ func GetUsersSubscriptions(c *echo.Context) error {
 }
 
 func CreateUserSubscription(c *echo.Context) error {
-	var request model.AddSubscriptionRequest
+	var request model.SubscriptionRequest
 	userId := c.Param("user_id")
 	if userId != c.Get("TOKEN_USER_ID") {
 		return errors.Unauthorized("notion")
@@ -57,7 +57,30 @@ func CreateUserSubscription(c *echo.Context) error {
 		NotebookId: request.NotebookId,
 	}
 	err = db.CreateSubscription(sub)
-	if err != nil {
+	if log.Error(err) {
+		return errors.ISE()
+	}
+	return nil
+}
+
+func RemoveUserSubscription(c *echo.Context) error {
+	var request model.SubscriptionRequest
+	userId := c.Param("user_id")
+	if userId != c.Get("TOKEN_USER_ID") {
+		return errors.Unauthorized("notion")
+	}
+	body := c.Get("BODY").(map[string]interface{})
+	util.FillStruct(&request, body)
+	err := validate.RemoveSubscriptionRequest(request)
+	if log.Error(err) {
+		return err
+	}
+	sub := model.DbSubscription{
+		UserId: userId,
+		NotebookId: request.NotebookId,
+	}
+	err = db.RemoveSubscription(sub)
+	if log.Error(err) {
 		return errors.ISE()
 	}
 	return nil

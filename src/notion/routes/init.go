@@ -47,4 +47,5 @@ func v1Routes() {
 	authV1Group.Get("/user/:user_id", GetUser)
 	authV1Group.Get("/user/:user_id/subscription", GetUsersSubscriptions)
 	authV1Group.Post("/user/:user_id/subscription", CreateUserSubscription)
+	authV1Group.Delete("/user/:user_id/subscription", RemoveUserSubscription)
 }
