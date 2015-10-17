@@ -35,6 +35,7 @@ func Init() {
 	dbmap.AddTableWithName(model.DbNotebook{}, "notebooks").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbTopic{}, "topics").SetKeys(false, "Id")
 	dbmap.AddTableWithName(model.DbNote{}, "notes").SetKeys(false, "Id")
+	dbmap.AddTableWithName(model.DbSubscription{}, "subscriptions").SetKeys(false, "UserId", "NotebookId")
 }
 
 // Returns a bool which is true of the field=value pair is in the database,

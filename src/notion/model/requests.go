@@ -10,3 +10,7 @@ type SchoolRequestRequest struct {
 	Name     string `json:"name"`
 	Location string `json:"location"`
 }
+
+type AddSubscriptionRequest struct {
+	NotebookId string `json:"notebook_id"`
+}

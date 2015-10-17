@@ -24,6 +24,7 @@ func Init() {
 func middleware() {
 	e.Use(mw.Recover())
 	e.Use(mmw.AccessControl())
+	e.Use(mmw.ParseBody())
 }
 
 func v1Routes() {
@@ -44,5 +45,6 @@ func v1Routes() {
 	authV1Group.Post("/school/request", PostSchoolRequest)
 	// users.go
 	authV1Group.Get("/user/:user_id", GetUser)
-	authV1Group.Get("/user/:user_id/subscriptions", GetUsersSubscriptions)
+	authV1Group.Get("/user/:user_id/subscription", GetUsersSubscriptions)
+	authV1Group.Post("/user/:user_id/subscription", CreateUserSubscription)
 }

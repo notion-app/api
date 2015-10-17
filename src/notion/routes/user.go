@@ -5,7 +5,10 @@ import (
 	"net/http"
 	"notion/db"
 	"notion/errors"
+	"notion/log"
 	"notion/model"
+	"notion/util"
+	"notion/validate"
 )
 
 func GetUser(c *echo.Context) error {
@@ -35,4 +38,27 @@ func GetUsersSubscriptions(c *echo.Context) error {
 	return c.JSON(http.StatusOK, model.UserSubscriptionsResponse{
 		Subscriptions: subscriptions,
 	})
+}
+
+func CreateUserSubscription(c *echo.Context) error {
+	var request model.AddSubscriptionRequest
+	userId := c.Param("user_id")
+	if userId != c.Get("TOKEN_USER_ID") {
+		return errors.Unauthorized("notion")
+	}
+	body := c.Get("BODY").(map[string]interface{})
+	util.FillStruct(&request, body)
+	err := validate.AddSubscriptionRequest(request)
+	if log.Error(err) {
+		return err
+	}
+	sub := model.DbSubscription{
+		UserId: userId,
+		NotebookId: request.NotebookId,
+	}
+	err = db.CreateSubscription(sub)
+	if err != nil {
+		return errors.ISE()
+	}
+	return nil
 }
