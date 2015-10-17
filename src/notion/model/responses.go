@@ -15,3 +15,13 @@ type AllSchoolsResponse struct {
 type UserSubscriptionsResponse struct {
 	Subscriptions []DbSubscription `json:"subscriptions"`
 }
+
+type CoursesForSchoolResponse struct {
+	Courses []CourseResponse `json:"courses"`
+}
+
+type CourseResponse struct {
+	Id string `json:"id"`
+	Name string `json:"name"`
+	Number string `json:"number"`
+}

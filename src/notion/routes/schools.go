@@ -41,3 +41,24 @@ func PostSchoolRequest(c *echo.Context) error {
 	}
 	return nil
 }
+
+func GetCoursesForSchool(c *echo.Context) error {
+	var courses []model.DbCourse
+	school_id := c.Param("school_id")
+	_, err := db.GenericGetMultiple("courses", "school_id", school_id, &courses)
+	if log.Error(err) {
+		return errors.ISE()
+	}
+	parsedCourses := make([]model.CourseResponse, 0)
+	for _, course := range courses {
+		parsedCourses = append(parsedCourses, model.CourseResponse{
+			Id: course.Id,
+			Name: course.Name,
+			Number: course.Number,
+		})
+	}
+	resp := model.CoursesForSchoolResponse{
+		Courses: parsedCourses,
+	}
+	return c.JSON(http.StatusOK, resp)
+}
