@@ -62,3 +62,16 @@ func GetCoursesForSchool(c *echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, resp)
 }
+
+func GetSectionsForCourse(c *echo.Context) error {
+	var sections []model.DbCourseSection
+	course_id := c.Param("course_id")
+	_, err := db.GenericGetMultiple("sections", "course_id", course_id, &sections)
+	if log.Error(err) {
+		return errors.ISE()
+	}
+	resp := model.SectionsForCourseResponse{
+		Sections: sections,
+	}
+	return c.JSON(http.StatusOK, resp)
+}

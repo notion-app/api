@@ -25,3 +25,7 @@ type CourseResponse struct {
 	Name string `json:"name"`
 	Number string `json:"number"`
 }
+
+type SectionsForCourseResponse struct {
+	Sections []DbCourseSection `json:"sections"`
+}

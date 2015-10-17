@@ -38,6 +38,7 @@ func v1Routes() {
 	// schools.go
 	v1Group.Get("/school", GetSchools)
 	v1Group.Get("/school/:school_id/course", GetCoursesForSchool)
+	v1Group.Get("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
 
 	// Authenticated endpoints
 	authV1Group := v1Group.Group("")
