@@ -85,3 +85,16 @@ psql $DATABASE_URL -c "INSERT INTO topics VALUES
       'pxYjbBFgvM',
       'hwnwNpCbJJ'
     )"
+
+echo 'Populate users'
+psql $DATABASE_URL -c "INSERT INTO users VALUES (
+  'SCkrjObJLk',
+  'Bob Yelpington',
+  'bob@website.com',
+  false,
+  'facebook',
+  NULL,
+  '12345',
+  'abcde',
+  'http://google.com'
+)"

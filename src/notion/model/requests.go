@@ -15,3 +15,7 @@ type SchoolRequestRequest struct {
 type SubscriptionRequest struct {
 	NotebookId string `json:"notebook_id"`
 }
+
+type AddSchoolRequest struct {
+	SchoolId string `json:"school"`
+}

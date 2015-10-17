@@ -30,6 +30,8 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   verified boolean,
   auth_method text NOT NULL,
 
+  school text REFERENCES schools (id) DEFAULT NULL,
+
   fb_user_id text,
   fb_auth_token text,
   fb_profile_pic text

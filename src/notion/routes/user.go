@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"database/sql"
 	"github.com/labstack/echo"
 	"net/http"
 	"notion/db"
@@ -84,4 +85,31 @@ func RemoveUserSubscription(c *echo.Context) error {
 		return errors.ISE()
 	}
 	return nil
+}
+
+func SetUserSchool(c *echo.Context) error {
+	var request model.AddSchoolRequest
+	userId := c.Param("user_id")
+	if userId != c.Get("TOKEN_USER_ID") {
+		return errors.Unauthorized("notion")
+	}
+	body := c.Get("BODY").(map[string]interface{})
+	util.FillStruct(&request, body)
+
+	_, user, err := db.GetUserById(userId)
+	if log.Error(err) {
+		return err
+	}
+
+	user.School = sql.NullString{
+		String: request.SchoolId,
+		Valid: true,
+	}
+	err = db.UpdateUser(user)
+	if log.Error(err) {
+		return err
+	}
+
+	return nil
+
 }
