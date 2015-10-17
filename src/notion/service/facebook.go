@@ -5,52 +5,61 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"notion/errors"
 	"notion/log"
 	"notion/model"
 )
 
 type Facebook struct{}
 
-func (f Facebook) genericGet(authToken string, urlEndpoint string, extraParams string, st interface{}) (bool, interface{}, error) {
-	params := fmt.Sprintf("?redirect=false&access_token=%v%s", authToken, extraParams)
-	resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v%s", urlEndpoint, params))
+const (
+	FacebookBaseUrl = "https://graph.facebook.com/v2.4/"
+)
+
+func (f Facebook) genericGet(endpoint string, struc interface{}, token string, params url.Values) error {
+	params.Set("access_token", token)
+	fullURL := fmt.Sprintf("%v%v?%v", FacebookBaseUrl, endpoint, params.Encode())
+	resp, err := http.Get(fullURL)
 	if log.Error(err) {
-		return false, st, err
+		return errors.ISE()
 	}
 	if resp.StatusCode == 400 {
-		return false, st, nil
+		return errors.Unauthorized("facebook")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if log.Error(err) {
-		return false, st, err
+		return errors.ISE()
 	}
-	err = json.Unmarshal(bytes, &st)
+	err = json.Unmarshal(bytes, &struc)
 	if log.Error(err) {
-		return false, st, err
+		return errors.ISE()
 	}
-	return true, st, nil
+	return nil
 }
 
 // Returns information about the currently logged in user
 //  bool: whether or not the authToken is valid
 //  struct: the current user information
 //  error: these would always represent ISE's
-func (f Facebook) GetCurrentUser(authToken string) (bool, model.FbCurrentUser, error) {
+func (f Facebook) GetCurrentUser(authToken string) (model.FbCurrentUser, error) {
 	var data model.FbCurrentUser
-	in, st, err := f.genericGet(authToken, "me", "", &data)
-	return in, *st.(*model.FbCurrentUser), err
+	params := url.Values{}
+	params.Set("fields", "id,name,email")
+	err := f.genericGet("me", &data, authToken, params)
+	return data, err
+}
+
+func (f Facebook) GetProfilePic(authToken string) (model.FbProfilePic, error) {
+	var data model.FbProfilePic
+	params := url.Values{}
+	params.Set("type", "large")
+	err := f.genericGet("me/picture", &data, authToken, params)
+	return data, err
 }
 
 // Calls a facebook api endpoint to make a short-lived token long-lived
 // Returns a boolean as to whether or not the token provided is valid
 func (f Facebook) ExtendToken(authToken string) (bool, error) {
 	return false, nil
-}
-
-func (f Facebook) GetProfilePic(authToken string) (bool, model.FbProfilePic, error) {
-	var data model.FbProfilePic
-	in, user, err := f.GetCurrentUser(authToken)
-	path := fmt.Sprintf("/%s/picture", user.Id)
-	in, st, err := f.genericGet(authToken, path, "&type=large", &data)
-	return in, *st.(*model.FbProfilePic), err
 }

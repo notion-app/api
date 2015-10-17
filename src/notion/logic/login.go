@@ -3,7 +3,6 @@ package logic
 import (
 	"net/http"
 	"notion/db"
-	"notion/errors"
 	"notion/log"
 	"notion/model"
 	"notion/service"
@@ -13,19 +12,13 @@ import (
 func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.LoginResponse, error) {
 	var loginResponse model.LoginResponse
 	var returnCode int
-	valid, fbUser, err := service.Facebook{}.GetCurrentUser(lrq.AccessToken)
+	fbUser, err := service.Facebook{}.GetCurrentUser(lrq.AccessToken)
 	if log.Error(err) {
 		return returnCode, loginResponse, err
 	}
-	if !valid {
-		return returnCode, loginResponse, errors.Unauthorized("facebook")
-	}
-	valid, fbPicture, err := service.Facebook{}.GetProfilePic(lrq.AccessToken)
+	fbPicture, err := service.Facebook{}.GetProfilePic(lrq.AccessToken)
 	if log.Error(err) {
 		return returnCode, loginResponse, err
-	}
-	if !valid {
-		return returnCode, loginResponse, errors.Unauthorized("facebook")
 	}
 	in, dbUser, err := db.GetUserByFacebookId(fbUser.Id)
 	if in {
