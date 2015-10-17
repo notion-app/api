@@ -26,6 +26,7 @@ psql $DATABASE_URL -c "CREATE TABLE sections (
 psql $DATABASE_URL -c "CREATE TABLE users (
   id text PRIMARY KEY,
   name text NOT NULL,
+  email text NOT NULL,
   verified boolean,
   auth_method text NOT NULL,
 

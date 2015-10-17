@@ -3,6 +3,7 @@ package model
 type LoginResponse struct {
 	UserId     string `json:"user_id"`
 	Name       string `json:"name"`
+	Email string `json:"email"`
 	Token      string `json:"token"`
 	ProfilePic string `json:"profile_pic"`
 }

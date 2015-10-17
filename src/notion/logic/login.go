@@ -33,6 +33,7 @@ func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.LoginResponse, erro
 	}
 	loginResponse.UserId = dbUser.Id
 	loginResponse.Name = dbUser.Name
+	loginResponse.Email = dbUser.Email
 	loginResponse.Token = dbUser.FbAuthToken
 	loginResponse.ProfilePic = dbUser.FbProfilePic
 	return returnCode, loginResponse, nil
@@ -42,6 +43,7 @@ func DoFbUserCreate(lrq model.LoginRequest, fbUser model.FbCurrentUser, fbPictur
 	user := model.DbUser{
 		Id:           util.NewId(),
 		Name:         fbUser.Name,
+		Email: fbUser.Email,
 		Verified:     false,
 		AuthMethod:   lrq.AuthMethod,
 		FbUserId:     fbUser.Id,

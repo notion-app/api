@@ -34,6 +34,7 @@ type DbCourseSection struct {
 type DbUser struct {
 	Id           string `db:"id" json:"id"`
 	Name         string `db:"name" json:"name"`
+	Email string `db:"email" json:"email"`
 	Verified     bool   `db:"verified" json:"verified"`
 	AuthMethod   string `db:"auth_method" json:"auth_method"`
 	FbUserId     string `db:"fb_user_id" json:"fb_user_id"`
