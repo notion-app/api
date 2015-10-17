@@ -16,12 +16,9 @@ func GetUser(c *echo.Context) error {
 	if userId != c.Get("TOKEN_USER_ID") {
 		return errors.Unauthorized("notion")
 	}
-	in, user, err := db.GetUserById(userId)
+	user, err := db.GetUserById(userId)
 	if err != nil {
-		return errors.ISE()
-	}
-	if !in {
-		return errors.NotFound()
+		return err
 	}
 	return c.JSON(http.StatusOK, user)
 }

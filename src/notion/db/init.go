@@ -6,6 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	"gopkg.in/gorp.v1"
 	"notion/config"
+	"notion/errors"
 	"notion/log"
 	"notion/model"
 	"os"
@@ -38,26 +39,25 @@ func Init() {
 	dbmap.AddTableWithName(model.DbSubscription{}, "subscriptions").SetKeys(false, "UserId", "NotebookId")
 }
 
-// Returns a bool which is true of the field=value pair is in the database,
-// the model you passed in, and an error if applicable.
-func GenericGetOne(table string, field string, value string, model interface{}) (bool, interface{}, error) {
+func GenericGetOne(table string, field string, value string, model interface{}) error {
 	log.Info(fmt.Sprintf("Doing single get on table %v where %v=%v", table, field, value))
 	err := dbmap.SelectOne(model, fmt.Sprintf("select * from %v where %v=$1", table, field), value)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
-			return false, model, nil
+			return errors.NotFound()
 		default:
 			log.Error(err)
-			return false, model, err
+			return errors.ISE()
 		}
 	}
-	return true, model, nil
+	return nil
 }
 
 // model passed in is assumed to be a list
-// because of this, a boolean is not returned; you can just check the length of the list
-func GenericGetMultiple(table string, field string, value string, model interface{}) (interface{}, error) {
+// because of this, this function will NOT return an error if nothing is found in the database.
+// it would just return an empty list
+func GenericGetMultiple(table string, field string, value string, model interface{}) error {
 	log.Info("Doing multiple get on table %v where %v=%v", table, field, value)
 	var err error
 	if field == "" {
@@ -68,11 +68,11 @@ func GenericGetMultiple(table string, field string, value string, model interfac
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
-			return model, nil
+			return nil
 		default:
 			log.Error(err)
-			return model, err
+			return errors.ISE()
 		}
 	}
-	return model, nil
+	return nil
 }
