@@ -11,8 +11,9 @@ import (
 
 type Facebook struct{}
 
-func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{}) (bool, interface{}, error) {
-	resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v?redirect=false&access_token=%v", urlEndpoint, authToken))
+func (f Facebook) genericGet(authToken string, urlEndpoint string, extraParams string, st interface{}) (bool, interface{}, error) {
+	params := fmt.Sprintf("?redirect=false&access_token=%v%s", authToken, extraParams)
+	resp, err := http.Get(fmt.Sprintf("https://graph.facebook.com/v2.4/%v%s", urlEndpoint, params))
 	if log.Error(err) {
 		return false, st, err
 	}
@@ -36,7 +37,7 @@ func (f Facebook) genericGet(authToken string, urlEndpoint string, st interface{
 //  error: these would always represent ISE's
 func (f Facebook) GetCurrentUser(authToken string) (bool, model.FbCurrentUser, error) {
 	var data model.FbCurrentUser
-	in, st, err := f.genericGet(authToken, "me", &data)
+	in, st, err := f.genericGet(authToken, "me", "", &data)
 	return in, *st.(*model.FbCurrentUser), err
 }
 
@@ -48,6 +49,8 @@ func (f Facebook) ExtendToken(authToken string) (bool, error) {
 
 func (f Facebook) GetProfilePic(authToken string) (bool, model.FbProfilePic, error) {
 	var data model.FbProfilePic
-	in, st, err := f.genericGet(authToken, "me/picture", &data)
+	in, user, err := f.GetCurrentUser(authToken)
+	path := fmt.Sprintf("/%s/picture", user.Id)
+	in, st, err := f.genericGet(authToken, path, "&type=large", &data)
 	return in, *st.(*model.FbProfilePic), err
 }
