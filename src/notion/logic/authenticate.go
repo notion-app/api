@@ -2,6 +2,7 @@ package logic
 
 import (
 	"notion/db"
+	"notion/errors"
 	"notion/model"
 )
 
@@ -9,5 +10,9 @@ import (
 // token or a user-servicible error if the auth token is invalid or
 // the database connection fails
 func AuthenticateNotionUser(token string) (model.DbUser, error) {
-	return db.GetUserByToken(token)
+	in, user, err := db.GetUserByToken(token)
+	if !in {
+		return user, errors.Unauthorized("notion")
+	}
+	return user, err
 }

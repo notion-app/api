@@ -1,44 +1,37 @@
 package db
 
 import (
-	"notion/errors"
 	"notion/log"
 	"notion/model"
 )
 
 // Gets a user by their notion-assigned Id
-func GetUserById(id string) (model.DbUser, error) {
+// Returns whether the user exists, the user model, and an error
+func GetUserById(id string) (bool, model.DbUser, error) {
 	var user model.DbUser
-	err := GenericGetOne("users", "id", id, &user)
-	return user, err
+	in, useri, err := GenericGetOne("users", "id", id, &user)
+	return in, *useri.(*model.DbUser), err
 }
 
-func GetUserByFacebookId(facebookId string) (model.DbUser, error) {
+func GetUserByFacebookId(facebookId string) (bool, model.DbUser, error) {
 	var user model.DbUser
-	err := GenericGetOne("users", "fb_user_id", facebookId, &user)
-	return user, err
+	in, useri, err := GenericGetOne("users", "fb_user_id", facebookId, &user)
+	return in, *useri.(*model.DbUser), err
 }
 
-func GetUserByToken(token string) (model.DbUser, error) {
+func GetUserByToken(token string) (bool, model.DbUser, error) {
 	var user model.DbUser
-	err := GenericGetOne("users", "fb_auth_token", token, &user)
-	return user, err
+	in, useri, err := GenericGetOne("users", "fb_auth_token", token, &user)
+	return in, *useri.(*model.DbUser), err
 }
 
 func CreateUser(u model.DbUser) error {
 	log.Info("Creating new user " + u.Id)
-	err := dbmap.Insert(&u)
-	if log.Error(err) {
-		return errors.ISE()
-	}
-	return nil
+	return dbmap.Insert(&u)
 }
 
 func UpdateUser(user model.DbUser) error {
 	log.Info("Updating user token and profile pic")
 	_, err := dbmap.Update(&user)
-	if log.Error(err) {
-		return errors.ISE()
-	}
-	return nil
+	return err
 }

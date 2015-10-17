@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"github.com/labstack/echo"
 	"net/http"
 	"notion/db"
 	"notion/log"
@@ -21,18 +20,14 @@ func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.LoginResponse, erro
 	if log.Error(err) {
 		return returnCode, loginResponse, err
 	}
-	dbUser, err := db.GetUserByFacebookId(fbUser.Id)
-
-	if err != nil && err.(*echo.HTTPError).Code() == 404 {
-		dbUser, err = DoFbUserCreate(lrq, fbUser, fbPicture)
-		returnCode = http.StatusCreated
-	} else err.(*echo.HTTPError).Code() != 500 {
+	in, dbUser, err := db.GetUserByFacebookId(fbUser.Id)
+	if in {
 		err = DoUserLogin(lrq, dbUser, fbPicture)
 		returnCode = http.StatusAccepted
 	} else {
-		return err
+		dbUser, err = DoFbUserCreate(lrq, fbUser, fbPicture)
+		returnCode = http.StatusCreated
 	}
-
 	if log.Error(err) {
 		return returnCode, loginResponse, err
 	}
