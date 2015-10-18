@@ -63,7 +63,7 @@ type DbTopic struct {
 type DbNote struct {
 	Id      string `db:"id" json:"id"`
 	TopicId string `db:"topic_id" json:"topic_id"`
-	Name    string `db:"name" json:"name"`
+	Title    string `db:"title" json:"title"`
 	Owner   string `db:"owner" json:"owner"`
 	Content string `db:"content" json:"content"`
 }

@@ -7,14 +7,14 @@ psql $DATABASE_URL -c "CREATE TABLE schools (
 
 psql $DATABASE_URL -c "CREATE TABLE courses (
   id text PRIMARY KEY,
-  school_id text REFERENCES schools (id) NOT NULL,
+  school_id text REFERENCES schools (id) ON DELETE CASCADE NOT NULL,
   name text NOT NULL,
   number text NOT NULL
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE sections (
   id text PRIMARY KEY,
-  course_id text REFERENCES courses (id) NOT NULL,
+  course_id text REFERENCES courses (id) ON DELETE CASCADE NOT NULL,
   crn text,
   professor text,
   year text NOT NULL,
@@ -30,7 +30,7 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   verified boolean,
   auth_method text NOT NULL,
 
-  school text REFERENCES schools (id) DEFAULT NULL,
+  school text REFERENCES schools (id) ON DELETE RESTRICT DEFAULT NULL,
 
   fb_user_id text,
   fb_auth_token text,
@@ -39,7 +39,7 @@ psql $DATABASE_URL -c "CREATE TABLE users (
 
 psql $DATABASE_URL -c "CREATE TABLE school_requests (
   id text PRIMARY KEY,
-  requester_user_id text REFERENCES users (id) NOT NULL,
+  requester_user_id text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
   name text NOT NULL,
   location text NOT NULL
 )"
@@ -48,26 +48,26 @@ psql $DATABASE_URL -c "CREATE TABLE notebooks (
   id text PRIMARY KEY,
   section_id text,
   name text,
-  owner text REFERENCES users (id),
+  owner text REFERENCES users (id) ON DELETE CASCADE DEFAULT NULL,
   privacy text
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE topics (
   id text PRIMARY KEY,
-  notebook_id text REFERENCES notebooks (id)
+  notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE notes (
   id text PRIMARY KEY,
-  topic_id text REFERENCES topics (id) NOT NULL,
-  name text NOT NULL,
-  owner text REFERENCES users (id) NOT NULL,
+  topic_id text REFERENCES topics (id) ON DELETE RESTRICT NOT NULL,
+  title text,
+  owner text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
   endorsements integer DEFAULT 0,
   content text NOT NULL
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE subscriptions (
-  user_id text REFERENCES users (id) NOT NULL,
-  notebook_id text REFERENCES notebooks (id) NOT NULL,
+  user_id text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
+  notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL,
   PRIMARY KEY (user_id, notebook_id)
 )"
