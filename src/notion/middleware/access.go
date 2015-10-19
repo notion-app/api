@@ -14,7 +14,7 @@ func AccessControl() echo.MiddlewareFunc {
 				// Lol dat security do
 				c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 			}
-			c.Response().Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+			c.Response().Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, PATCH")
 			c.Response().Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token")
 			c.Response().Header().Set("Access-Control-Allow-Credentials", "true")
 
