@@ -52,8 +52,8 @@ func GetCoursesForSchool(c *echo.Context) error {
 	parsedCourses := make([]model.CourseResponse, 0)
 	for _, course := range courses {
 		parsedCourses = append(parsedCourses, model.CourseResponse{
-			Id: course.Id,
-			Name: course.Name,
+			Id:     course.Id,
+			Name:   course.Name,
 			Number: course.Number,
 		})
 	}

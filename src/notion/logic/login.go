@@ -43,7 +43,7 @@ func DoFbUserCreate(lrq model.LoginRequest, fbUser model.FbCurrentUser, fbPictur
 	user := model.DbUser{
 		Id:           util.NewId(),
 		Name:         fbUser.Name,
-		Email: fbUser.Email,
+		Email:        fbUser.Email,
 		Verified:     false,
 		AuthMethod:   lrq.AuthMethod,
 		FbUserId:     fbUser.Id,

@@ -3,7 +3,7 @@ package model
 type LoginResponse struct {
 	UserId     string `json:"user_id"`
 	Name       string `json:"name"`
-	Email string `json:"email"`
+	Email      string `json:"email"`
 	Token      string `json:"token"`
 	ProfilePic string `json:"profile_pic"`
 }
@@ -21,8 +21,8 @@ type CoursesForSchoolResponse struct {
 }
 
 type CourseResponse struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
+	Id     string `json:"id"`
+	Name   string `json:"name"`
 	Number string `json:"number"`
 }
 

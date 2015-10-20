@@ -54,7 +54,7 @@ func CreateUserSubscription(c *echo.Context) error {
 		return err
 	}
 	sub := model.DbSubscription{
-		UserId: userId,
+		UserId:     userId,
 		NotebookId: request.NotebookId,
 	}
 	err = db.CreateSubscription(sub)
@@ -77,7 +77,7 @@ func RemoveUserSubscription(c *echo.Context) error {
 		return err
 	}
 	sub := model.DbSubscription{
-		UserId: userId,
+		UserId:     userId,
 		NotebookId: request.NotebookId,
 	}
 	err = db.RemoveSubscription(sub)
@@ -103,7 +103,7 @@ func SetUserSchool(c *echo.Context) error {
 
 	user.School = sql.NullString{
 		String: request.SchoolId,
-		Valid: true,
+		Valid:  true,
 	}
 	err = db.UpdateUser(user)
 	if log.Error(err) {
