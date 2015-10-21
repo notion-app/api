@@ -24,7 +24,18 @@ func GetUser(c *echo.Context) error {
 	if !in {
 		return errors.NotFound()
 	}
-	return c.JSON(http.StatusOK, user)
+	returnUser := model.UserResponse{
+		Id: user.Id,
+		Name: user.Name,
+		Email: user.Email,
+		Verified: user.Verified,
+		School: user.School.String,
+		AuthMethod: user.AuthMethod,
+		FbUserId: user.FbUserId,
+		FbAuthToken: user.FbAuthToken,
+		FbProfilePic: user.FbProfilePic,
+	}
+	return c.JSON(http.StatusOK, returnUser)
 }
 
 func GetUsersSubscriptions(c *echo.Context) error {

@@ -5,8 +5,11 @@ build:
 run: build
 	bin/app
 
-test:
+internaltest:
 	gb test
+
+remakedb:
+	./scripts/debug_db.sh
 
 logs:
 	heroku logs -p web.1 --tail
