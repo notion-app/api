@@ -1,15 +1,15 @@
 package model
 
 type UserResponse struct {
-	Id           string         `json:"id"`
-	Name         string         `json:"name"`
-	Email        string         `json:"email"`
-	Verified     bool           `json:"verified"`
-	School       string 				`json:"school"`
-	AuthMethod   string         `json:"auth_method"`
-	FbUserId     string         `json:"fb_user_id"`
-	FbAuthToken  string         `json:"fb_auth_token"`
-	FbProfilePic string         `json:"fb_profile_pic"`
+	Id           string `json:"id"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Verified     bool   `json:"verified"`
+	School       string `json:"school"`
+	AuthMethod   string `json:"auth_method"`
+	FbUserId     string `json:"fb_user_id"`
+	FbAuthToken  string `json:"fb_auth_token"`
+	FbProfilePic string `json:"fb_profile_pic"`
 }
 
 type LoginResponse struct {
