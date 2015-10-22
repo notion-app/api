@@ -12,18 +12,6 @@ psql $DATABASE_URL -c "CREATE TABLE courses (
   number text NOT NULL
 )"
 
-psql $DATABASE_URL -c "CREATE TABLE sections (
-  id text PRIMARY KEY,
-  course_id text REFERENCES courses (id) ON DELETE CASCADE NOT NULL,
-  notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL,
-  crn text,
-  professor text,
-  year text NOT NULL,
-  semester text NOT NULL,
-  time text,
-  verified boolean
-)"
-
 psql $DATABASE_URL -c "CREATE TABLE users (
   id text PRIMARY KEY,
   name text NOT NULL,
@@ -38,13 +26,6 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   fb_profile_pic text
 )"
 
-psql $DATABASE_URL -c "CREATE TABLE school_requests (
-  id text PRIMARY KEY,
-  requester_user_id text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
-  name text NOT NULL,
-  location text NOT NULL
-)"
-
 psql $DATABASE_URL -c "CREATE TABLE notebooks (
   id text PRIMARY KEY,
   name text,
@@ -52,6 +33,25 @@ psql $DATABASE_URL -c "CREATE TABLE notebooks (
   privacy text,
   created_at timestamp,
   updated_at timestamp
+)"
+
+psql $DATABASE_URL -c "CREATE TABLE sections (
+  id text PRIMARY KEY,
+  course_id text REFERENCES courses (id) ON DELETE CASCADE NOT NULL,
+  notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL,
+  crn text,
+  professor text,
+  year text NOT NULL,
+  semester text NOT NULL,
+  time text,
+  verified boolean
+)"
+
+psql $DATABASE_URL -c "CREATE TABLE school_requests (
+  id text PRIMARY KEY,
+  requester_user_id text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
+  name text NOT NULL,
+  location text NOT NULL
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE topics (

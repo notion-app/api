@@ -36,11 +36,33 @@ psql $DATABASE_URL -c "INSERT INTO courses VALUES
     'ENGL 410'
   )"
 
+echo 'Populate Notebooks'
+psql $DATABASE_URL -c "INSERT INTO notebooks VALUES
+  (
+    'Notebook1',
+    NULL,
+    NULL,
+    'section'
+  ),
+  (
+    'Notebook2',
+    NULL,
+    NULL,
+    'section'
+  ),
+  (
+    'Notebook3',
+    NULL,
+    NULL,
+    'section'
+  )"
+
 echo 'Populate Sections'
 psql $DATABASE_URL -c "INSERT INTO sections VALUES
   (
     'Section11',
     'Course1',
+    'Notebook1',
     '111',
     'Dr. Feel Good',
     '2015',
@@ -51,6 +73,7 @@ psql $DATABASE_URL -c "INSERT INTO sections VALUES
   (
     'Section12',
     'Course1',
+    'Notebook2',
     '112',
     'Richard Stallman',
     '2014',
@@ -61,6 +84,7 @@ psql $DATABASE_URL -c "INSERT INTO sections VALUES
   (
     'Section21',
     'Course2',
+    'Notebook3',
     '111',
     'Dr. Michael Hockerman',
     '2015',
@@ -92,23 +116,6 @@ psql $DATABASE_URL -c "INSERT INTO users VALUES
     'FbUser1',
     'FbAuthToken1',
     'http://profile-pic.com'
-  )"
-
-echo 'Populate Notebooks'
-psql $DATABASE_URL -c "INSERT INTO notebooks VALUES
-  (
-    'Notebook1',
-    'Section1',
-    NULL,
-    NULL,
-    'section'
-  ),
-  (
-    'Notebook2',
-    'Section2',
-    NULL,
-    NULL,
-    'section'
   )"
 
 echo 'Populate Topics'
