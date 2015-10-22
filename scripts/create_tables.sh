@@ -73,5 +73,6 @@ psql $DATABASE_URL -c "CREATE TABLE notes (
 psql $DATABASE_URL -c "CREATE TABLE subscriptions (
   user_id text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
   notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL,
+  name text,
   PRIMARY KEY (user_id, notebook_id)
 )"

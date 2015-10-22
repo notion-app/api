@@ -164,13 +164,16 @@ echo 'Populate Subscriptions'
 psql $DATABASE_URL -c "INSERT INTO subscriptions VALUES
   (
     'User1',
-    'Notebook1'
+    'Notebook1',
+    NULL
   ),
   (
     'User1',
-    'Notebook2'
+    'Notebook2',
+    'This is my notebook'
   ),
   (
     'User2',
-    'Notebook1'
+    'Notebook1',
+    'Another notebook'
   )"
