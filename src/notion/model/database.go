@@ -28,6 +28,7 @@ type DbCourse struct {
 type DbCourseSection struct {
 	Id        string `db:"id" json:"id"`
 	CourseId  string `db:"course_id" json:"course_id"`
+	NotebookId string `db:"notebook_id" json:"notebook_id"`
 	Crn       string `db:"crn" json:"crn"`
 	Professor string `db:"professor" json:"professor"`
 	Year      string `db:"year" json:"year"`
@@ -50,7 +51,6 @@ type DbUser struct {
 
 type DbNotebook struct {
 	Id        string    `db:"id" json:"id"`
-	SectionId string    `db:"section_id" json:"section_id"`
 	Name      string    `db:"name" json:"name"`
 	Owner     string    `db:"owner" json:"owner"`
 	Privacy   string    `db:"privacy" json:"privacy"`

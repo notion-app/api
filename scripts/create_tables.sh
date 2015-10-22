@@ -15,6 +15,7 @@ psql $DATABASE_URL -c "CREATE TABLE courses (
 psql $DATABASE_URL -c "CREATE TABLE sections (
   id text PRIMARY KEY,
   course_id text REFERENCES courses (id) ON DELETE CASCADE NOT NULL,
+  notebook_id text REFERENCES notebooks (id) ON DELETE CASCADE NOT NULL,
   crn text,
   professor text,
   year text NOT NULL,
@@ -46,7 +47,6 @@ psql $DATABASE_URL -c "CREATE TABLE school_requests (
 
 psql $DATABASE_URL -c "CREATE TABLE notebooks (
   id text PRIMARY KEY,
-  section_id text,
   name text,
   owner text REFERENCES users (id) ON DELETE CASCADE DEFAULT NULL,
   privacy text,
