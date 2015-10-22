@@ -16,9 +16,7 @@ func GetSchools(c *echo.Context) error {
 	if err != nil {
 		return errors.ISE()
 	}
-	return c.JSON(http.StatusOK, model.AllSchoolsResponse{
-		Schools: schools,
-	})
+	return c.JSON(http.StatusOK, schools)
 }
 
 func PostSchoolRequest(c *echo.Context) error {
