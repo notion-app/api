@@ -12,12 +12,16 @@ type UserResponse struct {
 	FbProfilePic string `json:"fb_profile_pic"`
 }
 
-type LoginResponse struct {
-	UserId     string `json:"user_id"`
-	Name       string `json:"name"`
-	Email      string `json:"email"`
-	Token      string `json:"token"`
-	ProfilePic string `json:"profile_pic"`
+func (u *UserResponse) FromDb(dbu DbUser) {
+	u.Id = dbu.Id
+	u.Name = dbu.Name
+	u.Email = dbu.Email
+	u.Verified = dbu.Verified
+	u.School = dbu.School.String
+	u.AuthMethod = dbu.AuthMethod
+	u.FbUserId = dbu.FbUserId
+	u.FbAuthToken = dbu.FbAuthToken
+	u.FbProfilePic = dbu.FbProfilePic
 }
 
 type AllSchoolsResponse struct {

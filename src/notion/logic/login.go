@@ -9,16 +9,16 @@ import (
 	"notion/util"
 )
 
-func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.LoginResponse, error) {
-	var loginResponse model.LoginResponse
+func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.UserResponse, error) {
+	var userResponse model.UserResponse
 	var returnCode int
 	fbUser, err := service.Facebook{}.GetCurrentUser(lrq.AccessToken)
 	if log.Error(err) {
-		return returnCode, loginResponse, err
+		return returnCode, userResponse, err
 	}
 	fbPicture, err := service.Facebook{}.GetProfilePic(lrq.AccessToken)
 	if log.Error(err) {
-		return returnCode, loginResponse, err
+		return returnCode, userResponse, err
 	}
 	in, dbUser, err := db.GetUserByFacebookId(fbUser.Id)
 	if in {
@@ -29,14 +29,10 @@ func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.LoginResponse, erro
 		returnCode = http.StatusCreated
 	}
 	if log.Error(err) {
-		return returnCode, loginResponse, err
+		return returnCode, userResponse, err
 	}
-	loginResponse.UserId = dbUser.Id
-	loginResponse.Name = dbUser.Name
-	loginResponse.Email = dbUser.Email
-	loginResponse.Token = dbUser.FbAuthToken
-	loginResponse.ProfilePic = dbUser.FbProfilePic
-	return returnCode, loginResponse, nil
+	userResponse.FromDb(dbUser)
+	return returnCode, userResponse, nil
 }
 
 func DoFbUserCreate(lrq model.LoginRequest, fbUser model.FbCurrentUser, fbPicture model.FbProfilePic) (model.DbUser, error) {

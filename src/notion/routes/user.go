@@ -24,17 +24,8 @@ func GetUser(c *echo.Context) error {
 	if !in {
 		return errors.NotFound()
 	}
-	returnUser := model.UserResponse{
-		Id:           user.Id,
-		Name:         user.Name,
-		Email:        user.Email,
-		Verified:     user.Verified,
-		School:       user.School.String,
-		AuthMethod:   user.AuthMethod,
-		FbUserId:     user.FbUserId,
-		FbAuthToken:  user.FbAuthToken,
-		FbProfilePic: user.FbProfilePic,
-	}
+	returnUser := model.UserResponse{}
+	returnUser.FromDb(user)
 	return c.JSON(http.StatusOK, returnUser)
 }
 
