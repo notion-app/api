@@ -8,12 +8,8 @@ func AccessControl() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c *echo.Context) error {
 
-			if origin := c.Request().Header.Get("Origin"); origin != "" {
-				c.Response().Header().Set("Access-Control-Allow-Origin", origin)
-			} else {
-				// Lol dat security do
-				c.Response().Header().Set("Access-Control-Allow-Origin", "*")
-			}
+			// Lol dat security do
+			c.Response().Header().Set("Access-Control-Allow-Origin", "*")	
 			c.Response().Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, PATCH")
 			c.Response().Header().Set("Access-Control-Allow-Headers", "*")
 			c.Response().Header().Set("Access-Control-Allow-Credentials", "true")
