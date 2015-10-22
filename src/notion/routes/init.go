@@ -33,6 +33,7 @@ func v1Routes() {
 	// Unauthenticated endpoints
 	// status.go
 	v1Group.Get("/status", Status)
+	v1Group.Options("/*", Status)
 	// login.go
 	v1Group.Post("/login", Login)
 	// schools.go
@@ -51,5 +52,4 @@ func v1Routes() {
 	authV1Group.Post("/user/:user_id/subscription", CreateUserSubscription)
 	authV1Group.Delete("/user/:user_id/subscription", RemoveUserSubscription)
 	authV1Group.Put("/user/:user_id/school", SetUserSchool)
-	authV1Group.Options("/user/:user_id/school", SetUserSchool)
 }
