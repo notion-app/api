@@ -22,7 +22,7 @@ func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.UserResponse, error
 	}
 	in, dbUser, err := db.GetUserByFacebookId(fbUser.Id)
 	if in {
-		err = DoUserLogin(lrq, dbUser, fbPicture)
+		err = DoUserLogin(lrq, &dbUser, fbPicture)
 		returnCode = http.StatusAccepted
 	} else {
 		dbUser, err = DoFbUserCreate(lrq, fbUser, fbPicture)
@@ -49,8 +49,8 @@ func DoFbUserCreate(lrq model.LoginRequest, fbUser model.FbCurrentUser, fbPictur
 	return user, db.CreateUser(user)
 }
 
-func DoUserLogin(lrq model.LoginRequest, u model.DbUser, fbPicture model.FbProfilePic) error {
+func DoUserLogin(lrq model.LoginRequest, u *model.DbUser, fbPicture model.FbProfilePic) error {
 	u.FbAuthToken = lrq.AccessToken
 	u.FbProfilePic = fbPicture.Data.Url
-	return db.UpdateUser(u)
+	return db.UpdateUser(*u)
 }
