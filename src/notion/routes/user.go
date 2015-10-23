@@ -38,9 +38,7 @@ func GetUsersSubscriptions(c *echo.Context) error {
 	if err != nil {
 		return errors.ISE()
 	}
-	return c.JSON(http.StatusOK, model.UserSubscriptionsResponse{
-		Subscriptions: subscriptions,
-	})
+	return c.JSON(http.StatusOK, subscriptions)
 }
 
 func CreateUserSubscription(c *echo.Context) error {

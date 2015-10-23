@@ -24,10 +24,6 @@ func (u *UserResponse) FromDb(dbu DbUser) {
 	u.FbProfilePic = dbu.FbProfilePic
 }
 
-type UserSubscriptionsResponse struct {
-	Subscriptions []DbSubscription `json:"subscriptions"`
-}
-
 type CoursesForSchoolResponse struct {
 	Courses []CourseResponse `json:"courses"`
 }

@@ -34,6 +34,7 @@ func v1Routes() {
 	// status.go
 	v1Group.Get("/status", Status)
 	v1Group.Options("/*", Status)
+
 	// login.go
 	v1Group.Post("/login", Login)
 	// schools.go
