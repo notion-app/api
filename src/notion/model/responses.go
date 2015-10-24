@@ -1,5 +1,13 @@
 package model
 
+import (
+	"time"
+)
+
+const (
+	NOTE_RESPONSE_LENGTH_LIMIT = 35
+)
+
 type UserResponse struct {
 	Id           string `json:"id"`
 	Name         string `json:"name"`
@@ -36,4 +44,31 @@ type CourseResponse struct {
 
 type SectionsForCourseResponse struct {
 	Sections []DbCourseSection `json:"sections"`
+}
+
+type TopicResponse struct {
+	Id string `json:"id"`
+	Notes []NoteResponse `json:"notes"`
+}
+
+type NoteResponse struct {
+	Id string `json:"id"`
+	Title string `json:"title"`
+	Owner string `json:"owner"`
+	ContentPreview string `json:"content_preview"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (nr *NoteResponse) FromDb(dbn DbNote) {
+	nr.Id = dbn.Id
+	nr.Title = dbn.Title
+	nr.Owner = dbn.Owner
+	nr.CreatedAt = dbn.CreatedAt
+	nr.UpdatedAt = dbn.UpdatedAt
+	if len(dbn.Content) < NOTE_RESPONSE_LENGTH_LIMIT {
+		nr.ContentPreview = dbn.Content
+	} else {
+		nr.ContentPreview = dbn.Content[:NOTE_RESPONSE_LENGTH_LIMIT]
+	}
 }
