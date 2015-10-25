@@ -63,6 +63,26 @@ func CreateUserSubscription(c *echo.Context) error {
 	return c.JSON(http.StatusCreated, sub)
 }
 
+func ModifyUserSubscription(c *echo.Context) error {
+	var request model.SubscriptionRequest
+	userId := c.Param("user_id")
+	if userId != c.Get("TOKEN_USER_ID") {
+		return errors.Unauthorized("notion")
+	}
+	body := c.Get("BODY").(map[string]interface{})
+	util.FillStruct(&request, body)
+	sub := model.DbSubscription{
+		UserId: userId,
+		NotebookId: request.NotebookId,
+		Name: request.Name,
+	}
+	err := db.UpdateSubscription(sub)
+	if log.Error(err) {
+		return errors.ISE()
+	}
+	return nil
+}
+
 func RemoveUserSubscription(c *echo.Context) error {
 	var request model.SubscriptionRequest
 	userId := c.Param("user_id")
@@ -99,7 +119,6 @@ func SetUserSchool(c *echo.Context) error {
 	if log.Error(err) {
 		return err
 	}
-
 	user.School = sql.NullString{
 		String: request.SchoolId,
 		Valid:  true,
@@ -108,7 +127,5 @@ func SetUserSchool(c *echo.Context) error {
 	if log.Error(err) {
 		return err
 	}
-
 	return nil
-
 }

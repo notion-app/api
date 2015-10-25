@@ -17,6 +17,12 @@ func CreateSubscription(sub model.DbSubscription) error {
 	return dbmap.Insert(&sub)
 }
 
+func UpdateSubscription(sub model.DbSubscription) error {
+	log.Info("Updating subscription %v %v", sub.UserId, sub.NotebookId)
+	_, err := dbmap.Update(&sub)
+	return err
+}
+
 func RemoveSubscription(sub model.DbSubscription) error {
 	log.Info("Removing subscription for user %v notebook %v", sub.UserId, sub.NotebookId)
 	_, err := dbmap.Delete(&sub)
