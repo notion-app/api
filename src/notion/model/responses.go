@@ -20,16 +20,18 @@ type UserResponse struct {
 	FbProfilePic string `json:"fb_profile_pic"`
 }
 
-func (u *UserResponse) FromDb(dbu DbUser) {
-	u.Id = dbu.Id
-	u.Name = dbu.Name
-	u.Email = dbu.Email
-	u.Verified = dbu.Verified
-	u.School = dbu.School.String
-	u.AuthMethod = dbu.AuthMethod
-	u.FbUserId = dbu.FbUserId
-	u.FbAuthToken = dbu.FbAuthToken
-	u.FbProfilePic = dbu.FbProfilePic
+func NewUserResponse(dbu DbUser) UserResponse {
+	return UserResponse{
+		Id: dbu.Id,
+		Name: dbu.Name,
+		Email: dbu.Email,
+		Verified: dbu.Verified,
+		School: dbu.School.String,
+		AuthMethod: dbu.AuthMethod,
+		FbUserId: dbu.FbUserId,
+		FbAuthToken: dbu.FbAuthToken,
+		FbProfilePic: dbu.FbProfilePic,
+	}
 }
 
 type CoursesForSchoolResponse struct {
@@ -60,15 +62,18 @@ type NoteResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func (nr *NoteResponse) FromDb(dbn DbNote) {
-	nr.Id = dbn.Id
-	nr.Title = dbn.Title
-	nr.Owner = dbn.Owner
-	nr.CreatedAt = dbn.CreatedAt
-	nr.UpdatedAt = dbn.UpdatedAt
+func NewNoteResponse(dbn DbNote) NoteResponse {
+	nr := NoteResponse{
+		Id: dbn.Id,
+		Title: dbn.Title,
+		Owner: dbn.Owner,
+		CreatedAt: dbn.CreatedAt,
+		UpdatedAt: dbn.UpdatedAt,
+	}
 	if len(dbn.Content) < NOTE_RESPONSE_LENGTH_LIMIT {
 		nr.ContentPreview = dbn.Content
 	} else {
 		nr.ContentPreview = dbn.Content[:NOTE_RESPONSE_LENGTH_LIMIT]
 	}
+	return nr
 }

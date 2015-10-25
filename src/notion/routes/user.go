@@ -24,9 +24,7 @@ func GetUser(c *echo.Context) error {
 	if !in {
 		return errors.NotFound()
 	}
-	returnUser := model.UserResponse{}
-	returnUser.FromDb(user)
-	return c.JSON(http.StatusOK, returnUser)
+	return c.JSON(http.StatusOK, model.NewUserResponse(user))
 }
 
 func GetUsersSubscriptions(c *echo.Context) error {
@@ -62,7 +60,7 @@ func CreateUserSubscription(c *echo.Context) error {
 	if log.Error(err) {
 		return errors.ISE()
 	}
-	return nil
+	return c.JSON(http.StatusCreated, sub)
 }
 
 func RemoveUserSubscription(c *echo.Context) error {

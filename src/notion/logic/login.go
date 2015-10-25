@@ -31,8 +31,7 @@ func DoUserCreateOrLogin(lrq model.LoginRequest) (int, model.UserResponse, error
 	if log.Error(err) {
 		return returnCode, userResponse, err
 	}
-	userResponse.FromDb(dbUser)
-	return returnCode, userResponse, nil
+	return returnCode, model.NewUserResponse(dbUser), nil
 }
 
 func DoFbUserCreate(lrq model.LoginRequest, fbUser model.FbCurrentUser, fbPicture model.FbProfilePic) (model.DbUser, error) {
