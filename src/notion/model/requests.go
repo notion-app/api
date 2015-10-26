@@ -7,16 +7,16 @@ type LoginRequest struct {
 
 // Lol @ the name
 type SchoolRequestRequest struct {
-	Name     string `json:"name"`
-	Location string `json:"location"`
+	Name     string `json:"name" binding:"required"`
+	Location string `json:"location" binding:"required"`
 }
 
 // This is the body for both creating and removing subscriptions
 type SubscriptionRequest struct {
-	NotebookId string `json:"notebook_id"`
-	Name       string `json:"name"`
+	NotebookId string `json:"notebook_id" binding:"required"`
+	Name       string `json:"name" binding:"required"`
 }
 
-type AddSchoolRequest struct {
-	SchoolId string `json:"school"`
+type ModifySchoolRequest struct {
+	SchoolId string `json:"school" binding:"required"`
 }

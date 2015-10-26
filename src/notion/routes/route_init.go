@@ -44,9 +44,9 @@ func v1Routes() {
 
 	v1a.GET("/user/:user_id", GetUser)
 	v1a.GET("/user/:user_id/subscription", GetUsersSubscriptions)
+	v1a.POST("/user/:user_id/subscription", CreateUserSubscription)
+	v1a.PUT("/user/:user_id/subscription", ModifyUserSubscription)
+	v1a.PUT("/user/:user_id/school", SetUserSchool)
+	v1a.DELETE("/user/:user_id/subscription", RemoveUserSubscription)
 
-	// authV1Group.POST("/user/:user_id/subscription", CreateUserSubscription)
-	// authV1Group.PUT("/user/:user_id/subscription", ModifyUserSubscription)
-	// authV1Group.DELETE("/user/:user_id/subscription", RemoveUserSubscription)
-	// authV1Group.PUT("/user/:user_id/school", SetUserSchool)
 }

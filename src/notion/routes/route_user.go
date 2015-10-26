@@ -1,6 +1,7 @@
 package routes
 
 import (
+  "database/sql"
   "github.com/gin-gonic/gin"
 	"net/http"
   "notion/db"
@@ -39,4 +40,117 @@ func GetUsersSubscriptions(c *gin.Context) {
     subResponses = append(subResponses, model.NewSubscriptionResponse(sub))
   }
   c.JSON(http.StatusOK, subResponses)
+}
+
+func CreateUserSubscription(c *gin.Context) {
+  userId := c.Param("user_id")
+  if userId != c.MustGet("request_user_id").(string) {
+    c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only create subscriptions for themselves"))
+    return
+  }
+  var request model.SubscriptionRequest
+  err := c.Bind(&request)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  sub := model.DbSubscription{
+    UserId: userId,
+    NotebookId: request.NotebookId,
+    Name: sql.NullString{
+      String: request.Name,
+      Valid: true,
+    },
+  }
+  err = db.CreateSubscription(sub)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  c.JSON(http.StatusOK, sub)
+}
+
+func ModifyUserSubscription(c *gin.Context) {
+  userId := c.Param("user_id")
+  if userId != c.MustGet("request_user_id").(string) {
+    c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only modify subscriptions for themselves"))
+    return
+  }
+  var request model.SubscriptionRequest
+  err := c.Bind(&request)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  sub := model.DbSubscription{
+    UserId: userId,
+    NotebookId: request.NotebookId,
+    Name: sql.NullString{
+      String: request.Name,
+      Valid: true,
+    },
+  }
+  err = db.UpdateSubscription(sub)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  c.JSON(http.StatusOK, sub)
+}
+
+func SetUserSchool(c *gin.Context) {
+  userId := c.Param("user_id")
+  if userId != c.MustGet("request_user_id").(string) {
+    c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only modify themselves"))
+    return
+  }
+  var request model.ModifySchoolRequest
+  err := c.Bind(&request)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  _, user, err := db.GetUserById(userId)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  user.School = sql.NullString{
+    String: request.SchoolId,
+    Valid: true,
+  }
+  err = db.UpdateUser(user)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  c.JSON(http.StatusOK, user)
+}
+
+func RemoveUserSubscription(c *gin.Context) {
+  userId := c.Param("user_id")
+  if userId != c.MustGet("request_user_id").(string) {
+    c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only delete their own subs"))
+    return
+  }
+  var request model.SubscriptionRequest
+  err := c.Bind(&request)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  sub := model.DbSubscription{
+    UserId: userId,
+    NotebookId: request.NotebookId,
+    Name: sql.NullString{
+      String: request.Name,
+      Valid: true,
+    },
+  }
+  err = db.DeleteSubscription(sub)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  c.JSON(http.StatusOK, sub)
 }
