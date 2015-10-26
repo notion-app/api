@@ -21,7 +21,7 @@ func GetUserByFacebookId(facebookId string) (bool, model.DbUser, error) {
 
 func GetUserByToken(token string) (bool, model.DbUser, error) {
 	user := model.DbUser{}
-	in, err := GenericGetOne(&user, "select * from users where fb_token=$1", token)
+	in, err := GenericGetOne(&user, "select * from users where fb_auth_token=$1", token)
 	return in, user, err
 }
 

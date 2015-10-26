@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"notion/db"
+	// "notion/errors"
 	"notion/log"
 )
 
@@ -16,8 +17,13 @@ func AuthCheck(c *gin.Context) {
 
 	token := c.Query("token")
 	if token == "" {
-		c.AbortWithError(http.StatusUnauthorized, fmt.Errorf("No notion access token provided"))
-		return
+		tokenHeaders := c.Request.Header["Token"]
+		if len(tokenHeaders) == 0 {
+			c.AbortWithError(http.StatusUnauthorized, fmt.Errorf("No notion access token provided"))
+			return
+		} else {
+			token = tokenHeaders[0]
+		}
 	}
 
 	in, user, err := db.GetUserByToken(token)

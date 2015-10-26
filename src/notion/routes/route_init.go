@@ -24,19 +24,17 @@ func Init() {
 func middleware() {
 	g.Use(mw.Logger)
 	g.Use(mw.AccessControl)
+	g.Use(mw.Error)
 }
 
 func v1Routes() {
-	v1Group := g.Group("/v1")
+	v1 := g.Group("/v1")
+	v1.GET("/status", Status)
+	v1.POST("/login", Login)
 
-	// Unauthed status.go
-	v1Group.GET("/status", Status)
+	v1a := v1.Group("", mw.AuthCheck)
+	v1a.GET("/school", GetAllSchools)
 
-	// Unauthed login.go
-	v1Group.POST("/login", Login)
-
-	// Unauthed schools.go
-	// v1Group.GET("/school", GetSchools)
 	// v1Group.GET("/school/:school_id/course", GetCoursesForSchool)
 	// v1Group.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
 	//

@@ -16,7 +16,7 @@ func Logger(c *gin.Context) {
   path := c.Request.URL.EscapedPath()
   ip := c.ClientIP()
 
-  log.InfoFields("Request Received", log.Fields{
+  log.InfoFields("Request received", log.Fields{
     "request_id": requestId,
     "method": method,
     "ip": ip,
@@ -27,9 +27,12 @@ func Logger(c *gin.Context) {
   c.Next()
   duration := time.Since(start)
 
-  log.InfoFields("Request Handled", log.Fields{
+  code := c.Writer.Status()
+
+  log.InfoFields("Request handled", log.Fields{
     "request_id": requestId,
     "took": duration.String(),
+    "code": code,
   })
 
 }
