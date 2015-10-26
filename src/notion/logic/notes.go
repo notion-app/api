@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"notion/db"
 	"notion/errors"
 	"notion/model"
