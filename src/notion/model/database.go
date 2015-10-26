@@ -54,8 +54,8 @@ type DbNotebook struct {
 	Name      string    `db:"name" json:"name"`
 	Owner     string    `db:"owner" json:"owner"`
 	Privacy   string    `db:"privacy" json:"privacy"`
-	CreatedAt time.Time `db:"created_at" json:"created_at"`
-	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
+	CreatedAt *time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
 }
 
 type DbTopic struct {
@@ -66,11 +66,11 @@ type DbTopic struct {
 type DbNote struct {
 	Id        string    `db:"id" json:"id"`
 	TopicId   string    `db:"topic_id" json:"topic_id"`
-	Title     string    `db:"title" json:"title"`
+	Title     sql.NullString    `db:"title" json:"title"`
 	Owner     string    `db:"owner" json:"owner"`
 	Content   string    `db:"content" json:"content"`
-	CreatedAt time.Time `db:"created_at" json:"created_at"`
-	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
+	CreatedAt *time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
 }
 
 type DbSubscription struct {

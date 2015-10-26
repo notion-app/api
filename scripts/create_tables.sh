@@ -64,7 +64,6 @@ psql $DATABASE_URL -c "CREATE TABLE notes (
   topic_id text REFERENCES topics (id) ON DELETE RESTRICT NOT NULL,
   title text,
   owner text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
-  endorsements integer DEFAULT 0,
   content text NOT NULL,
   created_at timestamp,
   updated_at timestamp

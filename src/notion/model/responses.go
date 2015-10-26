@@ -58,14 +58,14 @@ type NoteResponse struct {
 	Title string `json:"title"`
 	Owner string `json:"owner"`
 	ContentPreview string `json:"content_preview"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
 }
 
 func NewNoteResponse(dbn DbNote) NoteResponse {
 	nr := NoteResponse{
 		Id: dbn.Id,
-		Title: dbn.Title,
+		Title: dbn.Title.String,
 		Owner: dbn.Owner,
 		CreatedAt: dbn.CreatedAt,
 		UpdatedAt: dbn.UpdatedAt,

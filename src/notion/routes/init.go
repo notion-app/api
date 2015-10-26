@@ -45,6 +45,8 @@ func v1Routes() {
 	// Authenticated endpoints
 	authV1Group := v1Group.Group("")
 	authV1Group.Use(mmw.TokenCheck())
+	// notebook.go
+	authV1Group.Get("/notebook/:notebook_id/topic", GetNotebookNotes)
 	// schools.go
 	authV1Group.Post("/school/request", PostSchoolRequest)
 	// users.go

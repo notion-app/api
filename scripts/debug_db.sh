@@ -140,7 +140,6 @@ psql $DATABASE_URL -c "INSERT INTO notes VALUES
     'Topic1',
     NULL,
     'User1',
-    0,
     'This is an awesome note that i wrote'
   ),
   (
@@ -148,7 +147,6 @@ psql $DATABASE_URL -c "INSERT INTO notes VALUES
     'Topic2',
     'My Title',
     'User1',
-    1,
     'Ive got another note here, its pretty cool'
   ),
   (
@@ -156,7 +154,6 @@ psql $DATABASE_URL -c "INSERT INTO notes VALUES
     'Topic1',
     'Another Title',
     'User2',
-    0,
     'Wow these notes are amazing arent they?'
   )"
 
