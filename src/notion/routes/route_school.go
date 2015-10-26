@@ -50,7 +50,7 @@ func GetSectionsForCourse(c *gin.Context) {
 
 func PostSchoolRequest(c *gin.Context) {
   var request model.SchoolRequestRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if log.Error(err) {
     c.Error(err)
     return

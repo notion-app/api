@@ -49,7 +49,7 @@ func CreateUserSubscription(c *gin.Context) {
     return
   }
   var request model.SubscriptionRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if log.Error(err) {
     c.Error(err)
     return
@@ -77,7 +77,7 @@ func ModifyUserSubscription(c *gin.Context) {
     return
   }
   var request model.SubscriptionRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if log.Error(err) {
     c.Error(err)
     return

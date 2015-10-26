@@ -16,7 +16,7 @@ func Login(c *gin.Context) {
 	var request model.LoginRequest
 
 	// Parse the user request
-	err := c.Bind(&request)
+	err := c.BindJSON(&request)
 	if log.Error(err) {
 		c.Error(err)
 		return
