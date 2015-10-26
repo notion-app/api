@@ -106,13 +106,15 @@ func NewNoteResponse(dbn DbNote) NoteResponse {
 }
 
 type SubscriptionResponse struct {
-	UserId string `json:"id"`
+	Id string `json:"id"`
+	UserId string `json:"user_id"`
 	NotebookId string `json:"notebook_id"`
 	Name string `json:"name"`
 }
 
 func NewSubscriptionResponse(dbs DbSubscription) SubscriptionResponse {
 	return SubscriptionResponse{
+		Id: dbs.UserId + dbs.NotebookId,
 		UserId: dbs.UserId,
 		NotebookId: dbs.NotebookId,
 		Name: dbs.Name.String,
