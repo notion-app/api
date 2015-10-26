@@ -9,7 +9,7 @@ func AccessControl() echo.MiddlewareFunc {
 		return func(c *echo.Context) error {
 
 			// Lol dat security do
-			c.Response().Header().Set("Access-Control-Allow-Origin", "*")	
+			c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 			c.Response().Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, PATCH")
 			c.Response().Header().Set("Access-Control-Allow-Headers", "*")
 			c.Response().Header().Set("Access-Control-Allow-Credentials", "true")

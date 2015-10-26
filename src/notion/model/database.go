@@ -26,15 +26,15 @@ type DbCourse struct {
 }
 
 type DbCourseSection struct {
-	Id        string `db:"id" json:"id"`
-	CourseId  string `db:"course_id" json:"course_id"`
+	Id         string `db:"id" json:"id"`
+	CourseId   string `db:"course_id" json:"course_id"`
 	NotebookId string `db:"notebook_id" json:"notebook_id"`
-	Crn       string `db:"crn" json:"crn"`
-	Professor string `db:"professor" json:"professor"`
-	Year      string `db:"year" json:"year"`
-	Semester  string `db:"semester" json:"semester"`
-	Time      string `db:"time" json:"time"`
-	Verified  bool   `db:"verified" json:"verified"`
+	Crn        string `db:"crn" json:"crn"`
+	Professor  string `db:"professor" json:"professor"`
+	Year       string `db:"year" json:"year"`
+	Semester   string `db:"semester" json:"semester"`
+	Time       string `db:"time" json:"time"`
+	Verified   bool   `db:"verified" json:"verified"`
 }
 
 type DbUser struct {
@@ -50,10 +50,10 @@ type DbUser struct {
 }
 
 type DbNotebook struct {
-	Id        string    `db:"id" json:"id"`
-	Name      string    `db:"name" json:"name"`
-	Owner     string    `db:"owner" json:"owner"`
-	Privacy   string    `db:"privacy" json:"privacy"`
+	Id        string     `db:"id" json:"id"`
+	Name      string     `db:"name" json:"name"`
+	Owner     string     `db:"owner" json:"owner"`
+	Privacy   string     `db:"privacy" json:"privacy"`
 	CreatedAt *time.Time `db:"created_at" json:"created_at"`
 	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
 }
@@ -64,17 +64,17 @@ type DbTopic struct {
 }
 
 type DbNote struct {
-	Id        string    `db:"id" json:"id"`
-	TopicId   string    `db:"topic_id" json:"topic_id"`
-	Title     sql.NullString    `db:"title" json:"title"`
-	Owner     string    `db:"owner" json:"owner"`
-	Content   string    `db:"content" json:"content"`
-	CreatedAt *time.Time `db:"created_at" json:"created_at"`
-	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
+	Id        string         `db:"id" json:"id"`
+	TopicId   string         `db:"topic_id" json:"topic_id"`
+	Title     sql.NullString `db:"title" json:"title"`
+	Owner     string         `db:"owner" json:"owner"`
+	Content   string         `db:"content" json:"content"`
+	CreatedAt *time.Time     `db:"created_at" json:"created_at"`
+	UpdatedAt *time.Time     `db:"updated_at" json:"updated_at"`
 }
 
 type DbSubscription struct {
 	UserId     string `db:"user_id" json:"user_id"`
 	NotebookId string `db:"notebook_id" json:"notebook_id"`
-	Name string `db:"name" json:"name"`
+	Name       string `db:"name" json:"name"`
 }

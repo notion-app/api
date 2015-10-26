@@ -8,7 +8,7 @@ import (
 )
 
 func GetNotes(notebookId string) ([]model.DbNote, error) {
-  var notes []model.DbNote
+	var notes []model.DbNote
 	query := fmt.Sprintf(`
 		select n.id, n.topic_id, n.title, n.owner, n.content, n.created_at, n.updated_at
 		from notes n
@@ -26,5 +26,5 @@ func GetNotes(notebookId string) ([]model.DbNote, error) {
 			return nil, err
 		}
 	}
-  return notes, nil
+	return notes, nil
 }

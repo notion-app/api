@@ -22,14 +22,14 @@ type UserResponse struct {
 
 func NewUserResponse(dbu DbUser) UserResponse {
 	return UserResponse{
-		Id: dbu.Id,
-		Name: dbu.Name,
-		Email: dbu.Email,
-		Verified: dbu.Verified,
-		School: dbu.School.String,
-		AuthMethod: dbu.AuthMethod,
-		FbUserId: dbu.FbUserId,
-		FbAuthToken: dbu.FbAuthToken,
+		Id:           dbu.Id,
+		Name:         dbu.Name,
+		Email:        dbu.Email,
+		Verified:     dbu.Verified,
+		School:       dbu.School.String,
+		AuthMethod:   dbu.AuthMethod,
+		FbUserId:     dbu.FbUserId,
+		FbAuthToken:  dbu.FbAuthToken,
 		FbProfilePic: dbu.FbProfilePic,
 	}
 }
@@ -49,24 +49,24 @@ type SectionsForCourseResponse struct {
 }
 
 type TopicResponse struct {
-	Id string `json:"id"`
+	Id    string         `json:"id"`
 	Notes []NoteResponse `json:"notes"`
 }
 
 type NoteResponse struct {
-	Id string `json:"id"`
-	Title string `json:"title"`
-	Owner string `json:"owner"`
-	ContentPreview string `json:"content_preview"`
-	CreatedAt *time.Time `json:"created_at"`
-	UpdatedAt *time.Time `json:"updated_at"`
+	Id             string     `json:"id"`
+	Title          string     `json:"title"`
+	Owner          string     `json:"owner"`
+	ContentPreview string     `json:"content_preview"`
+	CreatedAt      *time.Time `json:"created_at"`
+	UpdatedAt      *time.Time `json:"updated_at"`
 }
 
 func NewNoteResponse(dbn DbNote) NoteResponse {
 	nr := NoteResponse{
-		Id: dbn.Id,
-		Title: dbn.Title.String,
-		Owner: dbn.Owner,
+		Id:        dbn.Id,
+		Title:     dbn.Title.String,
+		Owner:     dbn.Owner,
 		CreatedAt: dbn.CreatedAt,
 		UpdatedAt: dbn.UpdatedAt,
 	}

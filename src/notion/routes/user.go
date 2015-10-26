@@ -54,7 +54,7 @@ func CreateUserSubscription(c *echo.Context) error {
 	sub := model.DbSubscription{
 		UserId:     userId,
 		NotebookId: request.NotebookId,
-		Name: request.Name,
+		Name:       request.Name,
 	}
 	err = db.CreateSubscription(sub)
 	if log.Error(err) {
@@ -72,9 +72,9 @@ func ModifyUserSubscription(c *echo.Context) error {
 	body := c.Get("BODY").(map[string]interface{})
 	util.FillStruct(&request, body)
 	sub := model.DbSubscription{
-		UserId: userId,
+		UserId:     userId,
 		NotebookId: request.NotebookId,
-		Name: request.Name,
+		Name:       request.Name,
 	}
 	err := db.UpdateSubscription(sub)
 	if log.Error(err) {
