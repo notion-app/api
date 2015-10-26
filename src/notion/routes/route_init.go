@@ -25,6 +25,7 @@ func middleware() {
 	g.Use(mw.Logger)
 	g.Use(mw.AccessControl)
 	g.Use(mw.Error)
+	g.Use(mw.AcceptOptions)
 }
 
 func v1Routes() {
