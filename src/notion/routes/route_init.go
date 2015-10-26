@@ -4,21 +4,26 @@ import (
 	"github.com/gin-gonic/gin"
 	"notion/config"
 	"notion/log"
+	mw "notion/middleware"
 )
 
 var (
-	g = gin.Default()
+	g = gin.New()
 )
 
 // Init registers our routes into Gin
 func Init() {
 	log.Info("Initializing routes")
+	gin.SetMode(gin.ReleaseMode)
+	middleware()
 	v1Routes()
 	log.Info("Serving API on port %v", config.WebPort())
-	if config.IsProd() {
-		gin.SetMode(gin.ReleaseMode)
-	}
 	g.Run(config.WebPort())
+}
+
+func middleware() {
+	g.Use(mw.Logger)
+	g.Use(mw.AccessControl)
 }
 
 func v1Routes() {

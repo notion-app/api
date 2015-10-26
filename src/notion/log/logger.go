@@ -5,6 +5,10 @@ import (
 	"github.com/Sirupsen/logrus"
 )
 
+type (
+	Fields logrus.Fields
+)
+
 var (
 	logger *logrus.Logger
 )
