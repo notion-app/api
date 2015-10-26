@@ -29,26 +29,22 @@ func middleware() {
 
 func v1Routes() {
 	v1 := g.Group("/v1")
+
 	v1.GET("/status", Status)
 	v1.POST("/login", Login)
 
 	v1a := v1.Group("", mw.AuthCheck)
+
 	v1a.GET("/school", GetAllSchools)
 	v1a.GET("/school/:school_id/course", GetCoursesForSchool)
+	v1a.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
+	v1a.POST("/school/request", PostSchoolRequest)
 
-	
-	// v1Group.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
-	//
-	// // Authenticated endpoints
-	// authV1Group := v1Group.Group("")
-	//
-	// // notebook.go
-	// authV1Group.GET("/notebook/:notebook_id/topic", GetNotebookNotes)
-	// // schools.go
-	// authV1Group.POST("/school/request", PostSchoolRequest)
-	// // users.go
-	// authV1Group.GET("/user/:user_id", GetUser)
-	// authV1Group.GET("/user/:user_id/subscription", GetUsersSubscriptions)
+	// v1a.GET("/notebook/:notebook_id/topic", GetNotebookNotes)
+
+	v1a.GET("/user/:user_id", GetUser)
+	v1a.GET("/user/:user_id/subscription", GetUsersSubscriptions)
+
 	// authV1Group.POST("/user/:user_id/subscription", CreateUserSubscription)
 	// authV1Group.PUT("/user/:user_id/subscription", ModifyUserSubscription)
 	// authV1Group.DELETE("/user/:user_id/subscription", RemoveUserSubscription)

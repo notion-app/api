@@ -20,6 +20,9 @@ type UserResponse struct {
 	FbProfilePic string `json:"fb_profile_pic"`
 }
 
+// This function serializes the sql.NullString field of School so it returns
+// a raw string, and the clients are expected to know that it might be an
+// empty string
 func NewUserResponse(dbu DbUser) UserResponse {
 	return UserResponse{
 		Id:           dbu.Id,
@@ -48,8 +51,28 @@ func CourseResponseWithoutSchool(dbc DbCourse) CourseResponse {
 	}
 }
 
-type SectionsForCourseResponse struct {
-	Sections []DbCourseSection `json:"sections"`
+type SectionResponse struct {
+	Id string `json:"id"`
+	NotebookId string `json:"notebook_id"`
+	Crn string `json:"crn"`
+	Professor string `json:"professor"`
+	Year string `json:"year"`
+	Semester string `json:"semester"`
+	Time string `json:"time"`
+	Verified bool `json:"verified"`
+}
+
+func SectionResponseWithoutCourse(dbc DbCourseSection) SectionResponse {
+	return SectionResponse{
+		Id: dbc.Id,
+		NotebookId: dbc.NotebookId,
+		Crn: dbc.Crn,
+		Professor: dbc.Professor,
+		Year: dbc.Year,
+		Semester: dbc.Semester,
+		Time: dbc.Time,
+		Verified: dbc.Verified,
+	}
 }
 
 type TopicResponse struct {
@@ -80,4 +103,18 @@ func NewNoteResponse(dbn DbNote) NoteResponse {
 		nr.ContentPreview = dbn.Content[:NOTE_RESPONSE_LENGTH_LIMIT]
 	}
 	return nr
+}
+
+type SubscriptionResponse struct {
+	UserId string `json:"id"`
+	NotebookId string `json:"notebook_id"`
+	Name string `json:"name"`
+}
+
+func NewSubscriptionResponse(dbs DbSubscription) SubscriptionResponse {
+	return SubscriptionResponse{
+		UserId: dbs.UserId,
+		NotebookId: dbs.NotebookId,
+		Name: dbs.Name.String,
+	}
 }

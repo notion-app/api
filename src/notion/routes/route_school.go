@@ -8,6 +8,7 @@ import (
   "notion/errors"
   "notion/log"
   "notion/model"
+  "notion/util"
 )
 
 func GetAllSchools(c *gin.Context) {
@@ -31,4 +32,39 @@ func GetCoursesForSchool(c *gin.Context) {
     courseResponses = append(courseResponses, model.CourseResponseWithoutSchool(course))
   }
   c.JSON(http.StatusOK, courseResponses)
+}
+
+func GetSectionsForCourse(c *gin.Context) {
+  courseId := c.Param("course_id")
+  sections, err := db.GetSectionsForCourse(courseId)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  sectionsResponse := make([]model.SectionResponse, 0)
+  for _, section := range sections {
+    sectionsResponse = append(sectionsResponse, model.SectionResponseWithoutCourse(section))
+  }
+  c.JSON(http.StatusOK, sectionsResponse)
+}
+
+func PostSchoolRequest(c *gin.Context) {
+  var request model.SchoolRequestRequest
+  err := c.Bind(&request)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  dbreq := model.DbSchoolRequest{
+    Id: util.NewId(),
+    RequesterUserId: c.MustGet("request_user_id").(string),
+    Name: request.Name,
+    Location: request.Location,
+  }
+  err = db.CreateSchoolRequest(dbreq)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+  c.JSON(http.StatusOK, dbreq)
 }

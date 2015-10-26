@@ -16,3 +16,13 @@ func GetCoursesForSchool(schoolId string) ([]model.DbCourse, error) {
   err := GenericGet(&courses, `select * from courses where school_id=$1`, schoolId)
   return courses, err
 }
+
+func GetSectionsForCourse(courseId string) ([]model.DbCourseSection, error) {
+  sections := []model.DbCourseSection{}
+  err := GenericGet(&sections, `select * from sections where course_id=$1`, courseId)
+  return sections, err
+}
+
+func CreateSchoolRequest(s model.DbSchoolRequest) error {
+  return dbmap.Insert(&s)
+}

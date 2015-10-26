@@ -76,5 +76,5 @@ type DbNote struct {
 type DbSubscription struct {
 	UserId     string `db:"user_id" json:"user_id"`
 	NotebookId string `db:"notebook_id" json:"notebook_id"`
-	Name       string `db:"name" json:"name"`
+	Name       sql.NullString `db:"name" json:"name"`
 }
