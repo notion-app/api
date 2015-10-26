@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"notion/errors"
 	"notion/log"
 	"notion/model"
 )
@@ -22,18 +21,18 @@ func (f Facebook) genericGet(endpoint string, struc interface{}, token string, p
 	fullURL := fmt.Sprintf("%v%v?%v", FacebookBaseUrl, endpoint, params.Encode())
 	resp, err := http.Get(fullURL)
 	if log.Error(err) {
-		return errors.ISE()
+		return fmt.Errorf("ISE")
 	}
 	if resp.StatusCode == 400 {
-		return errors.Unauthorized("facebook")
+		return fmt.Errorf("Facebook unauthorized")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if log.Error(err) {
-		return errors.ISE()
+		return fmt.Errorf("ISE")
 	}
 	err = json.Unmarshal(bytes, &struc)
 	if log.Error(err) {
-		return errors.ISE()
+		return fmt.Errorf("ISE")
 	}
 	return nil
 }

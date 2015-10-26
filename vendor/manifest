@@ -38,6 +38,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/dustin/go-broadcast",
+			"repository": "https://github.com/dustin/go-broadcast",
+			"revision": "3bdf6d4a7164a50bc19d5f230e2981d87d2584f1",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/facebookgo/clock",
 			"repository": "https://github.com/facebookgo/clock",
 			"revision": "600d898af40aa09a7a93ecb9265d87b0504b6f03",
@@ -76,6 +82,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/gin-gonic/gin",
+			"repository": "https://github.com/gin-gonic/gin",
+			"revision": "52fcc5dbf6e94df33ad313858fb94b713e9d1b4a",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/labstack/echo",
 			"repository": "https://github.com/labstack/echo",
 			"revision": "1f7e69912045d5d44cda5bca36bf8fc7df94cc52",
@@ -92,6 +104,24 @@
 			"importpath": "github.com/lib/pq",
 			"repository": "https://github.com/lib/pq",
 			"revision": "b269bd035a727d6c1081f76e7a239a1b00674c40",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/manucorporat/sse",
+			"repository": "https://github.com/manucorporat/sse",
+			"revision": "fe6ea2c8e398672518ef204bf0fbd9af858d0e15",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/manucorporat/stats",
+			"repository": "https://github.com/manucorporat/stats",
+			"revision": "8f2d6ace262eba462e9beb552382c98be51d807b",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/mattn/go-colorable",
+			"repository": "https://github.com/mattn/go-colorable",
+			"revision": "40e4aedc8fabf8c23e040057540867186712faa5",
 			"branch": "master"
 		},
 		{
@@ -119,6 +149,13 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "golang.org/x/net/context",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "2cba614e8ff920c60240d2677bc019af32ee04e5",
+			"branch": "master",
+			"path": "/context"
+		},
+		{
 			"importpath": "golang.org/x/net/netutil",
 			"repository": "https://go.googlesource.com/net",
 			"revision": "01256db42e5106196a3473ec1620727a383500e8",
@@ -131,6 +168,12 @@
 			"revision": "01256db42e5106196a3473ec1620727a383500e8",
 			"branch": "master",
 			"path": "/websocket"
+		},
+		{
+			"importpath": "gopkg.in/bluesuncorp/validator.v5",
+			"repository": "https://gopkg.in/bluesuncorp/validator.v5",
+			"revision": "d5acf1dac43705f8bfbb71d878e290e2bed3950b",
+			"branch": "master"
 		},
 		{
 			"importpath": "gopkg.in/gorp.v1",

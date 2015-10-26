@@ -1,8 +1,8 @@
 package model
 
 type LoginRequest struct {
-	AuthMethod  string `json:"auth_method"`
-	AccessToken string `json:"access_token"`
+	AuthMethod  string `json:"auth_method" binding:"required"`
+	AccessToken string `json:"access_token" binding:"required"`
 }
 
 // Lol @ the name

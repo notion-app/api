@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
-	"notion/errors"
 	"notion/logic"
 )
 
@@ -12,7 +12,7 @@ func TokenCheck() echo.MiddlewareFunc {
 
 			token := c.Query("token")
 			if token == "" {
-				return errors.Unauthorized("notion")
+				return fmt.Errorf("Unauthorized")
 			}
 
 			user, err := logic.AuthenticateNotionUser(token)

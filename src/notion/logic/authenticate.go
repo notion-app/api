@@ -1,8 +1,8 @@
 package logic
 
 import (
+	"fmt"
 	"notion/db"
-	"notion/errors"
 	"notion/model"
 )
 
@@ -12,7 +12,7 @@ import (
 func AuthenticateNotionUser(token string) (model.DbUser, error) {
 	in, user, err := db.GetUserByToken(token)
 	if !in {
-		return user, errors.Unauthorized("notion")
+		return user, fmt.Errorf("Unauthorized")
 	}
 	return user, err
 }
