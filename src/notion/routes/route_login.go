@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"notion/db"
 	"notion/errors"
+	"notion/log"
 	"notion/model"
 	"notion/service"
 	"notion/util"
@@ -16,28 +17,28 @@ func Login(c *gin.Context) {
 
 	// Parse the user request
 	err := c.Bind(&request)
-	if err != nil {
+	if log.Error(err) {
 		c.Error(err)
 		return
 	}
 
 	// Right now we assume that the user is logging in with Facebook
 	fbUser, err := service.Facebook{}.GetCurrentUser(request.AccessToken)
-	if err != nil {
+	if log.Error(err) {
 		c.Error(errors.NewHttp(errors.ISE, "Error contacting facebook api"))
 		return
 	}
 
 	// Then get the user's profile picture
 	fbPicture, err := service.Facebook{}.GetProfilePic(request.AccessToken)
-	if err != nil {
+	if log.Error(err) {
 		c.Error(errors.NewHttp(errors.ISE, "Error contacting facebook api"))
 		return
 	}
 
 	// See if the user is already a notion user
 	in, dbUser, err := db.GetUserByFacebookId(fbUser.Id)
-	if err != nil {
+	if log.Error(err) {
 		c.Error(errors.NewISE())
 		return
 	}
@@ -64,7 +65,7 @@ func Login(c *gin.Context) {
 	}
 
 	// Error check 'er yo
-	if err != nil {
+	if log.Error(err) {
 		c.Error(errors.NewISE())
 		return
 	}

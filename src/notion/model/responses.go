@@ -34,14 +34,18 @@ func NewUserResponse(dbu DbUser) UserResponse {
 	}
 }
 
-type CoursesForSchoolResponse struct {
-	Courses []CourseResponse `json:"courses"`
-}
-
 type CourseResponse struct {
 	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Number string `json:"number"`
+}
+
+func CourseResponseWithoutSchool(dbc DbCourse) CourseResponse {
+	return CourseResponse{
+		Id: dbc.Id,
+		Name: dbc.Name,
+		Number: dbc.Number,
+	}
 }
 
 type SectionsForCourseResponse struct {

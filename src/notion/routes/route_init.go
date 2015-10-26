@@ -34,8 +34,9 @@ func v1Routes() {
 
 	v1a := v1.Group("", mw.AuthCheck)
 	v1a.GET("/school", GetAllSchools)
+	v1a.GET("/school/:school_id/course", GetCoursesForSchool)
 
-	// v1Group.GET("/school/:school_id/course", GetCoursesForSchool)
+	
 	// v1Group.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
 	//
 	// // Authenticated endpoints
