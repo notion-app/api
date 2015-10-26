@@ -105,7 +105,7 @@ func SetUserSchool(c *gin.Context) {
     return
   }
   var request model.ModifySchoolRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if log.Error(err) {
     c.Error(err)
     return
