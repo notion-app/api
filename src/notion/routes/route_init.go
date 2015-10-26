@@ -35,9 +35,9 @@ func v1Routes() {
 
 	v1a := v1.Group("", mw.AuthCheck)
 
-	v1a.GET("/school", GetAllSchools)
-	v1a.GET("/school/:school_id/course", GetCoursesForSchool)
-	v1a.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
+	v1.GET("/school", GetAllSchools)
+	v1.GET("/school/:school_id/course", GetCoursesForSchool)
+	v1.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
 	v1a.POST("/school/request", PostSchoolRequest)
 
 	// v1a.GET("/notebook/:notebook_id/topic", GetNotebookNotes)
