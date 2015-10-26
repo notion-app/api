@@ -12,15 +12,15 @@ func GetUserSubscriptions(userId string) ([]model.DbSubscription, error) {
 }
 
 func CreateSubscription(s model.DbSubscription) error {
-  return dbmap.Insert(s)
+  return dbmap.Insert(&s)
 }
 
 func UpdateSubscription(s model.DbSubscription) error {
-  _, err := dbmap.Update(s)
+  _, err := dbmap.Update(&s)
   return err
 }
 
 func DeleteSubscription(s model.DbSubscription) error {
-  _, err := dbmap.Delete(s)
+  _, err := dbmap.Delete(&s)
   return err
 }
