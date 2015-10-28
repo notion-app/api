@@ -77,7 +77,17 @@ func CreateUserSubscription(c *gin.Context) {
     c.Error(errors.NewISE())
     return
   }
-  c.JSON(http.StatusOK, sub)
+  section, err := db.GetSectionByNotebookId(sub.NotebookId)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  course, err := db.GetCourseByCourseId(section.CourseId)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  c.JSON(http.StatusOK, model.NewSubscriptionResponse(sub, course, section))
 }
 
 func ModifyUserSubscription(c *gin.Context) {
@@ -105,7 +115,7 @@ func ModifyUserSubscription(c *gin.Context) {
     c.Error(errors.NewISE())
     return
   }
-  c.JSON(http.StatusOK, sub)
+  c.JSON(http.StatusOK, model.NewSubscriptionResponse(sub, model.DbCourse{}, model.DbCourseSection{}))
 }
 
 func SetUserSchool(c *gin.Context) {
