@@ -177,11 +177,6 @@ func RemoveUserSubscription(c *gin.Context) {
       Valid: true,
     },
   }
-  err = db.DeleteSubscription(sub)
-  if log.Error(err) {
-    c.Error(err)
-    return
-  }
   section, err := db.GetSectionByNotebookId(sub.NotebookId)
   if log.Error(err) {
     c.Error(errors.NewISE())
@@ -190,6 +185,11 @@ func RemoveUserSubscription(c *gin.Context) {
   course, err := db.GetCourseByCourseId(section.CourseId)
   if log.Error(err) {
     c.Error(errors.NewISE())
+    return
+  }
+  err = db.DeleteSubscription(sub)
+  if log.Error(err) {
+    c.Error(err)
     return
   }
   c.JSON(http.StatusOK, model.NewSubscriptionResponse(sub, course, section))
