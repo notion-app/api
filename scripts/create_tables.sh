@@ -31,8 +31,8 @@ psql $DATABASE_URL -c "CREATE TABLE notebooks (
   name text,
   owner text REFERENCES users (id) ON DELETE CASCADE DEFAULT NULL,
   privacy text,
-  created_at timestamp,
-  updated_at timestamp
+  created_at timestamptz,
+  updated_at timestamptz
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE sections (
@@ -65,8 +65,8 @@ psql $DATABASE_URL -c "CREATE TABLE notes (
   title text,
   owner text REFERENCES users (id) ON DELETE CASCADE NOT NULL,
   content text NOT NULL,
-  created_at timestamp,
-  updated_at timestamp
+  created_at timestamptz,
+  updated_at timestamptz
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE subscriptions (

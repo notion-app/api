@@ -21,7 +21,13 @@ type ModifySchoolRequest struct {
 	SchoolId string `json:"school" binding:"required"`
 }
 
-type NoteRequest struct {
+type CreateNoteRequest struct {
 	Title string `json:"title"`
 	TopicId string `json:"topic_id"`
+}
+
+type ModifyNoteRequest struct {
+	TopicId string `json:"topic_id"`
+	Title string `json:"title"`
+	Content string `json:"content"`
 }

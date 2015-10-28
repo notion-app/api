@@ -44,6 +44,22 @@ func GetUnjoinedNotesInNotebook(notebookId, userId string) ([]model.DbNote, erro
   return notes, err
 }
 
+func GetNoteById(noteId string) (bool, model.DbNote, error) {
+  var note model.DbNote
+  in, err := GenericGetOne(&note, "select * from notes where id=$1", noteId)
+  return in, note, err
+}
+
 func CreateNote(n model.DbNote) error {
   return dbmap.Insert(&n)
+}
+
+func UpdateNote(n model.DbNote) error {
+  _, err := dbmap.Update(&n)
+  return err
+}
+
+func DeleteNote(n model.DbNote) error {
+  _, err := dbmap.Delete(&n)
+  return err
 }

@@ -50,5 +50,8 @@ func v1Routes() {
 	v1a.PUT("/user/:user_id/school", SetUserSchool)
 	v1a.DELETE("/user/:user_id/subscription", RemoveUserSubscription)
 
+	v1a.GET("/note/:note_id", GetSingleNote)
 	v1a.POST("/note", CreateNote)
+	v1a.PUT("/note/:note_id", ModifyNote)
+	v1a.DELETE("/note/:note_id", DeleteNote)
 }
