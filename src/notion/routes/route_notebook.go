@@ -38,13 +38,13 @@ func GetNotebookNotes(c *gin.Context) {
   }
 
   // Transform the resultant list into hierarchial [topic -> []note]
-  topicHash := make(map[string][]model.NoteResponse)
+  topicHash := make(map[string][]model.ShortNoteResponse)
   for _, dbnote := range notes {
-    if ar, in := topicHash[dbnote.TopicId]; in {
-      topicHash[dbnote.TopicId] = append(ar, model.NewNoteResponse(dbnote))
+    if ar, in := topicHash[dbnote.TopicId.String]; in {
+      topicHash[dbnote.TopicId.String] = append(ar, model.NewShortNoteResponse(dbnote))
     } else {
-      topicHash[dbnote.TopicId] = []model.NoteResponse{
-        model.NewNoteResponse(dbnote),
+      topicHash[dbnote.TopicId.String] = []model.ShortNoteResponse{
+        model.NewShortNoteResponse(dbnote),
       }
     }
   }

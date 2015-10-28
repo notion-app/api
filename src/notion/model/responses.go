@@ -77,10 +77,10 @@ func SectionResponseWithoutCourse(dbc DbCourseSection) SectionResponse {
 
 type TopicResponse struct {
 	Id    string         `json:"id"`
-	Notes []NoteResponse `json:"notes"`
+	Notes []ShortNoteResponse `json:"notes"`
 }
 
-type NoteResponse struct {
+type ShortNoteResponse struct {
 	Id             string     `json:"id"`
 	Title          string     `json:"title"`
 	Owner          string     `json:"owner"`
@@ -89,8 +89,8 @@ type NoteResponse struct {
 	UpdatedAt      *time.Time `json:"updated_at"`
 }
 
-func NewNoteResponse(dbn DbNote) NoteResponse {
-	nr := NoteResponse{
+func NewShortNoteResponse(dbn DbNote) ShortNoteResponse {
+	nr := ShortNoteResponse{
 		Id:        dbn.Id,
 		Title:     dbn.Title.String,
 		Owner:     dbn.Owner,
@@ -101,6 +101,29 @@ func NewNoteResponse(dbn DbNote) NoteResponse {
 		nr.ContentPreview = dbn.Content
 	} else {
 		nr.ContentPreview = dbn.Content[:NOTE_RESPONSE_LENGTH_LIMIT]
+	}
+	return nr
+}
+
+type FullNoteResponse struct {
+	Id string `json:"id"`
+	TopicId string `json:"topic_id"`
+	Title string `json:"title"`
+	Owner string `json:"owner"`
+	Content string `json:"content"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
+}
+
+func NewFullNoteResponse(dbn DbNote) FullNoteResponse {
+	nr := FullNoteResponse{
+		Id: dbn.Id,
+		TopicId: dbn.TopicId.String,
+		Title: dbn.Title.String,
+		Owner: dbn.Owner,
+		Content: dbn.Content,
+		CreatedAt: dbn.CreatedAt,
+		UpdatedAt: dbn.UpdatedAt,
 	}
 	return nr
 }

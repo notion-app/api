@@ -20,3 +20,8 @@ type SubscriptionRequest struct {
 type ModifySchoolRequest struct {
 	SchoolId string `json:"school" binding:"required"`
 }
+
+type NoteRequest struct {
+	Title string `json:"title"`
+	TopicId string `json:"topic_id"`
+}

@@ -49,4 +49,6 @@ func v1Routes() {
 	v1a.PUT("/user/:user_id/subscription", ModifyUserSubscription)
 	v1a.PUT("/user/:user_id/school", SetUserSchool)
 	v1a.DELETE("/user/:user_id/subscription", RemoveUserSubscription)
+
+	v1a.POST("/note", CreateNote)
 }

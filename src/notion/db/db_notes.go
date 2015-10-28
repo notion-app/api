@@ -43,3 +43,7 @@ func GetUnjoinedNotesInNotebook(notebookId, userId string) ([]model.DbNote, erro
     where owner = $2`, notebookId, userId)
   return notes, err
 }
+
+func CreateNote(n model.DbNote) error {
+  return dbmap.Insert(&n)
+}
