@@ -37,7 +37,17 @@ func GetUsersSubscriptions(c *gin.Context) {
   }
   subResponses := make([]model.SubscriptionResponse, 0)
   for _, sub := range subs {
-    subResponses = append(subResponses, model.NewSubscriptionResponse(sub))
+    section, err := db.GetSectionByNotebookId(sub.NotebookId)
+    if log.Error(err) {
+      c.Error(errors.NewISE())
+      return
+    }
+    course, err := db.GetCourseByCourseId(section.CourseId)
+    if log.Error(err) {
+      c.Error(errors.NewISE())
+      return
+    }
+    subResponses = append(subResponses, model.NewSubscriptionResponse(sub, course, section))
   }
   c.JSON(http.StatusOK, subResponses)
 }

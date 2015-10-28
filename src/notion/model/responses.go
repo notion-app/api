@@ -110,13 +110,17 @@ type SubscriptionResponse struct {
 	UserId string `json:"user_id"`
 	NotebookId string `json:"notebook_id"`
 	Name string `json:"name"`
+	Course DbCourse `json:"course"`
+	Section DbCourseSection `json:"section"`
 }
 
-func NewSubscriptionResponse(dbs DbSubscription) SubscriptionResponse {
+func NewSubscriptionResponse(dbs DbSubscription, course DbCourse, section DbCourseSection) SubscriptionResponse {
 	return SubscriptionResponse{
 		Id: dbs.UserId + dbs.NotebookId,
 		UserId: dbs.UserId,
 		NotebookId: dbs.NotebookId,
 		Name: dbs.Name.String,
+		Course: course,
+		Section: section,
 	}
 }

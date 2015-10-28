@@ -11,10 +11,22 @@ func GetAllSchools() ([]model.DbSchool, error) {
   return schools, err
 }
 
+func GetSectionByNotebookId(notebookId string) (model.DbCourseSection, error) {
+  var section model.DbCourseSection
+  _, err := GenericGetOne(&section, `select * from sections where notebook_id=$1`, notebookId)
+  return section, err
+}
+
 func GetCoursesForSchool(schoolId string) ([]model.DbCourse, error) {
   courses := []model.DbCourse{}
   err := GenericGet(&courses, `select * from courses where school_id=$1`, schoolId)
   return courses, err
+}
+
+func GetCourseByCourseId(courseId string) (model.DbCourse, error) {
+  var course model.DbCourse
+  _, err := GenericGetOne(&course, `select * from courses where id=$1`, courseId)
+  return course, err
 }
 
 func GetSectionsForCourse(courseId string) ([]model.DbCourseSection, error) {
