@@ -11,6 +11,20 @@ import (
   "notion/util"
 )
 
+func GetSingleSchool(c *gin.Context) {
+  schoolId := c.Param("school_id")
+  in, school, err := db.GetSchool(schoolId)
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+  if !in {
+    c.Error(errors.NewHttp(http.StatusNotFound, "School requested could not be found"))
+    return
+  }
+  c.JSON(http.StatusOK, school)
+}
+
 func GetAllSchools(c *gin.Context) {
   schools, err := db.GetAllSchools()
   if log.Error(err) {

@@ -5,6 +5,12 @@ import (
   "notion/model"
 )
 
+func GetSchool(schoolId string) (bool, model.DbSchool, error) {
+  var school model.DbSchool
+  in, err := GenericGetOne(&school, "select * from schools where id=$1", schoolId)
+  return in, school, err
+}
+
 func GetAllSchools() ([]model.DbSchool, error) {
   schools := []model.DbSchool{}
   err := GenericGet(&schools, `select * from schools`)
