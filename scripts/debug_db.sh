@@ -145,14 +145,14 @@ psql $DATABASE_URL -c "INSERT INTO notes VALUES
   (
     'Note2',
     'Topic2',
-    'My Title',
+    'Lecture 12-25-2015',
     'User1',
     'Ive got another note here, its pretty cool'
   ),
   (
     'Note3',
     'Topic1',
-    'Another Title',
+    'Homework 4',
     'User2',
     'Wow these notes are amazing arent they?'
   )"

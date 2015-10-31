@@ -43,14 +43,9 @@ func CreateNote(c *gin.Context) {
     UpdatedAt: &now,
   }
   if request.TopicId == "" {
-    dbn.TopicId = sql.NullString{
-      Valid: false,
-    }
+    dbn.TopicId = util.NewId()
   } else {
-    dbn.TopicId = sql.NullString{
-      Valid: true,
-      String: request.TopicId,
-    }
+    dbn.TopicId = request.TopicId
   }
   if request.Title == "" {
     dbn.Title = sql.NullString{
@@ -93,8 +88,7 @@ func ModifyNote(c *gin.Context) {
     return
   }
   if request.TopicId != "" {
-    dbn.TopicId.Valid = true
-    dbn.TopicId.String = request.TopicId
+    dbn.TopicId = request.TopicId
   }
   if request.Title != "" {
     dbn.Title.Valid = true

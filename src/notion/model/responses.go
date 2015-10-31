@@ -118,7 +118,7 @@ type FullNoteResponse struct {
 func NewFullNoteResponse(dbn DbNote) FullNoteResponse {
 	nr := FullNoteResponse{
 		Id: dbn.Id,
-		TopicId: dbn.TopicId.String,
+		TopicId: dbn.TopicId,
 		Title: dbn.Title.String,
 		Owner: dbn.Owner,
 		Content: dbn.Content,

@@ -65,7 +65,7 @@ type DbTopic struct {
 
 type DbNote struct {
 	Id        string         `db:"id" json:"id"`
-	TopicId   sql.NullString `db:"topic_id" json:"topic_id"`
+	TopicId   string `db:"topic_id" json:"topic_id"`
 	Title     sql.NullString `db:"title" json:"title"`
 	Owner     string         `db:"owner" json:"owner"`
 	Content   string         `db:"content" json:"content"`
