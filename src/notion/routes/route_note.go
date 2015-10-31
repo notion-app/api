@@ -63,6 +63,10 @@ func CreateNote(c *gin.Context) {
     }
   }
   err = db.CreateNote(dbn)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
 	c.JSON(http.StatusOK, model.NewFullNoteResponse(dbn))
 }
 

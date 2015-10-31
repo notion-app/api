@@ -55,4 +55,6 @@ func v1Routes() {
 	v1a.POST("/note", CreateNote)
 	v1a.PUT("/note/:note_id", ModifyNote)
 	v1a.DELETE("/note/:note_id", DeleteNote)
+
+	v1a.GET("/note/:note_id/ws", OpenWebsocket)
 }
