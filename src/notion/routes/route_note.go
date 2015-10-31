@@ -1,7 +1,6 @@
 package routes
 
 import (
-  "fmt"
   "database/sql"
 	"github.com/gin-gonic/gin"
   "net/http"
@@ -29,12 +28,11 @@ func GetSingleNote(c *gin.Context) {
 
 func CreateNote(c *gin.Context) {
   var request model.CreateNoteRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if log.Error(err) {
     c.Error(err)
     return
   }
-  fmt.Printf("%v\n", request)
   userId := c.MustGet("request_user_id").(string)
   notebookId := c.Param("notebook_id")
   now := time.Now()
