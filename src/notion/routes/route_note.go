@@ -34,6 +34,7 @@ func CreateNote(c *gin.Context) {
     return
   }
   userId := c.MustGet("request_user_id").(string)
+  notebookId := c.Param("notebook_id")
   now := time.Now()
   dbn := model.DbNote{
     Id: util.NewId(),
@@ -44,6 +45,10 @@ func CreateNote(c *gin.Context) {
   }
   if request.TopicId == "" {
     dbn.TopicId = util.NewId()
+    err = db.CreateTopic(model.DbTopic{
+      Id: dbn.TopicId,
+      NotebookId: notebookId,
+    })
   } else {
     dbn.TopicId = request.TopicId
   }
@@ -56,6 +61,10 @@ func CreateNote(c *gin.Context) {
       Valid: true,
       String: request.Title,
     }
+  }
+  if log.Error(err) {
+    c.Error(err)
+    return
   }
   err = db.CreateNote(dbn)
   if log.Error(err) {
