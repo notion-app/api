@@ -71,7 +71,12 @@ func CreateNote(c *gin.Context) {
     c.Error(err)
     return
   }
-	c.JSON(http.StatusOK, model.NewFullNoteResponse(dbn))
+  c.JSON(http.StatusOK, model.TopicResponse{
+    Id: dbn.TopicId,
+    Notes: []model.ShortNoteResponse{
+      model.NewShortNoteResponse(dbn),
+    },
+  })
 }
 
 func ModifyNote(c *gin.Context) {
