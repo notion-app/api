@@ -1,6 +1,7 @@
 package routes
 
 import (
+  "fmt"
   "database/sql"
 	"github.com/gin-gonic/gin"
   "net/http"
@@ -33,6 +34,7 @@ func CreateNote(c *gin.Context) {
     c.Error(err)
     return
   }
+  fmt.Printf("%v\n", request)
   userId := c.MustGet("request_user_id").(string)
   notebookId := c.Param("notebook_id")
   now := time.Now()
