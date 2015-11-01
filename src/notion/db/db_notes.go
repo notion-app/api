@@ -2,6 +2,7 @@
 package db
 
 import (
+  "notion/log"
   "notion/model"
 )
 
@@ -28,20 +29,31 @@ func GetNotesInNotebookByUser(notebookId string, userId string) ([]model.DbNote,
 }
 
 func GetUnjoinedNotesInNotebook(notebookId, userId string) ([]model.DbNote, error) {
-  notes := []model.DbNote{}
-  err := GenericGet(&notes, `
-    select n.id, n.topic_id, n.title, n.owner, n.content, n.created_at, n.updated_at
-    from notes n
-    left join topics t
-    on n.topic_id = t.id
-    where notebook_id = $1
-    except
-    select n2.id, n2.topic_id, n2.title, n2.owner, n2.content, n2.created_at, n2.updated_at
-    from notes n2
-    left join topics t2
-    on n2.topic_id = t2.id
-    where owner = $2`, notebookId, userId)
-  return notes, err
+  // Was going to try and put this logic into sql but im bad at sql
+  notes, err := GetNotesInNotebook(notebookId)
+  if log.Error(err) {
+    return notes, err
+  }
+  userTopics := []string{}
+  for _, note := range notes {
+    if note.Owner == userId {
+      userTopics = append(userTopics, note.TopicId)
+    }
+  }
+  unjoinedNotes := []model.DbNote{}
+  for _, note := range notes {
+    add := true
+    for _, userTopic := range userTopics {
+      if note.TopicId == userTopic {
+        add = false
+        break
+      }
+    }
+    if add {
+      unjoinedNotes = append(unjoinedNotes, note)
+    }
+  }
+  return unjoinedNotes, err
 }
 
 func GetNoteById(noteId string) (bool, model.DbNote, error) {
