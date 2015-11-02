@@ -84,7 +84,7 @@ type ShortNoteResponse struct {
 	Id             string     `json:"id"`
 	Title          string     `json:"title"`
 	Owner          string     `json:"owner"`
-	ContentPreview string     `json:"content_preview"`
+	Content string     `json:"content"`
 	CreatedAt      *time.Time `json:"created_at"`
 	UpdatedAt      *time.Time `json:"updated_at"`
 }
@@ -96,11 +96,7 @@ func NewShortNoteResponse(dbn DbNote) ShortNoteResponse {
 		Owner:     dbn.Owner,
 		CreatedAt: dbn.CreatedAt,
 		UpdatedAt: dbn.UpdatedAt,
-	}
-	if len(dbn.Content) < NOTE_RESPONSE_LENGTH_LIMIT {
-		nr.ContentPreview = dbn.Content
-	} else {
-		nr.ContentPreview = dbn.Content[:NOTE_RESPONSE_LENGTH_LIMIT]
+		Content: dbn.Content,
 	}
 	return nr
 }

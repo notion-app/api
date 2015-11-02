@@ -9,7 +9,14 @@ import (
   "notion/log"
   "notion/model"
   "notion/util"
+  "ot"
+  "sync"
   "time"
+)
+
+var (
+  // lol i cant fully comprehend how dumb this right here is
+  NoteLockHash = make(map[string]*sync.Mutex)
 )
 
 func GetSingleNote(c *gin.Context) {
@@ -113,7 +120,16 @@ func ModifyNote(c *gin.Context) {
   }
   now := time.Now()
   dbn.UpdatedAt = &now
+
+  if mu, in := NoteLockHash[dbn.Id]; in {
+    mu.Lock()
+  } else {
+    NoteLockHash[dbn.Id] = &sync.Mutex{}
+    NoteLockHash[dbn.Id].Lock()
+  }
   err = db.UpdateNote(dbn)
+  NoteLockHash[dbn.Id].Unlock()
+
   if log.Error(err) {
     c.Error(errors.NewISE())
     return
@@ -143,4 +159,50 @@ func DeleteNote(c *gin.Context) {
     return
   }
   c.JSON(http.StatusOK, model.NewFullNoteResponse(dbn))
+}
+
+func PostNoteChange(c *gin.Context) {
+  var ott ot.Transform
+  noteId := c.Param("note_id")
+  userId := c.MustGet("request_user_id")
+  err := c.BindJSON(&ott)
+  if log.Error(err) {
+    c.Error(err)
+    return
+  }
+
+  in, dbn, err := db.GetNoteById(noteId)
+  if err != nil {
+    c.Error(errors.NewISE())
+    return
+  }
+  if !in {
+    c.Error(errors.NewHttp(http.StatusNotFound, "The requested note could not be found"))
+    return
+  }
+  if userId != dbn.Owner {
+    c.Error(errors.NewHttp(http.StatusUnauthorized, "Only the owner of a note can modify its content"))
+    return
+  }
+
+  if mu, in := NoteLockHash[dbn.Id]; in {
+    mu.Lock()
+  } else {
+    NoteLockHash[dbn.Id] = &sync.Mutex{}
+    NoteLockHash[dbn.Id].Lock()
+  }
+  dbn.Content, err = ott.Do(dbn.Content)
+  if log.Error(err) {
+    c.Error(errors.NewHttp(http.StatusBadRequest, err.Error()))
+    return
+  }
+  err = db.UpdateNote(dbn)
+  NoteLockHash[dbn.Id].Unlock()
+  if log.Error(err) {
+    c.Error(errors.NewISE())
+    return
+  }
+
+  c.JSON(http.StatusOK, dbn)
+
 }
