@@ -163,15 +163,21 @@ func RemoveUserSubscription(c *gin.Context) {
     c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only delete their own subs"))
     return
   }
+  var notebookId string
   var request model.SubscriptionRequest
   err := c.BindJSON(&request)
   if log.Error(err) {
-    c.Error(err)
-    return
+    notebookId = c.Param("notebook_id")
+    if notebookId == "" {
+      c.Error(err)
+      return
+    }
+  } else {
+    notebookId = request.NotebookId
   }
   sub := model.DbSubscription{
     UserId: userId,
-    NotebookId: request.NotebookId,
+    NotebookId: notebookId,
     Name: sql.NullString{
       String: request.Name,
       Valid: true,
