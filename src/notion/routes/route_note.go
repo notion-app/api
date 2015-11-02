@@ -111,6 +111,8 @@ func ModifyNote(c *gin.Context) {
   if request.Content != "" {
     dbn.Content = request.Content
   }
+  now := time.Now()
+  dbn.UpdatedAt = &now
   err = db.UpdateNote(dbn)
   if log.Error(err) {
     c.Error(errors.NewISE())
