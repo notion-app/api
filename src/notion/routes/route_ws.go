@@ -7,7 +7,7 @@ import (
   "notion/db"
   "notion/errors"
   "notion/log"
-  // "notion/ws"
+  "notion/ws"
 )
 
 var (
@@ -43,11 +43,7 @@ func OpenWebsocket(c *gin.Context) {
   }
   log.Info("Opening ws for user %v on %v", userId, note.Id)
   for {
-    // ws.Loop(conn)
-    t, msg, err := conn.ReadMessage()
-    if log.Error(err) {
-      break
-    }
-    conn.WriteMessage(t, msg)
+		typ, frame, err := conn.ReadMessage()
+		go ws.Loop(conn, typ, frame, err)
   }
 }
