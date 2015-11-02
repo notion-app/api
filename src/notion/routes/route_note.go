@@ -8,8 +8,8 @@ import (
   "notion/errors"
   "notion/log"
   "notion/model"
+  "notion/ot"
   "notion/util"
-  "ot"
   "sync"
   "time"
 )
