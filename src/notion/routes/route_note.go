@@ -88,7 +88,7 @@ func CreateNote(c *gin.Context) {
 
 func ModifyNote(c *gin.Context) {
   var request model.ModifyNoteRequest
-  err := c.Bind(&request)
+  err := c.BindJSON(&request)
   if err != nil {
     c.Error(err)
     return
