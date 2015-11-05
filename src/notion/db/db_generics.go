@@ -14,7 +14,7 @@ func GenericGetOne(model interface{}, sqls string, args ...interface{}) (bool, e
 			return false, nil
 		default:
 			log.Error(err)
-			return false, err
+			return true, err
 		}
 	}
 	return true, nil

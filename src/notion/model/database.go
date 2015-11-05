@@ -51,8 +51,8 @@ type DbUser struct {
 
 type DbNotebook struct {
 	Id        string     `db:"id" json:"id"`
-	Name      string     `db:"name" json:"name"`
-	Owner     string     `db:"owner" json:"owner"`
+	Name      sql.NullString     `db:"name" json:"name"`
+	Owner     sql.NullString     `db:"owner" json:"owner"`
 	Privacy   string     `db:"privacy" json:"privacy"`
 	CreatedAt *time.Time `db:"created_at" json:"created_at"`
 	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
