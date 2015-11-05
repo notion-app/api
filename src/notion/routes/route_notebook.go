@@ -14,13 +14,19 @@ func GetNotebookNotes(c *gin.Context) {
   userId := c.MustGet("request_user_id").(string)
   notebookId := c.Param("notebook_id")
 
+  // Confirm notebook exists
+  _, err := db.GetNotebookById(notebookId)
+  if err != nil {
+    c.Error(err)
+    return
+  }
+
   // Check query params
   filterUserId := c.Query("user")
   filterUnjoined := c.Query("unjoined")
 
   // And execute those query params
   var notes []model.DbNote
-  var err error
   if filterUserId == "" && filterUnjoined == "" {
     notes, err = db.GetNotesInNotebook(notebookId)
   } else if filterUserId == "" {
