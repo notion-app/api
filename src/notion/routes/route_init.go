@@ -5,6 +5,7 @@ import (
 	"notion/config"
 	"notion/log"
 	mw "notion/middleware"
+	v1 "notion/routes/v1"
 )
 
 var (
@@ -29,34 +30,34 @@ func middleware() {
 }
 
 func v1Routes() {
-	v1 := g.Group("/v1")
+	v1g := g.Group("/v1")
 
-	v1.GET("/status", Status)
-	v1.POST("/login", Login)
+	v1g.GET("/status", v1.Status)
+	v1g.POST("/login", v1.Login)
 
-	v1a := v1.Group("", mw.AuthCheck)
+	v1a := v1g.Group("", mw.AuthCheck)
 
-	v1.GET("/school", GetAllSchools)
-	v1.GET("/school/:school_id", GetSingleSchool)
-	v1.GET("/school/:school_id/course", GetCoursesForSchool)
-	v1.GET("/school/:school_id/course/:course_id/section", GetSectionsForCourse)
-	v1a.POST("/school/request", PostSchoolRequest)
+	v1g.GET("/school", v1.GetAllSchools)
+	v1g.GET("/school/:school_id", v1.GetSingleSchool)
+	v1g.GET("/school/:school_id/course", v1.GetCoursesForSchool)
+	v1g.GET("/school/:school_id/course/:course_id/section", v1.GetSectionsForCourse)
+	v1a.POST("/school/request", v1.PostSchoolRequest)
 
-	v1a.GET("/notebook/:notebook_id/topic", GetNotebookNotes)
+	v1a.GET("/notebook/:notebook_id/topic", v1.GetNotebookNotes)
 
-	v1a.GET("/user/:user_id", GetUser)
-	v1a.GET("/user/:user_id/subscription", GetUsersSubscriptions)
-	v1a.POST("/user/:user_id/subscription", CreateUserSubscription)
-	v1a.PUT("/user/:user_id/subscription", ModifyUserSubscription)
-	v1a.PUT("/user/:user_id/school", SetUserSchool)
-	v1a.DELETE("/user/:user_id/subscription/:notebook_id", RemoveUserSubscription)
+	v1a.GET("/user/:user_id", v1.GetUser)
+	v1a.GET("/user/:user_id/subscription", v1.GetUsersSubscriptions)
+	v1a.POST("/user/:user_id/subscription", v1.CreateUserSubscription)
+	v1a.PUT("/user/:user_id/subscription", v1.ModifyUserSubscription)
+	v1a.PUT("/user/:user_id/school", v1.SetUserSchool)
+	v1a.DELETE("/user/:user_id/subscription/:notebook_id", v1.RemoveUserSubscription)
 
-	v1a.GET("/notebook/:notebook_id/note/:note_id", GetSingleNote)
-	v1a.POST("/notebook/:notebook_id/note", CreateNote)
-	v1a.PUT("/notebook/:notebook_id/note/:note_id", ModifyNote)
-	v1a.DELETE("/notebook/:notebook_id/note/:note_id", DeleteNote)
-	v1a.POST("/notebook/:notebook_id/note/:note_id/change", PostNoteChange)
+	v1a.GET("/notebook/:notebook_id/note/:note_id", v1.GetSingleNote)
+	v1a.POST("/notebook/:notebook_id/note", v1.CreateNote)
+	v1a.PUT("/notebook/:notebook_id/note/:note_id", v1.ModifyNote)
+	v1a.DELETE("/notebook/:notebook_id/note/:note_id", v1.DeleteNote)
+	v1a.POST("/notebook/:notebook_id/note/:note_id/change", v1.PostNoteChange)
 
-	v1.GET("/echo", EchoWebsocket)
-	v1a.GET("/note/:note_id/ws", OpenWebsocket)
+	v1g.GET("/echo", v1.EchoWebsocket)
+	v1a.GET("/note/:note_id/ws", v1.OpenWebsocket)
 }
