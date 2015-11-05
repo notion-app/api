@@ -20,6 +20,18 @@ var (
   }
 )
 
+func EchoWebsocket(c *gin.Context) {
+	conn, err := websocketUpgrader.Upgrade(c.Writer, c.Request, nil)
+	if log.Error(err) {
+		c.Error(errors.NewISE())
+		return
+	}
+	for {
+		typ, frame, _ := conn.ReadMessage()
+		conn.WriteMessage(typ, frame)
+	}
+}
+
 // Status handler for the /status route
 func OpenWebsocket(c *gin.Context) {
   userId := c.MustGet("request_user_id").(string)
