@@ -1,9 +1,8 @@
-
 package db
 
 import (
-  "database/sql"
-  "notion/log"
+	"database/sql"
+	"notion/log"
 )
 
 func GenericGetOne(model interface{}, sqls string, args ...interface{}) (bool, error) {
@@ -23,7 +22,7 @@ func GenericGetOne(model interface{}, sqls string, args ...interface{}) (bool, e
 // model passed in is assumed to be a list
 // because of this, a boolean is not returned; you can just check the length of the list
 func GenericGet(model interface{}, sqls string, args ...interface{}) error {
-  _, err := dbmap.Select(model, sqls, args...)
+	_, err := dbmap.Select(model, sqls, args...)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:

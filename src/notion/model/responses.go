@@ -45,48 +45,48 @@ type CourseResponse struct {
 
 func CourseResponseWithoutSchool(dbc DbCourse) CourseResponse {
 	return CourseResponse{
-		Id: dbc.Id,
-		Name: dbc.Name,
+		Id:     dbc.Id,
+		Name:   dbc.Name,
 		Number: dbc.Number,
 	}
 }
 
 type SectionResponse struct {
-	Id string `json:"id"`
+	Id         string `json:"id"`
 	NotebookId string `json:"notebook_id"`
-	Crn string `json:"crn"`
-	Professor string `json:"professor"`
-	Year string `json:"year"`
-	Semester string `json:"semester"`
-	Time string `json:"time"`
-	Verified bool `json:"verified"`
+	Crn        string `json:"crn"`
+	Professor  string `json:"professor"`
+	Year       string `json:"year"`
+	Semester   string `json:"semester"`
+	Time       string `json:"time"`
+	Verified   bool   `json:"verified"`
 }
 
 func SectionResponseWithoutCourse(dbc DbCourseSection) SectionResponse {
 	return SectionResponse{
-		Id: dbc.Id,
+		Id:         dbc.Id,
 		NotebookId: dbc.NotebookId,
-		Crn: dbc.Crn,
-		Professor: dbc.Professor,
-		Year: dbc.Year,
-		Semester: dbc.Semester,
-		Time: dbc.Time,
-		Verified: dbc.Verified,
+		Crn:        dbc.Crn,
+		Professor:  dbc.Professor,
+		Year:       dbc.Year,
+		Semester:   dbc.Semester,
+		Time:       dbc.Time,
+		Verified:   dbc.Verified,
 	}
 }
 
 type TopicResponse struct {
-	Id    string         `json:"id"`
+	Id    string              `json:"id"`
 	Notes []ShortNoteResponse `json:"notes"`
 }
 
 type ShortNoteResponse struct {
-	Id             string     `json:"id"`
-	Title          string     `json:"title"`
-	Owner          string     `json:"owner"`
-	Content string     `json:"content"`
-	CreatedAt      *time.Time `json:"created_at"`
-	UpdatedAt      *time.Time `json:"updated_at"`
+	Id        string     `json:"id"`
+	Title     string     `json:"title"`
+	Owner     string     `json:"owner"`
+	Content   string     `json:"content"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
 }
 
 func NewShortNoteResponse(dbn DbNote) ShortNoteResponse {
@@ -96,28 +96,28 @@ func NewShortNoteResponse(dbn DbNote) ShortNoteResponse {
 		Owner:     dbn.Owner,
 		CreatedAt: dbn.CreatedAt,
 		UpdatedAt: dbn.UpdatedAt,
-		Content: dbn.Content,
+		Content:   dbn.Content,
 	}
 	return nr
 }
 
 type FullNoteResponse struct {
-	Id string `json:"id"`
-	TopicId string `json:"topic_id"`
-	Title string `json:"title"`
-	Owner string `json:"owner"`
-	Content string `json:"content"`
+	Id        string     `json:"id"`
+	TopicId   string     `json:"topic_id"`
+	Title     string     `json:"title"`
+	Owner     string     `json:"owner"`
+	Content   string     `json:"content"`
 	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 }
 
 func NewFullNoteResponse(dbn DbNote) FullNoteResponse {
 	nr := FullNoteResponse{
-		Id: dbn.Id,
-		TopicId: dbn.TopicId,
-		Title: dbn.Title.String,
-		Owner: dbn.Owner,
-		Content: dbn.Content,
+		Id:        dbn.Id,
+		TopicId:   dbn.TopicId,
+		Title:     dbn.Title.String,
+		Owner:     dbn.Owner,
+		Content:   dbn.Content,
 		CreatedAt: dbn.CreatedAt,
 		UpdatedAt: dbn.UpdatedAt,
 	}
@@ -125,21 +125,21 @@ func NewFullNoteResponse(dbn DbNote) FullNoteResponse {
 }
 
 type SubscriptionResponse struct {
-	Id string `json:"id"`
-	UserId string `json:"user_id"`
-	NotebookId string `json:"notebook_id"`
-	Name string `json:"name"`
-	Course DbCourse `json:"course"`
-	Section DbCourseSection `json:"section"`
+	Id         string          `json:"id"`
+	UserId     string          `json:"user_id"`
+	NotebookId string          `json:"notebook_id"`
+	Name       string          `json:"name"`
+	Course     DbCourse        `json:"course"`
+	Section    DbCourseSection `json:"section"`
 }
 
 func NewSubscriptionResponse(dbs DbSubscription, course DbCourse, section DbCourseSection) SubscriptionResponse {
 	return SubscriptionResponse{
-		Id: dbs.UserId + dbs.NotebookId,
-		UserId: dbs.UserId,
+		Id:         dbs.UserId + dbs.NotebookId,
+		UserId:     dbs.UserId,
 		NotebookId: dbs.NotebookId,
-		Name: dbs.Name.String,
-		Course: course,
-		Section: section,
+		Name:       dbs.Name.String,
+		Course:     course,
+		Section:    section,
 	}
 }

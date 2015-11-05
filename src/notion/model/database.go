@@ -50,12 +50,12 @@ type DbUser struct {
 }
 
 type DbNotebook struct {
-	Id        string     `db:"id" json:"id"`
-	Name      sql.NullString     `db:"name" json:"name"`
-	Owner     sql.NullString     `db:"owner" json:"owner"`
-	Privacy   string     `db:"privacy" json:"privacy"`
-	CreatedAt *time.Time `db:"created_at" json:"created_at"`
-	UpdatedAt *time.Time `db:"updated_at" json:"updated_at"`
+	Id        string         `db:"id" json:"id"`
+	Name      sql.NullString `db:"name" json:"name"`
+	Owner     sql.NullString `db:"owner" json:"owner"`
+	Privacy   string         `db:"privacy" json:"privacy"`
+	CreatedAt *time.Time     `db:"created_at" json:"created_at"`
+	UpdatedAt *time.Time     `db:"updated_at" json:"updated_at"`
 }
 
 type DbTopic struct {
@@ -65,7 +65,7 @@ type DbTopic struct {
 
 type DbNote struct {
 	Id        string         `db:"id" json:"id"`
-	TopicId   string `db:"topic_id" json:"topic_id"`
+	TopicId   string         `db:"topic_id" json:"topic_id"`
 	Title     sql.NullString `db:"title" json:"title"`
 	Owner     string         `db:"owner" json:"owner"`
 	Content   string         `db:"content" json:"content"`
@@ -74,7 +74,7 @@ type DbNote struct {
 }
 
 type DbSubscription struct {
-	UserId     string `db:"user_id" json:"user_id"`
-	NotebookId string `db:"notebook_id" json:"notebook_id"`
+	UserId     string         `db:"user_id" json:"user_id"`
+	NotebookId string         `db:"notebook_id" json:"notebook_id"`
 	Name       sql.NullString `db:"name" json:"name"`
 }

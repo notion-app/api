@@ -22,12 +22,12 @@ type ModifySchoolRequest struct {
 }
 
 type CreateNoteRequest struct {
-	Title string `json:"title"`
+	Title   string `json:"title"`
 	TopicId string `json:"topic_id"`
 }
 
 type ModifyNoteRequest struct {
 	TopicId string `json:"topic_id"`
-	Title string `json:"title"`
+	Title   string `json:"title"`
 	Content string `json:"content"`
 }

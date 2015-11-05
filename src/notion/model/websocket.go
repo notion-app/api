@@ -1,14 +1,13 @@
-
 package model
 
 import (
-  "encoding/json"
+	"encoding/json"
 )
 
 func NewWSError(message string) []byte {
-  j, _ := json.Marshal(map[string]interface{}{
-    "type": "error",
-    "message": message,
-  })
-  return j
+	j, _ := json.Marshal(map[string]interface{}{
+		"type":    "error",
+		"message": message,
+	})
+	return j
 }
