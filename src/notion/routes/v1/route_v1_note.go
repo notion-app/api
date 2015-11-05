@@ -80,8 +80,8 @@ func CreateNote(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, model.TopicResponse{
 		Id: dbn.TopicId,
-		Notes: []model.ShortNoteResponse{
-			model.NewShortNoteResponse(dbn),
+		Notes: []model.FullNoteResponse{
+			model.NewFullNoteResponse(dbn),
 		},
 	})
 }
@@ -136,8 +136,8 @@ func ModifyNote(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, model.TopicResponse{
 		Id: dbn.TopicId,
-		Notes: []model.ShortNoteResponse{
-			model.NewShortNoteResponse(dbn),
+		Notes: []model.FullNoteResponse{
+			model.NewFullNoteResponse(dbn),
 		},
 	})
 }
@@ -165,8 +165,8 @@ func DeleteNote(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, model.TopicResponse{
 		Id: dbn.TopicId,
-		Notes: []model.ShortNoteResponse{
-			model.NewShortNoteResponse(dbn),
+		Notes: []model.FullNoteResponse{
+			model.NewFullNoteResponse(dbn),
 		},
 	})
 }

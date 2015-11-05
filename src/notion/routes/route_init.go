@@ -6,6 +6,7 @@ import (
 	"notion/log"
 	mw "notion/middleware"
 	v1 "notion/routes/v1"
+	// v2 "notion/routes/v2"
 )
 
 var (
@@ -18,6 +19,7 @@ func Init() {
 	gin.SetMode(gin.ReleaseMode)
 	middleware()
 	v1Routes()
+	v2Routes()
 	log.Info("Serving API on port %v", config.WebPort())
 	g.Run(config.WebPort())
 }
@@ -60,4 +62,10 @@ func v1Routes() {
 
 	v1g.GET("/echo", v1.EchoWebsocket)
 	v1a.GET("/note/:note_id/ws", v1.OpenWebsocket)
+}
+
+func v2Routes() {
+	v2g := g.Group("/v2")
+	v2g.POST("/login", v1.Login)
+	// v2a := v2g.
 }

@@ -77,28 +77,7 @@ func SectionResponseWithoutCourse(dbc DbCourseSection) SectionResponse {
 
 type TopicResponse struct {
 	Id    string              `json:"id"`
-	Notes []ShortNoteResponse `json:"notes"`
-}
-
-type ShortNoteResponse struct {
-	Id        string     `json:"id"`
-	Title     string     `json:"title"`
-	Owner     string     `json:"owner"`
-	Content   string     `json:"content"`
-	CreatedAt *time.Time `json:"created_at"`
-	UpdatedAt *time.Time `json:"updated_at"`
-}
-
-func NewShortNoteResponse(dbn DbNote) ShortNoteResponse {
-	nr := ShortNoteResponse{
-		Id:        dbn.Id,
-		Title:     dbn.Title.String,
-		Owner:     dbn.Owner,
-		CreatedAt: dbn.CreatedAt,
-		UpdatedAt: dbn.UpdatedAt,
-		Content:   dbn.Content,
-	}
-	return nr
+	Notes []FullNoteResponse `json:"notes"`
 }
 
 type FullNoteResponse struct {
