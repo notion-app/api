@@ -12,4 +12,4 @@ remakedb:
 	./scripts/debug_db.sh
 
 logs:
-	heroku logs -p web.1 --tail
+	heroku logs --app notion-api-dev -p web.1 --tail

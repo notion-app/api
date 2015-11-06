@@ -140,21 +140,27 @@ psql $DATABASE_URL -c "INSERT INTO notes VALUES
     'Topic1',
     NULL,
     'User1',
-    'This is an awesome note that i wrote'
+    'This is an awesome note that i wrote',
+    '2015-11-06T10:08:55.961-05:00',
+    '2015-11-06T10:08:55.961-05:00'
   ),
   (
     'Note2',
     'Topic2',
     'Lecture 12-25-2015',
     'User1',
-    'Ive got another note here, its pretty cool'
+    'Ive got another note here, its pretty cool',
+    '2015-11-06T10:08:55.961-05:00',
+    '2015-11-06T10:08:55.961-05:00'
   ),
   (
     'Note3',
     'Topic1',
     'Homework 4',
     'User2',
-    'Wow these notes are amazing arent they?'
+    'Wow these notes are amazing arent they?',
+    '2015-11-06T10:08:55.961-05:00',
+    '2015-11-06T10:08:55.961-05:00'
   )"
 
 echo 'Populate Subscriptions'
