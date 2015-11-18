@@ -5,13 +5,6 @@ psql $DATABASE_URL -c "CREATE TABLE schools (
   location text NOT NULL
 )"
 
-psql $DATABASE_URL -c "CREATE TABLE courses (
-  id text PRIMARY KEY,
-  school_id text REFERENCES schools (id) ON DELETE CASCADE NOT NULL,
-  name text NOT NULL,
-  number text NOT NULL
-)"
-
 psql $DATABASE_URL -c "CREATE TABLE users (
   id text PRIMARY KEY,
   name text NOT NULL,
@@ -24,6 +17,14 @@ psql $DATABASE_URL -c "CREATE TABLE users (
   fb_user_id text,
   fb_auth_token text,
   fb_profile_pic text
+)"
+
+psql $DATABASE_URL -c "CREATE TABLE courses (
+  id text PRIMARY KEY,
+  school_id text REFERENCES schools (id) ON DELETE CASCADE NOT NULL,
+  owner text REFERENCES users (id),
+  name text NOT NULL,
+  number text NOT NULL
 )"
 
 psql $DATABASE_URL -c "CREATE TABLE notebooks (

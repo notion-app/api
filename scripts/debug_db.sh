@@ -34,6 +34,7 @@ psql $DATABASE_URL -c "INSERT INTO courses VALUES
   (
     'Course3',
     'School2',
+    NULL,
     'Advanced English',
     'ENGL 410'
   )"
