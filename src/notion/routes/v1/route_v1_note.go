@@ -201,11 +201,7 @@ func PostNoteChange(c *gin.Context) {
 		NoteLockHash[dbn.Id] = &sync.Mutex{}
 		NoteLockHash[dbn.Id].Lock()
 	}
-	dbn.Content, err = ott.Do(dbn.Content)
-	if log.Error(err) {
-		c.Error(errors.NewHttp(http.StatusBadRequest, err.Error()))
-		return
-	}
+	dbn.Content = ott.Apply(dbn.Content)
 	err = db.UpdateNote(dbn)
 	NoteLockHash[dbn.Id].Unlock()
 	if log.Error(err) {

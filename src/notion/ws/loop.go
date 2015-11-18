@@ -14,5 +14,5 @@ func Loop(conn *websocket.Conn, typ int, frameb []byte, err error) {
 		conn.WriteMessage(1, model.NewWSError("Message provided is not valid json"))
 		return
 	}
-
+	
 }
