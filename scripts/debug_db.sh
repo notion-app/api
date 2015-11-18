@@ -20,12 +20,14 @@ psql $DATABASE_URL -c "INSERT INTO courses VALUES
   (
     'Course1',
     'School1',
+    NULL,
     'Programming in Java',
     'CS 180'
   ),
   (
     'Course2',
     'School1',
+    NULL,
     'Programming in C',
     'CS 240'
   ),

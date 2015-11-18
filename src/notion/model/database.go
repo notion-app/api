@@ -21,6 +21,7 @@ type DbSchoolRequest struct {
 type DbCourse struct {
 	Id       string `db:"id" json:"id"`
 	SchoolId string `db:"school_id" json:"school_id"`
+	Owner 	string `db:"owner" json:"owner"`
 	Name     string `db:"name" json:"name"`
 	Number   string `db:"number" json:"number"`
 }
