@@ -1,13 +1,14 @@
 package routes
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"notion/db"
 	"notion/errors"
 	"notion/log"
-	// "notion/ws"
+	"notion/ws"
 )
 
 var (
@@ -54,23 +55,39 @@ func OpenWebsocket(c *gin.Context) {
 		return
 	}
 	log.Info("Opening ws for user %v on %v", userId, note.Id)
-	ch := make(chan map[string]interface{})
-	WrapWebsocket(conn, ch)
-	// for {
-	// 	typ, frame, err := conn.ReadMessage()
-	// 	go ws.Loop(conn, typ, frame, err)
-	// }
+	incoming := make(chan map[string]interface{})
+	outgoing := make(chan map[string]interface{})
+	WrapWebsocket(conn, incoming, outgoing)
+	ws.ProcessMessages(incoming, outgoing)
 }
 
-func WrapWebsocket(conn *websocket.Conn, ch chan map[string]interface{}) {
-	// reader
+func WrapWebsocket(conn *websocket.Conn, incoming chan map[string]interface{}, outgoing chan map[string]interface{}) {
+	// Read from WS, write to channel
 	go func() {
 		for {
-			conn.ReadMessage()
+			_, frameb, err := conn.ReadMessage()
+			if log.Error(err) {
+				continue
+			}
+			frame := make(map[string]interface{})
+			err = json.Unmarshal(frameb, &frame)
+			if log.Error(err) {
+				continue
+			}
+			incoming <- frame
 		}
 	}()
-	// writer
+	// Read from channel, write to WS
 	go func() {
-		select {}
+		for msg := range outgoing {
+			b, err := json.Marshal(msg)
+			if log.Error(err) {
+				continue
+			}
+			err = conn.WriteMessage(1, b)
+			if log.Error(err) {
+				continue
+			}
+		}
 	}()
 }
