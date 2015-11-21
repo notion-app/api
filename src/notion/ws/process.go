@@ -11,6 +11,11 @@ var (
 )
 
 func ProcessMessages(bundle *Context) {
+	if _, in := SubscriptionMap[bundle.NoteId]; in {
+		SubscriptionMap[bundle.NoteId] = append(SubscriptionMap[bundle.NoteId], bundle)
+	} else {
+		SubscriptionMap[bundle.NoteId] = []*Context{bundle}
+	}
 	for msg := range bundle.Incoming {
 		err := DispatchFrame(msg, bundle)
 		if log.Error(err) {
