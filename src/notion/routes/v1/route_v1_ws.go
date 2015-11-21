@@ -36,7 +36,8 @@ func EchoWebsocket(c *gin.Context) {
 // Status handler for the /status route
 func OpenWebsocket(c *gin.Context) {
 	userId := c.MustGet("request_user_id").(string)
-	in, note, err := db.GetNoteById(c.Param("note_id"))
+	noteId := c.Param("note_id")
+	in, note, err := db.GetNoteById(noteId)
 	if log.Error(err) {
 		c.Error(errors.NewISE())
 		return
@@ -55,12 +56,12 @@ func OpenWebsocket(c *gin.Context) {
 		return
 	}
 	log.Info("Opening ws for user %v on %v", userId, note.Id)
-	bundle := ws.NewChannelBundle()
+	bundle := ws.NewContext(userId, noteId)
 	WrapWebsocket(conn, bundle)
 	ws.ProcessMessages(bundle)
 }
 
-func WrapWebsocket(conn *websocket.Conn, bundle *ws.ChannelBundle) {
+func WrapWebsocket(conn *websocket.Conn, bundle *ws.Context) {
 	// Read from WS, write to channel
 	go func() {
 		for {

@@ -6,7 +6,11 @@ import (
 	"notion/model"
 )
 
-func ProcessMessages(bundle *ChannelBundle) {
+var (
+	SubscriptionMap = make(map[string][]*Context)
+)
+
+func ProcessMessages(bundle *Context) {
 	for msg := range bundle.Incoming {
 		err := DispatchFrame(msg, bundle)
 		if log.Error(err) {
@@ -15,7 +19,7 @@ func ProcessMessages(bundle *ChannelBundle) {
 	}
 }
 
-func DispatchFrame(frame map[string]interface{}, bundle *ChannelBundle) error {
+func DispatchFrame(frame map[string]interface{}, bundle *Context) error {
 	fType, in := frame["type"]
   if !in {
     return fmt.Errorf("Must provide type tag in websocket body")
@@ -42,7 +46,7 @@ func DispatchFrame(frame map[string]interface{}, bundle *ChannelBundle) error {
   return nil
 }
 
-func HandlePing(p model.WsPingPong, bundle *ChannelBundle) {
+func HandlePing(p model.WsPingPong, bundle *Context) {
 	bundle.Outgoing <- map[string]interface{}{
 		"type": "pong",
 	}
