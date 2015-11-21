@@ -55,38 +55,43 @@ func OpenWebsocket(c *gin.Context) {
 		return
 	}
 	log.Info("Opening ws for user %v on %v", userId, note.Id)
-	incoming := make(chan map[string]interface{})
-	outgoing := make(chan map[string]interface{})
-	WrapWebsocket(conn, incoming, outgoing)
-	ws.ProcessMessages(incoming, outgoing)
+	bundle := ws.NewChannelBundle()
+	WrapWebsocket(conn, bundle)
+	ws.ProcessMessages(bundle)
 }
 
-func WrapWebsocket(conn *websocket.Conn, incoming chan map[string]interface{}, outgoing chan map[string]interface{}) {
+func WrapWebsocket(conn *websocket.Conn, bundle *ws.ChannelBundle) {
 	// Read from WS, write to channel
 	go func() {
 		for {
 			_, frameb, err := conn.ReadMessage()
 			if log.Error(err) {
-				continue
+				bundle.Close <- true
+				return
 			}
 			frame := make(map[string]interface{})
 			err = json.Unmarshal(frameb, &frame)
 			if log.Error(err) {
 				continue
 			}
-			incoming <- frame
+			bundle.Incoming <- frame
 		}
 	}()
 	// Read from channel, write to WS
 	go func() {
-		for msg := range outgoing {
-			b, err := json.Marshal(msg)
-			if log.Error(err) {
-				continue
-			}
-			err = conn.WriteMessage(1, b)
-			if log.Error(err) {
-				continue
+		for {
+			select {
+			case msg := <-bundle.Outgoing:
+				b, err := json.Marshal(msg)
+				if log.Error(err) {
+					continue
+				}
+				err = conn.WriteMessage(1, b)
+				if log.Error(err) {
+					continue
+				}
+			case <-bundle.Close:
+				return
 			}
 		}
 	}()

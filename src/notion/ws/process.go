@@ -6,16 +6,16 @@ import (
 	"notion/model"
 )
 
-func ProcessMessages(incoming chan map[string]interface{}, outgoing chan map[string]interface{}) {
-	for msg := range incoming {
-		err := DispatchFrame(msg, outgoing)
+func ProcessMessages(bundle *ChannelBundle) {
+	for msg := range bundle.Incoming {
+		err := DispatchFrame(msg, bundle)
 		if log.Error(err) {
 			continue
 		}
 	}
 }
 
-func DispatchFrame(frame map[string]interface{}, outgoing chan map[string]interface{}) error {
+func DispatchFrame(frame map[string]interface{}, bundle *ChannelBundle) error {
 	fType, in := frame["type"]
   if !in {
     return fmt.Errorf("Must provide type tag in websocket body")
@@ -31,19 +31,19 @@ func DispatchFrame(frame map[string]interface{}, outgoing chan map[string]interf
   case "ping":
 		HandlePing(model.WsPingPong{
       Type: "ping",
-    }, outgoing)
+    }, bundle)
   case "pong":
 		HandlePing(model.WsPingPong{
       Type: "pong",
-    }, outgoing)
+    }, bundle)
 	default:
 		return fmt.Errorf("Unrecognized type passed through websocket; doing nothing")
   }
   return nil
 }
 
-func HandlePing(p model.WsPingPong, outgoing chan map[string]interface{}) {
-	outgoing <- map[string]interface{}{
+func HandlePing(p model.WsPingPong, bundle *ChannelBundle) {
+	bundle.Outgoing <- map[string]interface{}{
 		"type": "pong",
 	}
 }
