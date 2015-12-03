@@ -19,6 +19,13 @@ func NewContext(userId string, noteId string) *Context {
   }
 }
 
-func (cb *Context) Send(m map[string]interface{}) {
+func (cb *Context) SendError(message string) {
+  cb.SendM(map[string]interface{}{
+    "type": "error",
+    "message": message,
+  })
+}
+
+func (cb *Context) SendM(m map[string]interface{}) {
   cb.Outgoing <- m
 }
