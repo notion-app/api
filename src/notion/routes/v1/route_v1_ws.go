@@ -8,6 +8,7 @@ import (
 	"notion/db"
 	"notion/errors"
 	"notion/log"
+	"notion/model"
 	"notion/ws"
 )
 
@@ -56,12 +57,12 @@ func OpenWebsocket(c *gin.Context) {
 		return
 	}
 	log.Info("Opening ws for user %v on %v", userId, note.Id)
-	bundle := ws.NewContext(userId, noteId)
+	bundle := model.NewContext(userId, noteId)
 	WrapWebsocket(conn, bundle)
 	ws.ProcessMessages(bundle)
 }
 
-func WrapWebsocket(conn *websocket.Conn, bundle *ws.Context) {
+func WrapWebsocket(conn *websocket.Conn, bundle *model.WsContext) {
 	// Read from WS, write to channel
 	go func() {
 		for {

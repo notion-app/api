@@ -76,7 +76,7 @@ func SectionResponseWithoutCourse(dbc DbCourseSection) SectionResponse {
 }
 
 type TopicResponse struct {
-	Id    string              `json:"id"`
+	Id    string             `json:"id"`
 	Notes []FullNoteResponse `json:"notes"`
 }
 

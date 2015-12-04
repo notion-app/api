@@ -8,11 +8,11 @@ import (
 )
 
 var (
-	SubscriptionMap = make(map[string][]*Context)
-	NoteContent = make(map[string]model.DbNote)
+	SubscriptionMap = make(map[string][]*model.WsContext)
+	NoteContent     = make(map[string]model.DbNote)
 )
 
-func ProcessMessages(bundle *Context) {
+func ProcessMessages(bundle *model.WsContext) {
 
 	// Load in the initial copy of the content of the note into memory
 	// Theoretically this would just balloon in memory usage because we never
@@ -30,7 +30,7 @@ func ProcessMessages(bundle *Context) {
 	if _, in := SubscriptionMap[bundle.NoteId]; in {
 		SubscriptionMap[bundle.NoteId] = append(SubscriptionMap[bundle.NoteId], bundle)
 	} else {
-		SubscriptionMap[bundle.NoteId] = []*Context{bundle}
+		SubscriptionMap[bundle.NoteId] = []*model.WsContext{bundle}
 	}
 
 	// Start iterating over each incoming websocket message
@@ -43,36 +43,36 @@ func ProcessMessages(bundle *Context) {
 	}
 }
 
-func DispatchFrame(frame map[string]interface{}, bundle *Context) error {
+func DispatchFrame(frame map[string]interface{}, bundle *model.WsContext) error {
 	fType, in := frame["type"]
-  if !in {
-    return fmt.Errorf("Must provide type tag in websocket body")
-  }
-  var fTypeS string
-  switch fType.(type) {
-  case string:
-    fTypeS = fType.(string)
-  default:
-    return fmt.Errorf("Message type provided must be a string")
-  }
-  switch fTypeS {
-  case "ping":
+	if !in {
+		return fmt.Errorf("Must provide type tag in websocket body")
+	}
+	var fTypeS string
+	switch fType.(type) {
+	case string:
+		fTypeS = fType.(string)
+	default:
+		return fmt.Errorf("Message type provided must be a string")
+	}
+	switch fTypeS {
+	case "ping":
 		return HandlePing(model.WsPingPong{
-      Type: "ping",
-    }, bundle)
-  case "pong":
+			Type: "ping",
+		}, bundle)
+	case "pong":
 		return HandlePing(model.WsPingPong{
-      Type: "pong",
-    }, bundle)
+			Type: "pong",
+		}, bundle)
 	case "update":
 		return HandleUpdate(frame, bundle)
 	default:
 		return fmt.Errorf("Unrecognized message type; doing nothing")
-  }
-  return nil
+	}
+	return nil
 }
 
-func HandlePing(p model.WsPingPong, bundle *Context) error {
+func HandlePing(p model.WsPingPong, bundle *model.WsContext) error {
 	bundle.Outgoing <- map[string]interface{}{
 		"type": "pong",
 	}
