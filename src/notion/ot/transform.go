@@ -1,22 +1,30 @@
 package ot
 
+import (
+	"fmt"
+)
+
 type Transform []interface{}
 
-func (t Transform) Apply(st string) string {
+func (t Transform) Apply(st string) (string, error) {
+	nst := st
 	cursor := 0
 	for _, op := range t {
 		switch op.(type) {
-		case int:
-			if op.(int) >= 0 && cursor + op.(int) < len(st) {
-				cursor += op.(int)
-			} else if op.(int) < 0 && cursor + op.(int) >= 0 {
-				st = st[:cursor+op.(int)] + st[cursor:]
-				cursor += op.(int)
+		case float64:
+			opi := int(op.(float64))
+			if opi >= 0 && cursor + opi < len(nst) {
+				cursor += opi
+			} else if opi < 0 && opi >= 0 {
+				nst = nst[:cursor+opi] + nst[cursor:]
+				cursor += opi
+			} else {
+				return st, fmt.Errorf("Cursor move operation exceeds length of the string")
 			}
 		case string:
-			st = st[:cursor] + op.(string) + st[cursor:]
+			nst = nst[:cursor] + op.(string) + nst[cursor:]
 			cursor += len(op.(string))
 		}
 	}
-	return st
+	return nst, nil
 }

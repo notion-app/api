@@ -9,5 +9,5 @@ func FillStruct(s interface{}, m map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
-	return json.Unmarshal(result, &s)
+	return json.Unmarshal(result, s)
 }

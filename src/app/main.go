@@ -6,6 +6,7 @@ import (
 	"notion/db"
 	"notion/log"
 	"notion/routes"
+	"notion/ws"
 	"runtime"
 	"time"
 )
@@ -16,6 +17,7 @@ func main() {
 	config.InitEnvs()
 	log.Init()
 	db.Init()
+	ws.InitCommitter()
 	routes.Init()
 	select {}
 }

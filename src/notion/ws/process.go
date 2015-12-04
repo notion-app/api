@@ -2,20 +2,38 @@ package ws
 
 import (
 	"fmt"
+	"notion/db"
 	"notion/log"
 	"notion/model"
 )
 
 var (
 	SubscriptionMap = make(map[string][]*Context)
+	NoteContent = make(map[string]model.DbNote)
 )
 
 func ProcessMessages(bundle *Context) {
+
+	// Load in the initial copy of the content of the note into memory
+	// Theoretically this would just balloon in memory usage because we never
+	// clear these out when a WsContext is closed, but isn't that what heroku's
+	// auto-restarting thing is for anyway? No?
+	if _, in := NoteContent[bundle.NoteId]; !in {
+		in, note, err := db.GetNoteById(bundle.NoteId)
+		if log.Error(err) || !in {
+			return
+		}
+		NoteContent[bundle.NoteId] = note
+	}
+
+	// Cache the subscription context so we can send and receive updates
 	if _, in := SubscriptionMap[bundle.NoteId]; in {
 		SubscriptionMap[bundle.NoteId] = append(SubscriptionMap[bundle.NoteId], bundle)
 	} else {
 		SubscriptionMap[bundle.NoteId] = []*Context{bundle}
 	}
+
+	// Start iterating over each incoming websocket message
 	for msg := range bundle.Incoming {
 		err := DispatchFrame(msg, bundle)
 		if log.Error(err) {
@@ -39,23 +57,24 @@ func DispatchFrame(frame map[string]interface{}, bundle *Context) error {
   }
   switch fTypeS {
   case "ping":
-		HandlePing(model.WsPingPong{
+		return HandlePing(model.WsPingPong{
       Type: "ping",
     }, bundle)
   case "pong":
-		HandlePing(model.WsPingPong{
+		return HandlePing(model.WsPingPong{
       Type: "pong",
     }, bundle)
 	case "update":
-		HandleUpdate(frame, bundle)
+		return HandleUpdate(frame, bundle)
 	default:
 		return fmt.Errorf("Unrecognized message type; doing nothing")
   }
   return nil
 }
 
-func HandlePing(p model.WsPingPong, bundle *Context) {
+func HandlePing(p model.WsPingPong, bundle *Context) error {
 	bundle.Outgoing <- map[string]interface{}{
 		"type": "pong",
 	}
+	return nil
 }
