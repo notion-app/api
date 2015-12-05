@@ -13,7 +13,7 @@ func (t Transform) Apply(st string) (string, error) {
 		switch op.(type) {
 		case float64:
 			opi := int(op.(float64))
-			if opi >= 0 && cursor+opi < len(nst) {
+			if opi >= 0 && cursor+opi <= len(nst) {
 				cursor += opi
 			} else if opi < 0 && opi >= 0 {
 				nst = nst[:cursor+opi] + nst[cursor:]
