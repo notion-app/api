@@ -4,19 +4,14 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"notion/cache"
 	"notion/db"
 	"notion/errors"
 	"notion/log"
 	"notion/model"
 	"notion/ot"
 	"notion/util"
-	"sync"
 	"time"
-)
-
-var (
-	// lol i cant fully comprehend how dumb this right here is
-	NoteLockHash = make(map[string]*sync.Mutex)
 )
 
 func GetSingleNote(c *gin.Context) {
@@ -121,19 +116,8 @@ func ModifyNote(c *gin.Context) {
 	now := time.Now()
 	dbn.UpdatedAt = &now
 
-	if mu, in := NoteLockHash[dbn.Id]; in {
-		mu.Lock()
-	} else {
-		NoteLockHash[dbn.Id] = &sync.Mutex{}
-		NoteLockHash[dbn.Id].Lock()
-	}
-	err = db.UpdateNote(dbn)
-	NoteLockHash[dbn.Id].Unlock()
+	cache.Note(dbn)
 
-	if log.Error(err) {
-		c.Error(errors.NewISE())
-		return
-	}
 	c.JSON(http.StatusOK, model.TopicResponse{
 		Id: dbn.TopicId,
 		Notes: []model.FullNoteResponse{
@@ -195,19 +179,13 @@ func PostNoteChange(c *gin.Context) {
 		return
 	}
 
-	if mu, in := NoteLockHash[dbn.Id]; in {
-		mu.Lock()
-	} else {
-		NoteLockHash[dbn.Id] = &sync.Mutex{}
-		NoteLockHash[dbn.Id].Lock()
-	}
 	dbn.Content, err = ott.Apply(dbn.Content)
 	if err != nil {
 		c.Error(errors.NewHttp(http.StatusBadRequest, err.Error()))
 		return
 	}
 	err = db.UpdateNote(dbn)
-	NoteLockHash[dbn.Id].Unlock()
+
 	if log.Error(err) {
 		c.Error(errors.NewISE())
 		return
