@@ -2,11 +2,11 @@ package main
 
 import (
 	"math/rand"
+	"notion/cache"
 	"notion/config"
 	"notion/db"
 	"notion/log"
 	"notion/routes"
-	"notion/ws"
 	"runtime"
 	"time"
 )
@@ -17,7 +17,7 @@ func main() {
 	config.InitEnvs()
 	log.Init()
 	db.Init()
-	ws.InitCommitter()
+	cache.InitDumps()
 	routes.Init()
 	select {}
 }

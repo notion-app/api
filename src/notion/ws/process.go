@@ -2,6 +2,7 @@ package ws
 
 import (
 	"fmt"
+	"notion/cache"
 	"notion/db"
 	"notion/log"
 	"notion/model"
@@ -9,7 +10,6 @@ import (
 
 var (
 	SubscriptionMap = make(map[string][]*model.WsContext)
-	NoteContent     = make(map[string]model.DbNote)
 )
 
 func ProcessMessages(bundle *model.WsContext) {
@@ -18,12 +18,19 @@ func ProcessMessages(bundle *model.WsContext) {
 	// Theoretically this would just balloon in memory usage because we never
 	// clear these out when a WsContext is closed, but isn't that what heroku's
 	// auto-restarting thing is for anyway? No?
-	if _, in := NoteContent[bundle.NoteId]; !in {
-		in, note, err := db.GetNoteById(bundle.NoteId)
-		if log.Error(err) || !in {
-			return
-		}
-		NoteContent[bundle.NoteId] = note
+	in, note, err := db.GetNoteById(bundle.NoteId)
+	if log.Error(err) || !in {
+		return
+	}
+	cache.Note(note)
+
+	// Now cache every note belonging to the same topic as this note
+	notes, err := db.GetNotesByTopicId(note.TopicId)
+	if log.Error(err) {
+		return
+	}
+	for _, note := range notes {
+		cache.Note(note)
 	}
 
 	// Cache the subscription context so we can send and receive updates

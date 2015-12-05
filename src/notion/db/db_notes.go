@@ -61,6 +61,12 @@ func GetNoteById(noteId string) (bool, model.DbNote, error) {
 	return in, note, err
 }
 
+func GetNotesByTopicId(topicId string) ([]model.DbNote, error) {
+	var notes []model.DbNote
+	err := GenericGet(&notes, "select * from notes where topic_id=$1", topicId)
+	return notes, err
+}
+
 func CreateNote(n model.DbNote) error {
 	return dbmap.Insert(&n)
 }
