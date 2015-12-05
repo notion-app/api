@@ -14,6 +14,9 @@ var (
 )
 
 func Note(n model.DbNote) {
+  if oldNote, in := NoteIdCache[n.Id]; in {
+    log.Error(db.UpdateNote(*oldNote))
+  }
   NoteIdCache[n.Id] = &n
   if _, in := NoteTopicCache[n.TopicId]; in {
     NoteTopicCache[n.TopicId][n.Id] = &n
@@ -36,9 +39,10 @@ func GetNotesInTopic(topicId string) []model.DbNote {
 }
 
 func DumpNoteCache() {
-  ticker := time.Tick(10 * time.Second)
+  ticker := time.Tick(5 * time.Second)
   for range ticker {
     for _, note := range NoteIdCache {
+      log.Info("Dumping %v to database", note.Id)
       if log.Error(db.UpdateNote(*note)) {
         continue
       }

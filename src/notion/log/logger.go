@@ -16,7 +16,7 @@ var (
 // Init initializes the logging functionality of notion
 func Init() {
 	logger = logrus.New()
-	logger.Formatter = &logrus.TextFormatter{}
+	// logger.Formatter = &NotionFormatter{}
 }
 
 // Info logs a string with no accompanying metadata
