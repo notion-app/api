@@ -6,6 +6,7 @@ import (
 	"notion/db"
 	"notion/log"
 	"notion/model"
+	"notion/suggestions"
 )
 
 var (
@@ -35,10 +36,13 @@ func ProcessMessages(bundle *model.WsContext) {
 
 	// Cache the subscription context so we can send and receive updates
 	if _, in := SubscriptionMap[bundle.NoteId]; in {
-		SubscriptionMap[bundle.NoteId] = append(SubscriptionMap[bundle.NoteId], bundle)
+		SubscriptionMap[note.TopicId] = append(SubscriptionMap[bundle.NoteId], bundle)
 	} else {
-		SubscriptionMap[bundle.NoteId] = []*model.WsContext{bundle}
+		SubscriptionMap[note.TopicId] = []*model.WsContext{bundle}
 	}
+
+	// Start a suggestion loop for this topic
+	suggestions.Start(note, bundle)
 
 	// Start iterating over each incoming websocket message
 	for msg := range bundle.Incoming {

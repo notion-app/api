@@ -8,6 +8,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/antzucaro/matchr",
+			"repository": "https://github.com/antzucaro/matchr",
+			"revision": "9b845074e8df7f75c89ebfd0b7ef49e283bda9f6",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/bradfitz/http2",
 			"repository": "https://github.com/bradfitz/http2",
 			"revision": "6608b73ef18668469ee5365431dc3a106502c449",

@@ -34,6 +34,13 @@ func (cb *WsContext) SendM(m map[string]interface{}) {
 	cb.Outgoing <- m
 }
 
+func (cb *WsContext) SendI(i interface{}) {
+	j, _ := json.Marshal(i)
+	var data map[string]interface{}
+	json.Unmarshal(j, &data)
+	cb.SendM(data)
+}
+
 type WsPingPong struct {
 	Type string `json:"type"`
 }

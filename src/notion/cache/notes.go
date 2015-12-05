@@ -27,6 +27,14 @@ func GetNote(id string) model.DbNote {
   return *NoteIdCache[id]
 }
 
+func GetNotesInTopic(topicId string) []model.DbNote {
+  l := make([]model.DbNote, 0)
+  for _, note := range NoteTopicCache[topicId] {
+    l = append(l, *note)
+  }
+  return l
+}
+
 func DumpNoteCache() {
   ticker := time.Tick(10 * time.Second)
   for range ticker {
