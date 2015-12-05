@@ -71,6 +71,7 @@ func WrapWebsocket(conn *websocket.Conn, bundle *model.WsContext) {
 				bundle.Close <- true
 				return
 			}
+			log.Info("%v\n", string(frameb))
 			frame := make(map[string]interface{})
 			err = json.Unmarshal(frameb, &frame)
 			if log.Error(err) {
