@@ -1,6 +1,6 @@
 # Notion API
 
-See additional documentation in `docs/`
+See additional documentation in `docs/`. There is even more documentation in the wiki, dropbox paper, and google drive.
 
 # Deployment
 
