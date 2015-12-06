@@ -1,4 +1,3 @@
-
 // This code is taken from github.com/weekface/mgorus and modified because
 // I dont like the way he modifies the log entry inside a hook. I also removed
 // the need to specify a database because it should be already included in the mgoUrl
@@ -27,8 +26,8 @@ func NewMongoHook(mgoUrl, collection string) (*MongoHook, error) {
 
 func (h *MongoHook) Fire(entry *logrus.Entry) error {
 	entryData := map[string]interface{}{
-		"level": entry.Level.String(),
-		"time": entry.Time,
+		"level":   entry.Level.String(),
+		"time":    entry.Time,
 		"message": entry.Message,
 	}
 	for k, v := range entry.Data {

@@ -6,9 +6,9 @@ import (
 )
 
 var (
-	env   string
-	port  string
-	dburl string
+	env                 string
+	port                string
+	dburl               string
 	mongoLoggingCluster string
 )
 
@@ -32,9 +32,9 @@ func InitEnvs() {
 		fmt.Printf("$DATABASE_URL not set")
 		os.Exit(1)
 	}
-	mongoLoggingCluster = os.Getenv("MONGOLAB_URL")
+	mongoLoggingCluster = os.Getenv("MONGOLAB_URI")
 	if mongoLoggingCluster == "" {
-		fmt.Printf("$MONGOLAB_URL not set")
+		fmt.Printf("$MONGOLAB_URI not set")
 		os.Exit(1)
 	}
 }

@@ -1,6 +1,5 @@
-
 package cache
 
 func InitDumps() {
-  go DumpNoteCache()
+	go DumpNoteCache()
 }
