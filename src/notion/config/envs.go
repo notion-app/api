@@ -9,6 +9,7 @@ var (
 	env   string
 	port  string
 	dburl string
+	mongoLoggingCluster string
 )
 
 // InitEnvs loads the environment variables we use to configure the rest of the app
@@ -31,6 +32,11 @@ func InitEnvs() {
 		fmt.Printf("$DATABASE_URL not set")
 		os.Exit(1)
 	}
+	mongoLoggingCluster = os.Getenv("MONGOLAB_URL")
+	if mongoLoggingCluster == "" {
+		fmt.Printf("$MONGOLAB_URL not set")
+		os.Exit(1)
+	}
 }
 
 // IsDev returns whether or not the environment we are currently running in is a dev environment
@@ -48,7 +54,12 @@ func WebPort() string {
 	return port
 }
 
-// PostgresURL eturns the full url for connecting to postgres, including the username, password, and port
+// PostgresURL returns the full url for connecting to postgres, including the username, password, and port
 func PostgresURL() string {
 	return dburl
+}
+
+// LoggingMongoURL returns the full url for connecting to the mongodb logging cluster
+func LoggingMongoURL() string {
+	return mongoLoggingCluster
 }

@@ -148,6 +148,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/weekface/mgorus",
+			"repository": "https://github.com/weekface/mgorus",
+			"revision": "9a3ff865bf11d949ab7084198479139d9746c68f",
+			"branch": "master"
+		},
+		{
 			"importpath": "golang.org/x/net/context",
 			"repository": "https://go.googlesource.com/net",
 			"revision": "2cba614e8ff920c60240d2677bc019af32ee04e5",
@@ -179,6 +185,12 @@
 			"repository": "https://gopkg.in/gorp.v1",
 			"revision": "c87af80f3cc5036b55b83d77171e156791085e2e",
 			"branch": "master"
+		},
+		{
+			"importpath": "gopkg.in/mgo.v2",
+			"repository": "https://gopkg.in/mgo.v2",
+			"revision": "4d04138ffef2791c479c0c8bbffc30b34081b8d9",
+			"branch": "v2"
 		}
 	]
 }

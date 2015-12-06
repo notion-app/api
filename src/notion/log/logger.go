@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"github.com/Sirupsen/logrus"
+	"notion/config"
 )
 
 type (
@@ -17,6 +18,12 @@ var (
 func Init() {
 	logger = logrus.New()
 	// logger.Formatter = &NotionFormatter{}
+	mgoHook, err := NewMongoHook(config.LoggingMongoURL(), "logs")
+	if err != nil {
+		fmt.Printf("%v\n", err.Error())
+		return
+	}
+	logger.Hooks.Add(mgoHook)
 }
 
 // Info logs a string with no accompanying metadata
