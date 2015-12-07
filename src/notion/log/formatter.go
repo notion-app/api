@@ -8,7 +8,7 @@ import (
 
 const (
 	LogLevelLength = "4"
-	LogMessageLength = "45"
+	LogMessageLength = "60"
 	LogKvLength = "10"
 )
 
