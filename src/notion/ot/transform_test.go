@@ -12,8 +12,8 @@ func TestTransformApply(t *testing.T) {
 	}
 	xf2 := Transform{1.0, -1.0}
 	r2, _ := xf2.Apply("hello")
-	if r2 != "ello" {
-		t.Error("XF2 should only remove the first character")
+	if r2 != "hllo" {
+		t.Error("XF2 should only remove the second character")
 	}
 	xf3 := Transform{2.0, "xx"}
 	r3, _ := xf3.Apply("hello")
@@ -29,7 +29,7 @@ func TestTransformApply(t *testing.T) {
 		"xz",
 	}
 	r4, _ := xf4.Apply("hello")
-	if r4 != "elzxzlo" {
+	if r4 != "hllzzxz" {
 		t.Error("XF4 did not return the proper response")
 	}
 }
