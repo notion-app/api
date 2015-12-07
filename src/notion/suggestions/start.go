@@ -4,6 +4,8 @@ import (
 	"github.com/antzucaro/matchr"
 	"notion/cache"
 	"notion/model"
+	"notion/log"
+	"time"
 )
 
 var (
@@ -25,7 +27,9 @@ func Start(n model.DbNote, c *model.WsContext) {
 }
 
 func SubLoop(topicId string) {
-	for {
+	timer := time.Ticker(5 * time.Second)
+	for range timer {
+		log.Info("Finding suggestions for topic %v", topicId)
 		notesInTopic := cache.GetNotesInTopic(topicId)
 		for _, note := range notesInTopic {
 			suggestions := FindSuggestions(note)
@@ -52,6 +56,7 @@ func SendSuggestion(suggestion model.Suggestion, c *model.WsContext) {
 	} else {
 		SentSuggestions[c.UserId] = make([]model.Suggestion, 0)
 	}
+	log.Info("Sending suggestion to user %v", c.UserId)
 	SentSuggestions[c.UserId] = append(SentSuggestions[c.UserId], suggestion)
 	c.SendI(suggestion)
 }
