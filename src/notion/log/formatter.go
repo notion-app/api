@@ -3,6 +3,7 @@ package log
 import (
 	"github.com/Sirupsen/logrus"
 	"fmt"
+	"strings"
 )
 
 const (
@@ -16,9 +17,9 @@ type NotionFormatter struct{}
 
 func (nf NotionFormatter) Format(e *logrus.Entry) ([]byte, error) {
 	line := fmt.Sprintf("%" + LogLevelLength + "." + LogLevelLength + "v | ", e.Level.String())
-	line += fmt.Sprintf("%" + LogMessageLength + "." + LogMessageLength + "v | ", e.Message)
+	line += fmt.Sprintf("%" + LogMessageLength + "." + LogMessageLength + "v | ", strings.Replace(e.Message, "\n", "", -1))
 	for key, value := range e.Data {
-		line += fmt.Sprintf("%" + LogKvLength + "." + LogKvLength + "v : ", key)
+		line += fmt.Sprintf("%" + LogKvLength + "." + LogKvLength + "v : ", strings.Replace(key, "\n", "", -1))
 		line += fmt.Sprintf("%" + LogKvLength + "." + LogKvLength + "v | ", value)
 	}
 	line += "\n"
