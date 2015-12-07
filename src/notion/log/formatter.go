@@ -2,25 +2,24 @@ package log
 
 import (
 	"github.com/Sirupsen/logrus"
+	"fmt"
 )
 
 const (
-	LogLineLength = 45
+	LogLevelLength = "4"
+	LogMessageLength = "45"
+	LogKvLength = "10"
 )
 
 // Defines a logrus formatter which only outputs a message and fields
 type NotionFormatter struct{}
 
 func (nf NotionFormatter) Format(e *logrus.Entry) ([]byte, error) {
-	line := ""
-	if len(e.Message) >= LogLineLength {
-		line += e.Message[:LogLineLength] + " | "
-	} else {
-		line += e.Message
-		for i := 0; i < (LogLineLength - len(e.Message)); i += 1 {
-			line += " "
-		}
-		line += " | "
+	line := fmt.Sprintf("%" + LogLevelLength + "." + LogLevelLength + "v | ", e.Level.String())
+	line += fmt.Sprintf("%" + LogMessageLength + "." + LogMessageLength + "v | ", e.Message)
+	for key, value := range e.Data {
+		line += fmt.Sprintf("%" + LogKvLength + "." + LogKvLength + "v : ", key)
+		line += fmt.Sprintf("%" + LogKvLength + "." + LogKvLength + "v | ", value)
 	}
 	line += "\n"
 	return []byte(line), nil

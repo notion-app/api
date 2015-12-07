@@ -17,7 +17,7 @@ var (
 // Init initializes the logging functionality of notion
 func Init() {
 	logger = logrus.New()
-	// logger.Formatter = &NotionFormatter{}
+	logger.Formatter = &NotionFormatter{}
 	mgoHook, err := NewMongoHook(config.LoggingMongoURL(), "logs")
 	if err != nil {
 		fmt.Printf("%v\n", err.Error())
