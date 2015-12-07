@@ -27,7 +27,7 @@ func Start(n model.DbNote, c *model.WsContext) {
 }
 
 func SubLoop(topicId string) {
-	timer := time.Ticker(5 * time.Second)
+	timer := time.Tick(5 * time.Second)
 	for range timer {
 		log.Info("Finding suggestions for topic %v", topicId)
 		notesInTopic := cache.GetNotesInTopic(topicId)
