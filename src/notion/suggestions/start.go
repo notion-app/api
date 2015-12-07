@@ -3,8 +3,8 @@ package suggestions
 import (
 	"github.com/antzucaro/matchr"
 	"notion/cache"
-	"notion/model"
 	"notion/log"
+	"notion/model"
 	"time"
 )
 

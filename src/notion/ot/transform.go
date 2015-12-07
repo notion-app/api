@@ -15,7 +15,7 @@ func (t Transform) Apply(st string) (string, error) {
 			opi := int(op.(float64))
 			if opi >= 0 && cursor+opi <= len(nst) {
 				cursor += opi
-			} else if opi < 0 && cursor - opi <= len(nst) {
+			} else if opi < 0 && cursor-opi <= len(nst) {
 				nst = nst[:cursor] + nst[cursor-opi:]
 			} else {
 				return st, fmt.Errorf("Cursor move operation exceeds length of the string")
