@@ -11,6 +11,7 @@ const (
 type UserResponse struct {
 	Id           string `json:"id"`
 	Name         string `json:"name"`
+	Username     string `json:"username"`
 	Email        string `json:"email"`
 	Verified     bool   `json:"verified"`
 	School       string `json:"school_id"`
@@ -24,7 +25,7 @@ type UserResponse struct {
 // a raw string, and the clients are expected to know that it might be an
 // empty string
 func NewUserResponse(dbu DbUser) UserResponse {
-	return UserResponse{
+	u := UserResponse{
 		Id:           dbu.Id,
 		Name:         dbu.Name,
 		Email:        dbu.Email,
@@ -35,6 +36,12 @@ func NewUserResponse(dbu DbUser) UserResponse {
 		FbAuthToken:  dbu.FbAuthToken,
 		FbProfilePic: dbu.FbProfilePic,
 	}
+	if dbu.Username.Valid {
+		u.Username = dbu.Username.String
+	} else {
+		u.Username = ""
+	}
+	return u
 }
 
 type CourseResponse struct {
