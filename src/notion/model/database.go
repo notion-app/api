@@ -40,6 +40,7 @@ type DbCourseSection struct {
 
 type DbUser struct {
 	Id           string         `db:"id" json:"id"`
+	Username		 sql.NullString					`db:"username" json:"username"`
 	Name         string         `db:"name" json:"name"`
 	Email        string         `db:"email" json:"email"`
 	Verified     bool           `db:"verified" json:"verified"`

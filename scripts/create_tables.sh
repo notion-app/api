@@ -7,6 +7,7 @@ psql $DATABASE_URL -c "CREATE TABLE schools (
 
 psql $DATABASE_URL -c "CREATE TABLE users (
   id text PRIMARY KEY,
+  username text,
   name text NOT NULL,
   email text NOT NULL,
   verified boolean,

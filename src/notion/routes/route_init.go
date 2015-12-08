@@ -49,6 +49,8 @@ func v1Routes() {
 	v1a.GET("/notebook/:notebook_id/topic", v1.GetNotebookNotes)
 
 	v1a.GET("/user/:user_id", v1.GetUser)
+	v1a.PUT("/user/:user_id/email/:email", v1.SetUserEmail)
+	v1a.PUT("/user/:user_id/username/:username", v1.SetUserUsername)
 	v1a.GET("/user/:user_id/subscription", v1.GetUsersSubscriptions)
 	v1a.POST("/user/:user_id/subscription", v1.CreateUserSubscription)
 	v1a.PUT("/user/:user_id/subscription", v1.ModifyUserSubscription)

@@ -128,6 +128,51 @@ func ModifyUserSubscription(c *gin.Context) {
 	c.JSON(http.StatusOK, model.NewSubscriptionResponse(sub, course, section))
 }
 
+func SetUserEmail(c *gin.Context) {
+	userId := c.Param("user_id")
+	if userId != c.MustGet("request_user_id").(string) {
+		c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only modify themselves"))
+		return
+	}
+	newUserEmail := c.Param("email")
+	_, user, err := db.GetUserById(userId)
+	if log.Error(err) {
+		c.Error(err)
+		return
+	}
+	user.Email = newUserEmail
+	err = db.UpdateUser(user)
+	if log.Error(err) {
+		c.Error(err)
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}
+
+func SetUserUsername(c *gin.Context) {
+	userId := c.Param("user_id")
+	if userId != c.MustGet("request_user_id").(string) {
+		c.Error(errors.NewHttp(http.StatusUnauthorized, "Users can only modify themselves"))
+		return
+	}
+	newUserName := c.Param("username")
+	_, user, err := db.GetUserById(userId)
+	if log.Error(err) {
+		c.Error(err)
+		return
+	}
+	user.Username = sql.NullString{
+		String: newUserName,
+		Valid: true,
+	}
+	err = db.UpdateUser(user)
+	if log.Error(err) {
+		c.Error(err)
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}
+
 func SetUserSchool(c *gin.Context) {
 	userId := c.Param("user_id")
 	if userId != c.MustGet("request_user_id").(string) {
