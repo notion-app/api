@@ -100,6 +100,7 @@ echo 'Populate Users'
 psql $DATABASE_URL -c "INSERT INTO users VALUES
   (
     'User1',
+    'ImUser1',
     'Bob Yelpington',
     'bob@website.com',
     false,
@@ -111,6 +112,7 @@ psql $DATABASE_URL -c "INSERT INTO users VALUES
   ),
   (
     'User2',
+    'ImUser2',
     'Nichole Clayton',
     'me@memememe.com',
     false,
