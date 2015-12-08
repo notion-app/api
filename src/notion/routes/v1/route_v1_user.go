@@ -163,7 +163,7 @@ func SetUserUsername(c *gin.Context) {
 	}
 	user.Username = sql.NullString{
 		String: newUserName,
-		Valid: true,
+		Valid:  true,
 	}
 	err = db.UpdateUser(user)
 	if log.Error(err) {
