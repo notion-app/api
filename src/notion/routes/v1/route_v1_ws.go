@@ -71,7 +71,7 @@ func WrapWebsocket(conn *websocket.Conn, bundle *model.WsContext) {
 				bundle.Close <- true
 				return
 			}
-			log.Info("%v\n", string(frameb))
+			log.Info("Received: %v", string(frameb))
 			frame := make(map[string]interface{})
 			err = json.Unmarshal(frameb, &frame)
 			if log.Error(err) {
@@ -89,6 +89,7 @@ func WrapWebsocket(conn *websocket.Conn, bundle *model.WsContext) {
 				if log.Error(err) {
 					continue
 				}
+				log.Info("Sending: %v", string(b))
 				err = conn.WriteMessage(1, b)
 				if log.Error(err) {
 					continue

@@ -29,7 +29,6 @@ func Start(n model.DbNote, c *model.WsContext) {
 func SubLoop(topicId string) {
 	timer := time.Tick(5 * time.Second)
 	for range timer {
-		log.Info("Finding suggestions for topic %v", topicId)
 		notesInTopic := cache.GetNotesInTopic(topicId)
 		for _, note := range notesInTopic {
 			suggestions := FindSuggestions(note)
@@ -44,14 +43,12 @@ func SubLoop(topicId string) {
 
 func SendSuggestion(suggestion model.Suggestion, c *model.WsContext) {
 	if suggestion.Recommendation.Genesis == c.UserId {
-		log.Info("Ignoring genesis suggestion to user %v", c.UserId)
 		return
 	}
 	if _, in := SentSuggestions[c.UserId]; in {
 		for _, sentSuggestion := range SentSuggestions[c.UserId] {
 			distance := matchr.Levenshtein(suggestion.Recommendation.Text, sentSuggestion.Recommendation.Text)
 			if distance < 10 {
-				log.Info("Ignoring edit distance violation of previous suggestion to %v", c.UserId)
 				return
 			}
 		}

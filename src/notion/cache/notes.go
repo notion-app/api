@@ -41,7 +41,6 @@ func DumpNoteCache() {
 	ticker := time.Tick(5 * time.Second)
 	for range ticker {
 		for _, note := range NoteIdCache {
-			log.Info("Dumping %v to database", note.Id)
 			if log.Error(db.UpdateNote(*note)) {
 				continue
 			}
