@@ -33,6 +33,9 @@ func middleware() {
 }
 
 func v1Routes() {
+	g.GET("/loaderio-b669b6ca51da00e7eb06d40d62d154ac/", func(c *gin.Context) {
+		c.String(200, "loaderio-b669b6ca51da00e7eb06d40d62d154ac")
+	})
 	v1g := g.Group("/v1")
 
 	v1g.GET("/status", v1.Status)
